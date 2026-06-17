@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ServiceSeeder::class,
             TherapistSeeder::class,
+            TherapistAvailabilitySeeder::class,
         ]);
     }
 }

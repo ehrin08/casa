@@ -51,6 +51,12 @@ new class extends Component
                             {{ __('Services') }}
                         </x-nav-link>
                     @endif
+
+                    @if(auth()->user()->role === 'therapist')
+                        <x-nav-link :href="route('therapist.availability.index')" :active="request()->routeIs('therapist.availability.*')" wire:navigate>
+                            {{ __('My Availability') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -107,6 +113,12 @@ new class extends Component
             @if(auth()->user()->role === 'customer')
                 <x-responsive-nav-link :href="route('customer.services.index')" :active="request()->routeIs('customer.services.*')" wire:navigate>
                     {{ __('Services') }}
+                </x-responsive-nav-link>
+            @endif
+
+            @if(auth()->user()->role === 'therapist')
+                <x-responsive-nav-link :href="route('therapist.availability.index')" :active="request()->routeIs('therapist.availability.*')" wire:navigate>
+                    {{ __('My Availability') }}
                 </x-responsive-nav-link>
             @endif
         </div>

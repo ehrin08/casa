@@ -15,6 +15,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         
         Route::resource('services', ManagerServiceController::class);
         Route::resource('therapists', App\Http\Controllers\Manager\TherapistController::class);
+        Route::resource('therapist-availabilities', App\Http\Controllers\Manager\TherapistAvailabilityController::class);
     });
 
     // Therapist Routes
@@ -22,6 +23,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/dashboard', function () {
             return view('therapist.dashboard');
         })->name('dashboard');
+
+        Route::get('my-availability', [App\Http\Controllers\Therapist\AvailabilityController::class, 'index'])->name('availability.index');
     });
 
     // Customer Routes
