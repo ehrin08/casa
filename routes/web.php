@@ -1,22 +1,38 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Manager\ServiceController as ManagerServiceController;
+use App\Http\Controllers\Customer\ServiceController as CustomerServiceController;
 
 Route::view('/', 'welcome');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/manager/dashboard', function () {
-        return view('manager.dashboard');
-    })->middleware('role:manager')->name('manager.dashboard');
+    // Manager Routes
+    Route::middleware('role:manager')->prefix('manager')->name('manager.')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('manager.dashboard');
+        })->name('dashboard');
+        
+        Route::resource('services', ManagerServiceController::class);
+    });
 
-    Route::get('/therapist/dashboard', function () {
-        return view('therapist.dashboard');
-    })->middleware('role:therapist')->name('therapist.dashboard');
+    // Therapist Routes
+    Route::middleware('role:therapist')->prefix('therapist')->name('therapist.')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('therapist.dashboard');
+        })->name('dashboard');
+    });
 
-    Route::get('/customer/dashboard', function () {
-        return view('customer.dashboard');
-    })->middleware('role:customer')->name('customer.dashboard');
+    // Customer Routes
+    Route::middleware('role:customer')->prefix('customer')->name('customer.')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('customer.dashboard');
+        })->name('dashboard');
+        
+        Route::get('services', [CustomerServiceController::class, 'index'])->name('services.index');
+    });
 });
+
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');

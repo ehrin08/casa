@@ -35,5 +35,9 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
             'role' => 'customer',
         ]);
+
+        $this->call([
+            ServiceSeeder::class,
+        ]);
     }
 }

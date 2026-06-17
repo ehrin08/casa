@@ -45,6 +45,12 @@ new class extends Component
                     <x-nav-link :href="$dashboardRoute" :active="request()->routeIs('*.dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    
+                    @if(auth()->user()->role === 'customer')
+                        <x-nav-link :href="route('customer.services.index')" :active="request()->routeIs('customer.services.*')" wire:navigate>
+                            {{ __('Services') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -97,6 +103,12 @@ new class extends Component
             <x-responsive-nav-link :href="$dashboardRoute" :active="request()->routeIs('*.dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            @if(auth()->user()->role === 'customer')
+                <x-responsive-nav-link :href="route('customer.services.index')" :active="request()->routeIs('customer.services.*')" wire:navigate>
+                    {{ __('Services') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
