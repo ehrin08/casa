@@ -14,6 +14,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         })->name('dashboard');
         
         Route::resource('services', ManagerServiceController::class);
+        Route::resource('therapists', App\Http\Controllers\Manager\TherapistController::class);
     });
 
     // Therapist Routes
