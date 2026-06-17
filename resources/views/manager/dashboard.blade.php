@@ -22,8 +22,7 @@
         $totalSales = 0;
         if (class_exists('App\Models\Transaction')) {
             try {
-                // Future integration: $totalSales = App\Models\Transaction::sum('amount');
-                $totalSales = App\Models\Transaction::sum('amount') ?? 0;
+                $totalSales = App\Models\Transaction::where('payment_status', 'paid')->sum('amount_paid') ?? 0;
             } catch (\Exception $e) {
                 $totalSales = 0;
             }
@@ -43,18 +42,28 @@
             $pendingBookings = 5; // Placeholder value
         }
 
-        // 4. Active Promotions
-        $activePromotions = 0;
-        if (class_exists('App\Models\Promotion')) {
+        // 4. Today's Revenue
+        $todayRevenue = 0;
+        if (class_exists('App\Models\Transaction')) {
             try {
-                // Future integration: $activePromotions = App\Models\Promotion::where('is_active', true)->count();
-                $activePromotions = 0;
+                $todayRevenue = App\Models\Transaction::where('payment_status', 'paid')
+                                    ->whereDate('payment_date', today())
+                                    ->sum('amount_paid') ?? 0;
             } catch (\Exception $e) {
-                $activePromotions = 0;
+                $todayRevenue = 0;
             }
-        } else {
-            $activePromotions = 3; // Placeholder value
         }
+
+        // Recent Transactions
+        $recentTransactions = [];
+        if (class_exists('App\Models\Transaction')) {
+            try {
+                $recentTransactions = App\Models\Transaction::with(['service', 'customer'])->orderBy('created_at', 'desc')->take(3)->get();
+            } catch (\Exception $e) {
+                $recentTransactions = [];
+            }
+        }
+
     @endphp
 
     <div class="mb-8">
@@ -82,11 +91,11 @@
             />
 
             <x-dashboard.stat-card 
-                title="Active Promotions" 
-                value="{{ class_exists('App\Models\Promotion') ? $activePromotions : '3' }}" 
-                subtitle="{{ class_exists('App\Models\Promotion') ? 'From database' : 'Placeholder value' }}"
-                icon="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" 
-            />
+                title="Today's Revenue" 
+                value="₱{{ number_format($todayRevenue, 2) }}" 
+                icon="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
+                color="text-yellow-600" 
+                bg="bg-yellow-100" />
         </div>
     </div>
 
@@ -103,36 +112,22 @@
                 </div>
             </x-dashboard.section-card>
 
-            <!-- Recent Activity Placeholder -->
-            <x-dashboard.section-card title="Recent Activity">
+            <!-- Recent Transactions -->
+            <x-dashboard.section-card title="Recent Transactions">
                 <div class="space-y-4">
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0 h-8 w-8 rounded-full bg-[#e8dbce] flex items-center justify-center text-[#7a6b5d]">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    @forelse($recentTransactions as $tx)
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-8 w-8 rounded-full bg-[#e8dbce] flex items-center justify-center text-[#7a6b5d]">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <div class="ml-4 flex-1">
+                                <p class="text-sm font-medium text-gray-800">₱{{ number_format($tx->amount_paid, 2) }} - {{ $tx->customer ? $tx->customer->name : 'Walk-in' }}</p>
+                                <p class="text-xs text-gray-500">{{ $tx->created_at->diffForHumans() }} ({{ $tx->payment_status }})</p>
+                            </div>
                         </div>
-                        <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-800">New booking from Sarah M.</p>
-                            <p class="text-xs text-gray-500">2 hours ago</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0 h-8 w-8 rounded-full bg-[#d5ecd4] flex items-center justify-center text-[#3a6b35]">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        </div>
-                        <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-800">Therapist Jane D. completed a session.</p>
-                            <p class="text-xs text-gray-500">4 hours ago</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0 h-8 w-8 rounded-full bg-[#fce0e0] flex items-center justify-center text-[#b83232]">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                        </div>
-                        <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-800">Booking cancelled by user.</p>
-                            <p class="text-xs text-gray-500">Yesterday</p>
-                        </div>
-                    </div>
+                    @empty
+                        <p class="text-sm text-gray-500">No recent transactions.</p>
+                    @endforelse
                 </div>
             </x-dashboard.section-card>
         </div>

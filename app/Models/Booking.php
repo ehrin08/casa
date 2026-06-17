@@ -57,4 +57,9 @@ class Booking extends Model
     {
         return $this->belongsTo(Therapist::class);
     }
+
+    public function transaction()
+    {
+        return $this->hasOne(Transaction::class);
+    }
 }

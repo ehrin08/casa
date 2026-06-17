@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
             TherapistSeeder::class,
             TherapistAvailabilitySeeder::class,
             BookingSeeder::class,
+            TransactionSeeder::class,
         ]);
     }
 }

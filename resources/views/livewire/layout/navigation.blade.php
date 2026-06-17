@@ -53,6 +53,9 @@ new class extends Component
                         <x-nav-link :href="route('customer.bookings.index')" :active="request()->routeIs('customer.bookings.*')" wire:navigate>
                             {{ __('My Appointments') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('transactions.index')" :active="request()->routeIs('transactions.*')" wire:navigate>
+                            {{ __('Payment History') }}
+                        </x-nav-link>
                     @endif
 
                     @if(auth()->user()->role === 'therapist')
@@ -122,6 +125,9 @@ new class extends Component
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('customer.bookings.index')" :active="request()->routeIs('customer.bookings.*')" wire:navigate>
                     {{ __('My Appointments') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('transactions.index')" :active="request()->routeIs('transactions.*')" wire:navigate>
+                    {{ __('Payment History') }}
                 </x-responsive-nav-link>
             @endif
 

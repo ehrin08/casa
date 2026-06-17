@@ -130,6 +130,21 @@
                                 @endif
                             </dd>
                         </div>
+                        
+                        <div class="pt-4 border-t border-gray-100">
+                            @if($booking->transaction)
+                                <a href="{{ route('manager.transactions.show', $booking->transaction) }}" class="w-full inline-flex justify-center items-center px-4 py-2 bg-[#2c3e38] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-[#1f2d28] transition ease-in-out duration-150 shadow-sm">
+                                    View Linked Transaction
+                                </a>
+                            @else
+                                <form action="{{ route('manager.transactions.createFromBooking', $booking) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="w-full inline-flex justify-center items-center px-4 py-2 bg-white border border-[#2c3e38] rounded-md font-semibold text-xs text-[#2c3e38] uppercase tracking-widest hover:bg-gray-50 transition ease-in-out duration-150 shadow-sm">
+                                        Create Transaction
+                                    </button>
+                                </form>
+                            @endif
+                        </div>
                     </dl>
                 </div>
             </div>

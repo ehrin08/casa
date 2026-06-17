@@ -14,9 +14,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         })->name('dashboard');
         
         Route::resource('services', ManagerServiceController::class);
-        Route::resource('therapists', App\Http\Controllers\Manager\TherapistController::class);
-        Route::resource('therapist-availabilities', App\Http\Controllers\Manager\TherapistAvailabilityController::class);
-        Route::resource('bookings', App\Http\Controllers\Manager\BookingController::class);
+        Route::resource('therapists', \App\Http\Controllers\Manager\TherapistController::class);
+        Route::resource('therapist-availabilities', \App\Http\Controllers\Manager\TherapistAvailabilityController::class);
+        Route::resource('bookings', \App\Http\Controllers\Manager\BookingController::class);
+        Route::get('transactions', [\App\Http\Controllers\Manager\TransactionController::class, 'index'])->name('transactions.index');
+        Route::get('transactions/{transaction}', [\App\Http\Controllers\Manager\TransactionController::class, 'show'])->name('transactions.show');
+        Route::patch('transactions/{transaction}/status', [\App\Http\Controllers\Manager\TransactionController::class, 'updateStatus'])->name('transactions.updateStatus');
+        Route::post('bookings/{booking}/create-transaction', [\App\Http\Controllers\Manager\TransactionController::class, 'createFromBooking'])->name('transactions.createFromBooking');
+        Route::get('transactions/{transaction}/receipt', [\App\Http\Controllers\Manager\TransactionController::class, 'receipt'])->name('transactions.receipt');
     });
 
     // Therapist Routes
@@ -40,6 +45,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         
         Route::patch('bookings/{booking}/cancel', [App\Http\Controllers\Customer\BookingController::class, 'cancel'])->name('bookings.cancel');
         Route::resource('bookings', App\Http\Controllers\Customer\BookingController::class)->only(['index', 'create', 'store', 'show']);
+        Route::get('transactions', [\App\Http\Controllers\Customer\TransactionController::class, 'index'])->name('transactions.index');
+        Route::get('transactions/{transaction}', [\App\Http\Controllers\Customer\TransactionController::class, 'show'])->name('transactions.show');
+        Route::get('transactions/{transaction}/receipt', [\App\Http\Controllers\Customer\TransactionController::class, 'receipt'])->name('transactions.receipt');
     });
 });
 

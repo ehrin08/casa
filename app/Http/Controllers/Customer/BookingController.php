@@ -7,6 +7,7 @@ use App\Models\Booking;
 use App\Models\Service;
 use App\Models\Therapist;
 use App\Services\TherapistAvailabilityService;
+use App\Services\TransactionService;
 use App\Mail\BookingConfirmationEmail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -15,10 +16,12 @@ use Illuminate\Support\Facades\Mail;
 class BookingController extends Controller
 {
     protected $availabilityService;
+    protected $transactionService;
 
-    public function __construct(TherapistAvailabilityService $availabilityService)
+    public function __construct(TherapistAvailabilityService $availabilityService, TransactionService $transactionService)
     {
         $this->availabilityService = $availabilityService;
+        $this->transactionService = $transactionService;
     }
 
     public function index()
@@ -123,6 +126,9 @@ class BookingController extends Controller
             \Log::error('Failed to send customer booking confirmation email: ' . $e->getMessage());
             $booking->update(['notification_status' => 'email_failed']);
         }
+
+        // Auto-create transaction
+        $this->transactionService->createFromBooking($booking);
 
         return redirect()->route('customer.bookings.show', $booking)
             ->with('success', 'Your appointment has been booked successfully! Please note your reference number: ' . $booking->booking_reference);

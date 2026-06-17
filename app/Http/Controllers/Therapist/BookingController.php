@@ -6,16 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Service;
 use App\Services\TherapistAvailabilityService;
+use App\Services\TransactionService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
     protected $availabilityService;
+    protected $transactionService;
 
-    public function __construct(TherapistAvailabilityService $availabilityService)
+    public function __construct(TherapistAvailabilityService $availabilityService, TransactionService $transactionService)
     {
         $this->availabilityService = $availabilityService;
+        $this->transactionService = $transactionService;
     }
 
     public function index()
@@ -98,6 +101,9 @@ class BookingController extends Controller
             'amount_paid' => $service->price,
             'notification_status' => 'none',
         ]);
+
+        // Auto-create transaction
+        $this->transactionService->createFromBooking($booking);
 
         return redirect()->route('therapist.bookings.index')
             ->with('success', 'Walk-in booking created successfully.');
