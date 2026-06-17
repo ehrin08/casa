@@ -50,9 +50,15 @@ new class extends Component
                         <x-nav-link :href="route('customer.services.index')" :active="request()->routeIs('customer.services.*')" wire:navigate>
                             {{ __('Services') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('customer.bookings.index')" :active="request()->routeIs('customer.bookings.*')" wire:navigate>
+                            {{ __('My Appointments') }}
+                        </x-nav-link>
                     @endif
 
                     @if(auth()->user()->role === 'therapist')
+                        <x-nav-link :href="route('therapist.bookings.index')" :active="request()->routeIs('therapist.bookings.*')" wire:navigate>
+                            {{ __('My Bookings') }}
+                        </x-nav-link>
                         <x-nav-link :href="route('therapist.availability.index')" :active="request()->routeIs('therapist.availability.*')" wire:navigate>
                             {{ __('My Availability') }}
                         </x-nav-link>
@@ -114,9 +120,15 @@ new class extends Component
                 <x-responsive-nav-link :href="route('customer.services.index')" :active="request()->routeIs('customer.services.*')" wire:navigate>
                     {{ __('Services') }}
                 </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('customer.bookings.index')" :active="request()->routeIs('customer.bookings.*')" wire:navigate>
+                    {{ __('My Appointments') }}
+                </x-responsive-nav-link>
             @endif
 
             @if(auth()->user()->role === 'therapist')
+                <x-responsive-nav-link :href="route('therapist.bookings.index')" :active="request()->routeIs('therapist.bookings.*')" wire:navigate>
+                    {{ __('My Bookings') }}
+                </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('therapist.availability.index')" :active="request()->routeIs('therapist.availability.*')" wire:navigate>
                     {{ __('My Availability') }}
                 </x-responsive-nav-link>

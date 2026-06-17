@@ -52,4 +52,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Therapist::class);
     }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'customer_id');
+    }
+
+    public function createdBookings()
+    {
+        return $this->hasMany(Booking::class, 'created_by_user_id');
+    }
 }

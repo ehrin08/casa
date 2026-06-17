@@ -20,6 +20,11 @@ class Service extends Model
         'status',
     ];
 
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
     protected $casts = [
         'price' => 'decimal:2',
         'commission_rate' => 'decimal:2',

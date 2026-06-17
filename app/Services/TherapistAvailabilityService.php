@@ -51,4 +51,56 @@ class TherapistAvailabilityService
 
         return true;
     }
+
+    /**
+     * Check if requested time conflicts with existing bookings.
+     */
+    public function hasConflict($therapistId, $date, $startTime, $endTime, $ignoreBookingId = null)
+    {
+        $query = \App\Models\Booking::where('therapist_id', $therapistId)
+            ->where('appointment_date', $date)
+            ->whereIn('status', ['booked', 'completed']);
+
+        if ($ignoreBookingId) {
+            $query->where('id', '!=', $ignoreBookingId);
+        }
+
+        $bookings = $query->get();
+
+        $reqStart = Carbon::parse($startTime);
+        $reqEnd = Carbon::parse($endTime);
+
+        foreach ($bookings as $booking) {
+            $existStart = Carbon::parse($booking->start_time);
+            $existEnd = Carbon::parse($booking->end_time);
+
+            // Overlap condition: new_start < existing_end AND new_end > existing_start
+            if ($reqStart->lt($existEnd) && $reqEnd->gt($existStart)) {
+                return true; // Conflict found
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Find an available active therapist for the requested slot.
+     */
+    public function findAvailableTherapist($serviceId, $date, $startTime, $endTime)
+    {
+        // Get all active therapists
+        $therapists = \App\Models\Therapist::where('status', 'active')->get();
+
+        foreach ($therapists as $therapist) {
+            // Check availability bounds
+            if ($this->isTherapistAvailable($therapist->id, $date, $startTime, $endTime)) {
+                // Check booking conflicts
+                if (!$this->hasConflict($therapist->id, $date, $startTime, $endTime)) {
+                    return $therapist;
+                }
+            }
+        }
+
+        return null;
+    }
 }

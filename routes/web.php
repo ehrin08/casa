@@ -16,6 +16,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('services', ManagerServiceController::class);
         Route::resource('therapists', App\Http\Controllers\Manager\TherapistController::class);
         Route::resource('therapist-availabilities', App\Http\Controllers\Manager\TherapistAvailabilityController::class);
+        Route::resource('bookings', App\Http\Controllers\Manager\BookingController::class);
     });
 
     // Therapist Routes
@@ -25,6 +26,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         })->name('dashboard');
 
         Route::get('my-availability', [App\Http\Controllers\Therapist\AvailabilityController::class, 'index'])->name('availability.index');
+        
+        Route::resource('bookings', App\Http\Controllers\Therapist\BookingController::class)->only(['index', 'create', 'store', 'show']);
     });
 
     // Customer Routes
@@ -34,6 +37,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         })->name('dashboard');
         
         Route::get('services', [CustomerServiceController::class, 'index'])->name('services.index');
+        
+        Route::patch('bookings/{booking}/cancel', [App\Http\Controllers\Customer\BookingController::class, 'cancel'])->name('bookings.cancel');
+        Route::resource('bookings', App\Http\Controllers\Customer\BookingController::class)->only(['index', 'create', 'store', 'show']);
     });
 });
 

@@ -8,10 +8,9 @@
         
         // 1. Today's Appointments
         $appointmentsCount = 0;
-        if (class_exists('App\Models\Appointment')) {
+        if (class_exists('App\Models\Booking')) {
             try {
-                // Future integration: $appointmentsCount = App\Models\Appointment::whereDate('appointment_date', today())->count();
-                $appointmentsCount = App\Models\Appointment::count(); 
+                $appointmentsCount = App\Models\Booking::whereDate('appointment_date', today())->count();
             } catch (\Exception $e) {
                 $appointmentsCount = 0;
             }
@@ -32,12 +31,11 @@
             $totalSales = 1450; // Placeholder value
         }
 
-        // 3. Pending Bookings
+        // 3. Booked Bookings
         $pendingBookings = 0;
-        if (class_exists('App\Models\Appointment')) {
+        if (class_exists('App\Models\Booking')) {
             try {
-                // Future integration: $pendingBookings = App\Models\Appointment::where('status', 'pending')->count();
-                $pendingBookings = 0; 
+                $pendingBookings = App\Models\Booking::where('status', 'booked')->count();
             } catch (\Exception $e) {
                 $pendingBookings = 0;
             }
