@@ -43,6 +43,7 @@ class DatabaseSeeder extends Seeder
             BookingSeeder::class,
             TransactionSeeder::class,
             CommissionSeeder::class,
+            PromotionSeeder::class,
         ]);
     }
 }
