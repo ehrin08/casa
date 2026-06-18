@@ -76,6 +76,19 @@
                                 </button>
                             </form>
                         </div>
+                    @elseif($booking->status === 'completed')
+                        <div class="mt-8 pt-6 border-t border-gray-200 flex justify-between items-center">
+                            <p class="text-sm text-gray-500">Thank you for visiting Casa Paraiso.</p>
+                            @if($booking->review)
+                                <a href="{{ route('customer.reviews.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2c3e38]">
+                                    View Your Review
+                                </a>
+                            @else
+                                <a href="{{ route('customer.reviews.create', $booking) }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#2c3e38] hover:bg-[#1f2d28] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2c3e38]">
+                                    Leave a Review
+                                </a>
+                            @endif
+                        </div>
                     @endif
                 </div>
             </div>

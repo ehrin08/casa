@@ -68,8 +68,13 @@ class Booking extends Model
         return $this->hasOne(Commission::class);
     }
 
-    public function customerPromotion()
+    public function customerPromotion(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(CustomerPromotion::class, 'customer_promotion_id');
+    }
+
+    public function review(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Review::class);
     }
 }

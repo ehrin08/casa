@@ -38,8 +38,13 @@ class Therapist extends Model
         return $this->hasMany(Transaction::class);
     }
 
-    public function commissions()
+    public function commissions(): HasMany
     {
         return $this->hasMany(Commission::class);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
     }
 }

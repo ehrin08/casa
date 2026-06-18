@@ -14,6 +14,7 @@ use App\Models\CustomerRfmSnapshot;
 use App\Models\PromotionRule;
 use App\Models\CustomerPromotion;
 use App\Models\Therapist;
+use App\Models\Review;
 
 class AnalyticsController extends Controller
 {
@@ -91,7 +92,7 @@ class AnalyticsController extends Controller
 
         $unpaidCommissions = Commission::where('status', 'unpaid')
             ->whereBetween('created_at', [$startDate, $endDate])
-            ->sum('amount');
+            ->sum('commission_amount');
 
         $activePromotions = PromotionRule::where('status', 'active')->count();
 
@@ -191,16 +192,29 @@ class AnalyticsController extends Controller
         $promoUsageRate = $generatedPromotionsCount > 0 ? ($usedPromotionsCount / $generatedPromotionsCount) * 100 : 0;
 
         // 5. Commission Analytics
-        $totalPaidCommissions = Commission::where('status', 'paid')->whereBetween('created_at', [$startDate, $endDate])->sum('amount');
-        $totalVoidedCommissions = Commission::where('status', 'void')->whereBetween('created_at', [$startDate, $endDate])->sum('amount');
+        $totalPaidCommissions = Commission::where('status', 'paid')->whereBetween('created_at', [$startDate, $endDate])->sum('commission_amount');
+        $totalVoidedCommissions = Commission::where('status', 'void')->whereBetween('created_at', [$startDate, $endDate])->sum('commission_amount');
         
         $commissionByTherapist = Commission::with(['therapist.user'])
             ->whereBetween('created_at', [$startDate, $endDate])
             ->selectRaw('therapist_id, 
-                         SUM(CASE WHEN status = "unpaid" THEN amount ELSE 0 END) as unpaid_total,
-                         SUM(CASE WHEN status = "paid" THEN amount ELSE 0 END) as paid_total,
+                         SUM(CASE WHEN status = "unpaid" THEN commission_amount ELSE 0 END) as unpaid_total,
+                         SUM(CASE WHEN status = "paid" THEN commission_amount ELSE 0 END) as paid_total,
                          COUNT(*) as total_records')
             ->groupBy('therapist_id')
+            ->get();
+
+        // 6. Sentiment Analytics
+        $reviews = Review::whereBetween('reviewed_at', [$startDate, $endDate])->get();
+        $totalReviews = $reviews->count();
+        $positiveReviewsCount = $reviews->where('sentiment', 'positive')->count();
+        $negativeReviewsCount = $reviews->where('sentiment', 'negative')->count();
+        $averageRating = $totalReviews > 0 ? $reviews->avg('rating') : 0;
+        $recentNegativeReviews = Review::with(['customer', 'service'])
+            ->whereBetween('reviewed_at', [$startDate, $endDate])
+            ->where('sentiment', 'negative')
+            ->orderByDesc('reviewed_at')
+            ->take(5)
             ->get();
 
         return [
@@ -244,6 +258,13 @@ class AnalyticsController extends Controller
             'totalPaidCommissions' => $totalPaidCommissions,
             'totalVoidedCommissions' => $totalVoidedCommissions,
             'commissionByTherapist' => $commissionByTherapist,
+
+            // Sentiment
+            'totalReviews' => $totalReviews,
+            'positiveReviewsCount' => $positiveReviewsCount,
+            'negativeReviewsCount' => $negativeReviewsCount,
+            'averageRating' => $averageRating,
+            'recentNegativeReviews' => $recentNegativeReviews,
         ];
     }
 }

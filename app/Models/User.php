@@ -78,9 +78,14 @@ class User extends Authenticatable
         return $this->hasMany(Transaction::class, 'customer_id');
     }
 
-    public function customerPromotions()
+    public function customerPromotions(): HasMany
     {
         return $this->hasMany(CustomerPromotion::class, 'customer_id');
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class, 'customer_id');
     }
 
     public function rfmSnapshot()

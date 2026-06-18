@@ -47,6 +47,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::patch('commissions/{commission}/mark-paid', [\App\Http\Controllers\Manager\CommissionController::class, 'markPaid'])->name('commissions.markPaid');
         Route::patch('commissions/{commission}/void', [\App\Http\Controllers\Manager\CommissionController::class, 'void'])->name('commissions.void');
         Route::resource('commissions', \App\Http\Controllers\Manager\CommissionController::class)->only(['index', 'show']);
+
+        // Reviews
+        Route::get('reviews/report', [\App\Http\Controllers\Manager\ReviewController::class, 'report'])->name('reviews.report');
+        Route::get('reviews', [\App\Http\Controllers\Manager\ReviewController::class, 'index'])->name('reviews.index');
+        Route::get('reviews/{review}', [\App\Http\Controllers\Manager\ReviewController::class, 'show'])->name('reviews.show');
+        Route::patch('reviews/{review}/hide', [\App\Http\Controllers\Manager\ReviewController::class, 'hide'])->name('reviews.hide');
+        Route::patch('reviews/{review}/show', [\App\Http\Controllers\Manager\ReviewController::class, 'showReview'])->name('reviews.showReview');
     });
 
     // Therapist Routes
@@ -74,6 +81,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('transactions', [\App\Http\Controllers\Customer\TransactionController::class, 'index'])->name('transactions.index');
         Route::get('transactions/{transaction}', [\App\Http\Controllers\Customer\TransactionController::class, 'show'])->name('transactions.show');
         Route::get('transactions/{transaction}/receipt', [\App\Http\Controllers\Customer\TransactionController::class, 'receipt'])->name('transactions.receipt');
+
+        // Reviews
+        Route::get('/reviews', [\App\Http\Controllers\Customer\ReviewController::class, 'index'])->name('reviews.index');
+        Route::get('/bookings/{booking}/review', [\App\Http\Controllers\Customer\ReviewController::class, 'create'])->name('reviews.create');
+        Route::post('/bookings/{booking}/review', [\App\Http\Controllers\Customer\ReviewController::class, 'store'])->name('reviews.store');
     });
 });
 

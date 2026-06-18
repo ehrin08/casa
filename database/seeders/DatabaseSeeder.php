@@ -44,6 +44,7 @@ class DatabaseSeeder extends Seeder
             TransactionSeeder::class,
             CommissionSeeder::class,
             PromotionSeeder::class,
+            ReviewSeeder::class,
         ]);
     }
 }

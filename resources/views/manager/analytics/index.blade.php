@@ -279,34 +279,68 @@
         </div>
     </div>
 
-    <!-- 4. Customer Sentiment Placeholder -->
+    <!-- 4. Customer Sentiment Summary -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
-        <div class="border-b border-gray-100 bg-gray-50/50 px-6 py-4 flex justify-between items-center">
+        <div class="border-b border-gray-100 bg-[#2c3e38] px-6 py-4 flex justify-between items-center text-white">
             <div>
-                <h3 class="text-lg font-bold text-gray-900">Customer Sentiment & Reviews</h3>
-                <p class="text-xs text-gray-500 mt-1">AI-driven analysis of customer feedback</p>
+                <h3 class="text-lg font-bold">Customer Sentiment & Reviews</h3>
+                <p class="text-xs text-[#e8dbce] mt-1">Feedback overview based on rating and keyword scoring</p>
             </div>
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200">
-                Coming Soon
-            </span>
+            <a href="{{ route('manager.reviews.index') }}" class="text-xs font-medium bg-white/20 hover:bg-white/30 text-white px-3 py-1.5 rounded transition-colors">
+                View All Reviews &rarr;
+            </a>
         </div>
-        <div class="p-8 text-center bg-gray-50">
-            <svg class="mx-auto h-12 w-12 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-            </svg>
-            <h3 class="text-sm font-medium text-gray-900">Module Not Yet Active</h3>
-            <p class="mt-1 text-sm text-gray-500 max-w-md mx-auto">
-                Sentiment analytics and customer reviews will be enabled here after the Customer Reviews module is implemented in the upcoming phase.
-            </p>
-            <div class="mt-6 flex justify-center gap-4 opacity-40 grayscale pointer-events-none">
-                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 w-32">
-                    <div class="text-green-500 font-bold text-xl mb-1">98%</div>
-                    <div class="text-xs text-gray-500 uppercase">Positive</div>
+        
+        <div class="p-6 md:p-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-gray-50 rounded-xl p-4 text-center border border-gray-100">
+                    <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Total Reviews</div>
+                    <div class="text-3xl font-bold text-gray-900">{{ $totalReviews }}</div>
                 </div>
-                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 w-32">
-                    <div class="text-yellow-500 font-bold text-xl mb-1">2%</div>
-                    <div class="text-xs text-gray-500 uppercase">Neutral</div>
+                <div class="bg-yellow-50 rounded-xl p-4 text-center border border-yellow-100">
+                    <div class="text-xs font-semibold text-yellow-700 uppercase tracking-wider mb-1">Avg Rating</div>
+                    <div class="text-3xl font-bold text-yellow-600">{{ number_format($averageRating, 1) }}</div>
                 </div>
+                <div class="bg-green-50 rounded-xl p-4 text-center border border-green-100">
+                    <div class="text-xs font-semibold text-green-700 uppercase tracking-wider mb-1">Positive</div>
+                    <div class="text-3xl font-bold text-green-600">{{ $positiveReviewsCount }}</div>
+                </div>
+                <div class="bg-red-50 rounded-xl p-4 text-center border border-red-100">
+                    <div class="text-xs font-semibold text-red-700 uppercase tracking-wider mb-1">Negative</div>
+                    <div class="text-3xl font-bold text-red-600">{{ $negativeReviewsCount }}</div>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-sm font-bold text-gray-900 mb-4 flex items-center">
+                    <svg class="w-4 h-4 mr-2 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                    Recent Negative Feedback to Address
+                </h4>
+                
+                @if($recentNegativeReviews->count() > 0)
+                    <div class="space-y-4">
+                        @foreach($recentNegativeReviews as $review)
+                            <div class="bg-white border border-red-100 rounded-lg p-4 flex justify-between items-start">
+                                <div>
+                                    <div class="flex items-center mb-1">
+                                        <span class="text-sm font-bold text-gray-900 mr-2">{{ $review->service->name }}</span>
+                                        <span class="px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">Score: {{ $review->sentiment_score }}</span>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mb-2">By {{ $review->customer->name }} on {{ $review->reviewed_at->format('M d, Y') }}</p>
+                                    <p class="text-sm text-gray-700 italic border-l-2 border-red-200 pl-2">"{{ $review->key_snippet }}"</p>
+                                </div>
+                                <a href="{{ route('manager.reviews.show', $review) }}" class="text-xs font-medium text-[#2c3e38] hover:underline whitespace-nowrap ml-4">Investigate</a>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="text-center py-6 bg-gray-50 rounded-lg border border-dashed border-gray-200">
+                        <svg class="mx-auto h-10 w-10 text-green-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <p class="text-sm text-gray-600">Great job! No recent negative reviews found in this period.</p>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
