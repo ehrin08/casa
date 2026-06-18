@@ -61,4 +61,9 @@ class Transaction extends Model
     {
         return $this->hasOne(Commission::class);
     }
+
+    public function customerPromotion()
+    {
+        return $this->belongsTo(CustomerPromotion::class, 'customer_promotion_id');
+    }
 }

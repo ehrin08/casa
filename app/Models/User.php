@@ -77,4 +77,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Transaction::class, 'customer_id');
     }
+
+    public function customerPromotions()
+    {
+        return $this->hasMany(CustomerPromotion::class, 'customer_id');
+    }
+
+    public function rfmSnapshot()
+    {
+        return $this->hasOne(CustomerRfmSnapshot::class, 'customer_id');
+    }
 }

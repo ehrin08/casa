@@ -54,6 +54,7 @@
                             ['name' => 'Book Appointment', 'route' => 'customer.bookings.create', 'icon' => 'M12 6v6m0 0v6m0-6h6m-6 0H6'],
                             ['name' => 'My Appointments', 'route' => 'customer.bookings.index', 'icon' => 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'],
                             ['name' => 'Services', 'route' => 'customer.services.index', 'icon' => 'M13 10V3L4 14h7v7l9-11h-7z'],
+                            ['name' => 'My Promotions', 'route' => 'customer.promotions.index', 'icon' => 'M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7'],
                             ['name' => 'Receipts', 'route' => 'customer.transactions.index', 'icon' => 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'],
                         ];
                     @endphp

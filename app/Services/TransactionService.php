@@ -21,7 +21,7 @@ class TransactionService
         }
 
         $subtotal = $booking->service_price;
-        $discountAmount = 0; // Default for now
+        $discountAmount = $booking->discount_amount ?? 0;
         $totalAmount = $subtotal - $discountAmount;
         $amountPaid = $booking->amount_paid;
         
@@ -39,6 +39,7 @@ class TransactionService
             'customer_id' => $booking->customer_id,
             'service_id' => $booking->service_id,
             'therapist_id' => $booking->therapist_id,
+            'customer_promotion_id' => $booking->customer_promotion_id,
             'subtotal' => $subtotal,
             'discount_amount' => $discountAmount,
             'total_amount' => $totalAmount,

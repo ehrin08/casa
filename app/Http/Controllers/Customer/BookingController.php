@@ -9,6 +9,8 @@ use App\Models\Therapist;
 use App\Services\TherapistAvailabilityService;
 use App\Services\TransactionService;
 use App\Mail\BookingConfirmationEmail;
+use App\Models\CustomerPromotion;
+use App\Services\PromotionEngineService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -17,11 +19,13 @@ class BookingController extends Controller
 {
     protected $availabilityService;
     protected $transactionService;
+    protected $promotionEngine;
 
-    public function __construct(TherapistAvailabilityService $availabilityService, TransactionService $transactionService)
+    public function __construct(TherapistAvailabilityService $availabilityService, TransactionService $transactionService, PromotionEngineService $promotionEngine)
     {
         $this->availabilityService = $availabilityService;
         $this->transactionService = $transactionService;
+        $this->promotionEngine = $promotionEngine;
     }
 
     public function index()
@@ -40,7 +44,14 @@ class BookingController extends Controller
         $services = Service::where('status', 'available')->get();
         $therapists = Therapist::with('user')->where('status', 'active')->get();
         
-        return view('customer.bookings.create', compact('services', 'therapists'));
+        $availablePromotions = CustomerPromotion::where('customer_id', auth()->id())
+            ->where('status', 'available')
+            ->where(function($query) {
+                $query->whereNull('expires_at')
+                      ->orWhere('expires_at', '>', now());
+            })->with('rule')->get();
+        
+        return view('customer.bookings.create', compact('services', 'therapists', 'availablePromotions'));
     }
 
     public function store(Request $request)
@@ -52,6 +63,7 @@ class BookingController extends Controller
             'start_time' => 'required|date_format:H:i',
             'customer_phone' => 'required|string|max:30',
             'notes' => 'nullable|string',
+            'customer_promotion_id' => 'nullable|exists:customer_promotions,id',
         ]);
 
         $service = Service::findOrFail($validated['service_id']);
@@ -96,6 +108,30 @@ class BookingController extends Controller
 
         $user = auth()->user();
 
+        $originalAmount = $service->price;
+        $discountAmount = 0;
+        $promoId = null;
+        $promoCode = null;
+
+        if (!empty($validated['customer_promotion_id'])) {
+            $promotion = CustomerPromotion::where('id', $validated['customer_promotion_id'])
+                ->where('customer_id', $user->id)
+                ->first();
+
+            if ($promotion) {
+                $validation = $this->promotionEngine->isPromoValidForBooking($promotion, $service->id, $validated['appointment_date'], $startTimeStr);
+                if (!$validation['valid']) {
+                    return back()->withErrors(['customer_promotion_id' => $validation['message']])->withInput();
+                }
+
+                $discountAmount = $this->promotionEngine->calculateDiscountAmount($promotion, $originalAmount);
+                $promoId = $promotion->id;
+                $promoCode = $promotion->code;
+            }
+        }
+
+        $finalAmount = max(0, $originalAmount - $discountAmount);
+
         // Create booking
         $booking = Booking::create([
             'booking_reference' => 'CPB-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -4)),
@@ -113,10 +149,23 @@ class BookingController extends Controller
             'status' => 'booked',
             'payment_method' => 'cash',
             'payment_status' => 'paid',
-            'service_price' => $service->price,
-            'amount_paid' => $service->price, // Assumes paid in full via over-the-counter
+            'service_price' => $originalAmount,
+            'original_amount' => $originalAmount,
+            'discount_amount' => $discountAmount,
+            'final_amount' => $finalAmount,
+            'amount_paid' => $finalAmount, // Assumes paid in full via over-the-counter
+            'customer_promotion_id' => $promoId,
+            'promo_code' => $promoCode,
             'notification_status' => 'pending',
         ]);
+
+        if ($promoId && isset($promotion)) {
+            $promotion->update([
+                'status' => 'used',
+                'used_at' => now(),
+                'booking_id' => $booking->id
+            ]);
+        }
 
         // Send Email
         try {

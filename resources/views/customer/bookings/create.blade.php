@@ -141,7 +141,46 @@
                             </div>
                             <div class="flex justify-between border-b border-gray-200 pb-3">
                                 <span class="text-gray-600">Total Price</span>
-                                <span class="font-bold text-[#2c3e38]">₱<span x-text="servicePrice.toFixed(2)"></span></span>
+                                <span class="font-bold text-[#2c3e38]" :class="selectedPromoId ? 'line-through text-gray-400 font-normal text-sm' : ''">₱<span x-text="servicePrice.toFixed(2)"></span></span>
+                            </div>
+                            
+                            <div class="flex justify-between border-b border-gray-200 pb-3" x-show="selectedPromoId">
+                                <span class="text-green-600 font-medium flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+                                    Promo Applied
+                                </span>
+                                <span class="font-bold text-green-600">-₱<span x-text="discountAmount.toFixed(2)"></span></span>
+                            </div>
+
+                            <div class="flex justify-between border-b border-gray-200 pb-3" x-show="selectedPromoId">
+                                <span class="text-gray-900 font-bold">Final Amount</span>
+                                <span class="font-bold text-[#2c3e38] text-lg">₱<span x-text="finalAmount.toFixed(2)"></span></span>
+                            </div>
+
+                            <!-- Promo Code Selection -->
+                            <div class="pt-2 pb-4">
+                                <x-input-label for="customer_promotion_id" value="Apply Promotion Code (Optional)" />
+                                @if(count($availablePromotions) > 0)
+                                    <select id="customer_promotion_id" name="customer_promotion_id" class="mt-1 block w-full border-gray-300 focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm" x-model="selectedPromoId" @change="calculateDiscount">
+                                        <option value="">-- Do not use a promotion --</option>
+                                        @foreach($availablePromotions as $promo)
+                                            <option value="{{ $promo->id }}" 
+                                                    data-type="{{ $promo->discount_type }}" 
+                                                    data-value="{{ $promo->discount_value }}"
+                                                    data-service="{{ $promo->rule->applicable_service_id ?? '' }}">
+                                                {{ $promo->code }} - {{ $promo->title }} 
+                                                (@if($promo->discount_type == 'percentage'){{ $promo->discount_value }}% Off
+                                                 @elseif($promo->discount_type == 'fixed')₱{{ $promo->discount_value }} Off
+                                                 @else Free @endif)
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <p class="text-xs text-gray-500 mt-2" x-show="promoError" x-text="promoError" style="color: red;"></p>
+                                @else
+                                    <div class="mt-1 text-sm text-gray-500 bg-gray-100 p-3 rounded-md">
+                                        You don't have any available promotions. <a href="{{ route('customer.promotions.index') }}" class="text-indigo-600 hover:underline" target="_blank">View your wallet</a>.
+                                    </div>
+                                @endif
                             </div>
                             
                             <div class="pt-4">
@@ -188,12 +227,55 @@
                 startTime: '{{ old('start_time', '') }}',
                 therapistId: '{{ old('therapist_id', 'any') }}',
                 customerPhone: '{{ old('customer_phone', '') }}',
+                selectedPromoId: '{{ old('customer_promotion_id', '') }}',
+                discountAmount: 0,
+                finalAmount: 0,
+                promoError: '',
 
                 updateServiceInfo(id, name, duration, price) {
                     this.selectedService = id;
                     this.serviceName = name;
                     this.serviceDuration = duration;
                     this.servicePrice = price;
+                    this.finalAmount = price;
+                    this.calculateDiscount();
+                },
+
+                calculateDiscount() {
+                    this.promoError = '';
+                    this.discountAmount = 0;
+                    this.finalAmount = this.servicePrice;
+
+                    if (!this.selectedPromoId) return;
+
+                    const select = document.getElementById('customer_promotion_id');
+                    if(!select) return;
+
+                    const option = select.options[select.selectedIndex];
+                    const type = option.dataset.type;
+                    const value = parseFloat(option.dataset.value);
+                    const specificService = option.dataset.service;
+
+                    // Basic frontend validation for specific service
+                    if (specificService && specificService != this.selectedService) {
+                        this.promoError = 'This promotion cannot be applied to the selected service.';
+                        this.selectedPromoId = '';
+                        return;
+                    }
+
+                    if (type === 'percentage') {
+                        this.discountAmount = this.servicePrice * (value / 100);
+                    } else if (type === 'fixed') {
+                        this.discountAmount = value;
+                    } else if (type === 'free_service') {
+                        this.discountAmount = this.servicePrice;
+                    }
+
+                    if (this.discountAmount > this.servicePrice) {
+                        this.discountAmount = this.servicePrice;
+                    }
+
+                    this.finalAmount = this.servicePrice - this.discountAmount;
                 },
 
                 nextStep() {
@@ -208,6 +290,10 @@
                     if (this.step === 3 && !this.customerPhone) {
                         alert('Please provide your phone number.');
                         return;
+                    }
+                    if (this.step === 3) {
+                        // We are moving to step 4, calculate discount if a promo is selected by default or preserved
+                        this.calculateDiscount();
                     }
                     this.step++;
                 },

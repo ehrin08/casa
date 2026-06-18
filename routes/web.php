@@ -13,6 +13,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return view('manager.dashboard');
         })->name('dashboard');
         
+        // Promotions
+        Route::prefix('promotions')->name('promotions.')->group(function() {
+            Route::get('/', [\App\Http\Controllers\Manager\PromotionController::class, 'index'])->name('index');
+            Route::get('/rules', [\App\Http\Controllers\Manager\PromotionController::class, 'rules'])->name('rules');
+            Route::get('/rules/create', [\App\Http\Controllers\Manager\PromotionController::class, 'createRule'])->name('rules.create');
+            Route::post('/rules', [\App\Http\Controllers\Manager\PromotionController::class, 'storeRule'])->name('rules.store');
+            Route::get('/rules/{promotionRule}/edit', [\App\Http\Controllers\Manager\PromotionController::class, 'editRule'])->name('rules.edit');
+            Route::patch('/rules/{promotionRule}', [\App\Http\Controllers\Manager\PromotionController::class, 'updateRule'])->name('rules.update');
+            Route::delete('/rules/{promotionRule}', [\App\Http\Controllers\Manager\PromotionController::class, 'destroyRule'])->name('rules.destroy');
+            Route::post('/generate', [\App\Http\Controllers\Manager\PromotionController::class, 'generate'])->name('generate');
+            Route::get('/customer-promotions', [\App\Http\Controllers\Manager\PromotionController::class, 'customerPromotions'])->name('customer-promotions');
+            Route::get('/simulator', [\App\Http\Controllers\Manager\PromotionController::class, 'simulator'])->name('simulator');
+            Route::post('/simulator', [\App\Http\Controllers\Manager\PromotionController::class, 'runSimulation'])->name('simulate');
+        });
+
         Route::resource('services', ManagerServiceController::class);
         Route::resource('therapists', \App\Http\Controllers\Manager\TherapistController::class);
         Route::resource('therapist-availabilities', \App\Http\Controllers\Manager\TherapistAvailabilityController::class);
@@ -47,6 +62,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware('role:customer')->prefix('customer')->name('customer.')->group(function () {
         Route::get('/dashboard', [\App\Http\Controllers\Customer\DashboardController::class, 'index'])->name('dashboard');
         
+        Route::get('/promotions', [\App\Http\Controllers\Customer\PromotionController::class, 'index'])->name('promotions.index');
+
         Route::get('services', [CustomerServiceController::class, 'index'])->name('services.index');
         
         Route::patch('bookings/{booking}/cancel', [App\Http\Controllers\Customer\BookingController::class, 'cancel'])->name('bookings.cancel');
