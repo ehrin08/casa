@@ -33,9 +33,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Therapist Routes
     Route::middleware('role:therapist')->prefix('therapist')->name('therapist.')->group(function () {
-        Route::get('/dashboard', function () {
-            return view('therapist.dashboard');
-        })->name('dashboard');
+        Route::get('/dashboard', [\App\Http\Controllers\Therapist\DashboardController::class, 'index'])->name('dashboard');
 
         Route::get('my-availability', [\App\Http\Controllers\Therapist\AvailabilityController::class, 'index'])->name('availability.index');
         Route::resource('bookings', \App\Http\Controllers\Therapist\BookingController::class)->only(['index', 'create', 'store', 'show']);

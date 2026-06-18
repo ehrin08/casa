@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-therapist-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Assigned Booking Details') }}
@@ -54,4 +54,5 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-therapist-layout>
+
