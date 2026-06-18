@@ -12,7 +12,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/dashboard', function () {
             return view('manager.dashboard');
         })->name('dashboard');
-        
+        // Analytics
+        Route::get('/analytics', [\App\Http\Controllers\Manager\AnalyticsController::class, 'index'])->name('analytics.index');
+        Route::get('/analytics/report', [\App\Http\Controllers\Manager\AnalyticsController::class, 'report'])->name('analytics.report');
+
         // Promotions
         Route::prefix('promotions')->name('promotions.')->group(function() {
             Route::get('/', [\App\Http\Controllers\Manager\PromotionController::class, 'index'])->name('index');

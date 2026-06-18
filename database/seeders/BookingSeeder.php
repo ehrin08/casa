@@ -11,9 +11,6 @@ use Illuminate\Database\Seeder;
 
 class BookingSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $customers = User::where('role', 'customer')->get();
@@ -27,122 +24,56 @@ class BookingSeeder extends Seeder
         }
 
         $manager = User::where('role', 'manager')->first();
-
-        // Sample bookings setup to avoid conflicts, mostly using future dates 
-        // that match the 14-day availability seeder (which generates from today onwards).
-        
-        $bookingsData = [
-            // Completed yesterday (simulated, we just force the date)
-            [
-                'days_offset' => -1,
-                'start_time' => '10:00:00',
-                'service_idx' => 0,
-                'status' => 'completed',
-                'payment_status' => 'paid',
-                'customer_idx' => 0,
-                'created_by_manager' => false,
-            ],
-            // Booked today
-            [
-                'days_offset' => 0,
-                'start_time' => '11:00:00',
-                'service_idx' => 1,
-                'status' => 'booked',
-                'payment_status' => 'paid',
-                'customer_idx' => 1,
-                'created_by_manager' => false,
-            ],
-            [
-                'days_offset' => 0,
-                'start_time' => '13:00:00',
-                'service_idx' => 2,
-                'status' => 'booked',
-                'payment_status' => 'paid',
-                'customer_idx' => 2,
-                'created_by_manager' => true, // walk-in/manager created
-            ],
-            // Cancelled today
-            [
-                'days_offset' => 0,
-                'start_time' => '15:00:00',
-                'service_idx' => 0,
-                'status' => 'cancelled',
-                'payment_status' => 'cancelled',
-                'customer_idx' => 0,
-                'created_by_manager' => false,
-            ],
-            // Booked tomorrow
-            [
-                'days_offset' => 1,
-                'start_time' => '09:00:00',
-                'service_idx' => 3,
-                'status' => 'booked',
-                'payment_status' => 'paid',
-                'customer_idx' => 1,
-                'created_by_manager' => false,
-            ],
-            [
-                'days_offset' => 1,
-                'start_time' => '10:30:00',
-                'service_idx' => 4,
-                'status' => 'booked',
-                'payment_status' => 'paid',
-                'customer_idx' => 2,
-                'created_by_manager' => false,
-            ],
-            // Booked in 2 days
-            [
-                'days_offset' => 2,
-                'start_time' => '14:00:00',
-                'service_idx' => 1,
-                'status' => 'booked',
-                'payment_status' => 'paid',
-                'customer_idx' => 0,
-                'created_by_manager' => false,
-            ],
-            [
-                'days_offset' => 2,
-                'start_time' => '16:00:00',
-                'service_idx' => 2,
-                'status' => 'booked',
-                'payment_status' => 'paid',
-                'customer_idx' => 1,
-                'created_by_manager' => true,
-            ],
-            // Booked in 3 days
-            [
-                'days_offset' => 3,
-                'start_time' => '11:00:00',
-                'service_idx' => 0,
-                'status' => 'booked',
-                'payment_status' => 'paid',
-                'customer_idx' => 2,
-                'created_by_manager' => false,
-            ],
-            // Booked in 4 days
-            [
-                'days_offset' => 4,
-                'start_time' => '15:30:00',
-                'service_idx' => 3,
-                'status' => 'booked',
-                'payment_status' => 'paid',
-                'customer_idx' => 0,
-                'created_by_manager' => false,
-            ],
-        ];
-
-        // Ensure we assign to an active therapist
-        $therapist = Therapist::where('status', 'active')->first();
-        if (!$therapist) {
+        $therapists = Therapist::where('status', 'active')->get();
+        if ($therapists->isEmpty()) {
             return;
         }
 
+        $bookingsData = [];
+
+        // 1. Generate Historical Bookings (Past 30 days) to make analytics look good
+        for ($i = -28; $i <= 0; $i++) {
+            // Generate 1 to 4 bookings per day
+            $bookingsToday = rand(1, 4);
+            for ($b = 0; $b < $bookingsToday; $b++) {
+                $status = rand(1, 100) <= 85 ? 'completed' : 'cancelled'; // 85% completion rate
+                $bookingsData[] = [
+                    'days_offset' => $i,
+                    'start_time' => sprintf('%02d:00:00', rand(9, 18)), // 9am to 6pm
+                    'service_idx' => rand(0, $services->count() - 1),
+                    'status' => $status,
+                    'payment_status' => $status === 'completed' ? 'paid' : 'cancelled',
+                    'customer_idx' => rand(0, $customers->count() - 1),
+                    'created_by_manager' => rand(0, 1) == 1,
+                    'therapist_idx' => rand(0, $therapists->count() - 1),
+                ];
+            }
+        }
+
+        // 2. Generate Future Bookings
+        for ($i = 1; $i <= 14; $i++) {
+            $bookingsToday = rand(1, 3);
+            for ($b = 0; $b < $bookingsToday; $b++) {
+                $bookingsData[] = [
+                    'days_offset' => $i,
+                    'start_time' => sprintf('%02d:00:00', rand(9, 18)),
+                    'service_idx' => rand(0, $services->count() - 1),
+                    'status' => 'booked',
+                    'payment_status' => 'paid',
+                    'customer_idx' => rand(0, $customers->count() - 1),
+                    'created_by_manager' => rand(0, 1) == 1,
+                    'therapist_idx' => rand(0, $therapists->count() - 1),
+                ];
+            }
+        }
+
         foreach ($bookingsData as $index => $data) {
-            $customer = $customers[$data['customer_idx'] ?? 0] ?? $customers->first();
-            $service = $services[$data['service_idx'] ?? 0] ?? $services->first();
+            $customer = $customers[$data['customer_idx']] ?? $customers->first();
+            $service = $services[$data['service_idx']] ?? $services->first();
+            $therapist = $therapists[$data['therapist_idx']] ?? $therapists->first();
             
             $date = Carbon::today()->addDays($data['days_offset']);
-            // If it's a Sunday, just move it to Monday to avoid the seeded "unavailable" Sunday constraint
+            // If Sunday, shift to Monday to avoid "unavailable" Sunday constraints from other seeders
             if ($date->isSunday()) {
                 $date->addDay();
             }
@@ -164,13 +95,18 @@ class BookingSeeder extends Seeder
                 'customer_name' => $customer->name,
                 'customer_email' => $customer->email,
                 'customer_phone' => '09123456789',
-                'notes' => 'Sample booking notes.',
+                'notes' => 'Generated by seeder.',
                 'status' => $data['status'],
                 'payment_method' => 'cash',
                 'payment_status' => $data['payment_status'],
                 'service_price' => $service->price,
+                // Make a small random chance of discount applying to history so analytics looks good
+                'discount_amount' => 0,
+                'final_amount' => $service->price,
                 'amount_paid' => $data['payment_status'] === 'paid' ? $service->price : 0,
                 'notification_status' => 'email_sent',
+                'created_at' => $date->copy()->subDays(rand(1, 3)),
+                'updated_at' => $date->copy()->subDays(rand(1, 3)),
             ]);
         }
     }

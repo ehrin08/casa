@@ -5,37 +5,31 @@ namespace Database\Seeders;
 use App\Models\Booking;
 use App\Services\TransactionService;
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class TransactionSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $transactionService = new TransactionService();
         $bookings = Booking::all();
 
-        $statuses = ['paid', 'paid', 'paid', 'paid', 'unpaid', 'paid', 'paid', 'refunded', 'paid', 'cancelled'];
-        
-        foreach ($bookings as $index => $booking) {
+        foreach ($bookings as $booking) {
             $transaction = $transactionService->createFromBooking($booking);
             
-            if ($transaction && isset($statuses[$index])) {
-                $status = $statuses[$index];
-                
-                // Override status for UI testing variety
+            if ($transaction) {
+                // Determine payment status based on booking status
+                $status = 'paid';
+                if ($booking->status === 'cancelled') {
+                    $status = 'cancelled';
+                }
+
                 $transaction->update([
                     'payment_status' => $status,
-                    'payment_date' => $status === 'paid' ? now()->subDays(rand(1, 5)) : null,
+                    'payment_date' => $status === 'paid' ? $booking->appointment_date : null,
+                    'created_at' => $booking->created_at,
+                    'updated_at' => $booking->updated_at,
                 ]);
-
-                // Sync the booking status based on transaction variety to maintain consistency
-                if ($status === 'cancelled') {
-                    $booking->update(['status' => 'cancelled', 'payment_status' => 'cancelled']);
-                } elseif ($status === 'unpaid') {
-                    $booking->update(['payment_status' => 'unpaid']);
-                }
             }
         }
     }
