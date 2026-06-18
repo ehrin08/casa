@@ -58,8 +58,13 @@ class Booking extends Model
         return $this->belongsTo(Therapist::class);
     }
 
-    public function transaction()
+    public function transaction(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Transaction::class);
+    }
+
+    public function commission(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Commission::class);
     }
 }

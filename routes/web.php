@@ -22,6 +22,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::patch('transactions/{transaction}/status', [\App\Http\Controllers\Manager\TransactionController::class, 'updateStatus'])->name('transactions.updateStatus');
         Route::post('bookings/{booking}/create-transaction', [\App\Http\Controllers\Manager\TransactionController::class, 'createFromBooking'])->name('transactions.createFromBooking');
         Route::get('transactions/{transaction}/receipt', [\App\Http\Controllers\Manager\TransactionController::class, 'receipt'])->name('transactions.receipt');
+
+        // Commissions
+        Route::get('commissions/report', [\App\Http\Controllers\Manager\CommissionController::class, 'report'])->name('commissions.report');
+        Route::get('commissions/{commission}/pdf', [\App\Http\Controllers\Manager\CommissionController::class, 'pdf'])->name('commissions.pdf');
+        Route::patch('commissions/{commission}/mark-paid', [\App\Http\Controllers\Manager\CommissionController::class, 'markPaid'])->name('commissions.markPaid');
+        Route::patch('commissions/{commission}/void', [\App\Http\Controllers\Manager\CommissionController::class, 'void'])->name('commissions.void');
+        Route::resource('commissions', \App\Http\Controllers\Manager\CommissionController::class)->only(['index', 'show']);
     });
 
     // Therapist Routes
@@ -30,9 +37,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return view('therapist.dashboard');
         })->name('dashboard');
 
-        Route::get('my-availability', [App\Http\Controllers\Therapist\AvailabilityController::class, 'index'])->name('availability.index');
-        
-        Route::resource('bookings', App\Http\Controllers\Therapist\BookingController::class)->only(['index', 'create', 'store', 'show']);
+        Route::get('my-availability', [\App\Http\Controllers\Therapist\AvailabilityController::class, 'index'])->name('availability.index');
+        Route::resource('bookings', \App\Http\Controllers\Therapist\BookingController::class)->only(['index', 'create', 'store', 'show']);
+
+        // Commissions
+        Route::get('commissions/report', [\App\Http\Controllers\Therapist\CommissionController::class, 'report'])->name('commissions.report');
+        Route::resource('commissions', \App\Http\Controllers\Therapist\CommissionController::class)->only(['index', 'show']);
     });
 
     // Customer Routes

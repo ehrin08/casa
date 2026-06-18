@@ -63,6 +63,16 @@ class User extends Authenticatable
         return $this->hasMany(Booking::class, 'created_by_user_id');
     }
 
+    public function therapistAvailabilities(): HasMany
+    {
+        return $this->hasMany(TherapistAvailability::class, 'creator_id');
+    }
+
+    public function commissions(): HasMany
+    {
+        return $this->hasMany(Commission::class, 'customer_id');
+    }
+
     public function transactions()
     {
         return $this->hasMany(Transaction::class, 'customer_id');

@@ -87,6 +87,9 @@ class TransactionController extends Controller
             $transaction->booking->update(['payment_status' => $validated['payment_status']]);
         }
 
+        // Sync to commission
+        app(\App\Services\CommissionService::class)->syncFromTransaction($transaction);
+
         return redirect()->route('manager.transactions.show', $transaction)
             ->with('success', 'Transaction status updated successfully.');
     }

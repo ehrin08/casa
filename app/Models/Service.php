@@ -30,6 +30,11 @@ class Service extends Model
         return $this->hasMany(Transaction::class);
     }
 
+    public function commissions()
+    {
+        return $this->hasMany(Commission::class);
+    }
+
     protected $casts = [
         'price' => 'decimal:2',
         'commission_rate' => 'decimal:2',

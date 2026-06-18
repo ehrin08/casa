@@ -33,7 +33,7 @@ class TransactionService
         $paymentStatus = $booking->payment_status ?: 'paid';
         $paymentDate = $paymentStatus === 'paid' ? now() : null;
 
-        return Transaction::create([
+        $transaction = Transaction::create([
             'transaction_reference' => $this->generateReference(),
             'booking_id' => $booking->id,
             'customer_id' => $booking->customer_id,
@@ -49,6 +49,12 @@ class TransactionService
             'payment_date' => $paymentDate,
             'notes' => 'Auto-generated transaction from booking ' . $booking->booking_reference,
         ]);
+
+        if ($transaction->payment_status === 'paid') {
+            app(CommissionService::class)->createFromTransaction($transaction);
+        }
+
+        return $transaction;
     }
 
     /**

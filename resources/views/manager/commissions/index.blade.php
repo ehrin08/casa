@@ -1,0 +1,168 @@
+<x-manager-layout>
+    <x-slot name="header">
+        Therapist Commissions
+    </x-slot>
+
+    <div class="mb-6">
+        <p class="text-sm text-gray-500">Track earned, paid, and voided therapist commissions from paid transactions.</p>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <x-dashboard.stat-card 
+            title="Total Unpaid" 
+            value="₱{{ number_format($totalUnpaid, 2) }}" 
+            icon="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
+            color="text-yellow-600" 
+            bg="bg-yellow-100" />
+            
+        <x-dashboard.stat-card 
+            title="Total Paid" 
+            value="₱{{ number_format($totalPaid, 2) }}" 
+            icon="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" 
+            color="text-green-600" 
+            bg="bg-green-100" />
+            
+        <x-dashboard.stat-card 
+            title="This Month Earned" 
+            value="₱{{ number_format($thisMonthEarned, 2) }}" 
+            icon="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" 
+            color="text-blue-600" 
+            bg="bg-blue-100" />
+
+        <x-dashboard.stat-card 
+            title="Total Voided" 
+            value="₱{{ number_format($totalVoided, 2) }}" 
+            icon="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" 
+            color="text-red-600" 
+            bg="bg-red-100" />
+    </div>
+
+    <!-- Filters and Search -->
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-6">
+        <form action="{{ route('manager.commissions.index') }}" method="GET" class="flex flex-col md:flex-row gap-4 items-end">
+            <div class="w-full md:w-1/4">
+                <label for="search" class="block text-xs font-medium text-gray-700 mb-1">Search</label>
+                <input type="text" name="search" id="search" value="{{ request('search') }}" placeholder="Ref, therapist, customer..." class="w-full rounded-md border-gray-300 shadow-sm focus:border-[#2c3e38] focus:ring focus:ring-[#2c3e38] focus:ring-opacity-50 text-sm">
+            </div>
+            
+            <div class="w-full md:w-1/6">
+                <label for="status" class="block text-xs font-medium text-gray-700 mb-1">Status</label>
+                <select name="status" id="status" class="w-full rounded-md border-gray-300 shadow-sm focus:border-[#2c3e38] focus:ring focus:ring-[#2c3e38] focus:ring-opacity-50 text-sm">
+                    <option value="">All Statuses</option>
+                    <option value="unpaid" {{ request('status') === 'unpaid' ? 'selected' : '' }}>Unpaid</option>
+                    <option value="paid" {{ request('status') === 'paid' ? 'selected' : '' }}>Paid</option>
+                    <option value="voided" {{ request('status') === 'voided' ? 'selected' : '' }}>Voided</option>
+                </select>
+            </div>
+
+            <div class="w-full md:w-1/6">
+                <label for="therapist_id" class="block text-xs font-medium text-gray-700 mb-1">Therapist</label>
+                <select name="therapist_id" id="therapist_id" class="w-full rounded-md border-gray-300 shadow-sm focus:border-[#2c3e38] focus:ring focus:ring-[#2c3e38] focus:ring-opacity-50 text-sm">
+                    <option value="">All Therapists</option>
+                    @foreach($therapists as $t)
+                        <option value="{{ $t->id }}" {{ request('therapist_id') == $t->id ? 'selected' : '' }}>{{ $t->user->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="w-full md:w-1/6">
+                <label for="date_from" class="block text-xs font-medium text-gray-700 mb-1">Date From</label>
+                <input type="date" name="date_from" id="date_from" value="{{ request('date_from') }}" class="w-full rounded-md border-gray-300 shadow-sm focus:border-[#2c3e38] focus:ring focus:ring-[#2c3e38] focus:ring-opacity-50 text-sm">
+            </div>
+
+            <div class="w-full md:w-1/6">
+                <label for="date_to" class="block text-xs font-medium text-gray-700 mb-1">Date To</label>
+                <input type="date" name="date_to" id="date_to" value="{{ request('date_to') }}" class="w-full rounded-md border-gray-300 shadow-sm focus:border-[#2c3e38] focus:ring focus:ring-[#2c3e38] focus:ring-opacity-50 text-sm">
+            </div>
+            
+            <div class="flex gap-2 w-full md:w-auto">
+                <button type="submit" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 text-sm font-medium transition-colors border border-gray-200">
+                    Filter
+                </button>
+                @if(request()->anyFilled(['search', 'status', 'therapist_id', 'service_id', 'date_from', 'date_to']))
+                    <a href="{{ route('manager.commissions.index') }}" class="px-4 py-2 bg-white text-gray-500 rounded-md hover:text-gray-700 text-sm font-medium transition-colors border border-gray-200">
+                        Clear
+                    </a>
+                @endif
+                <a href="{{ route('manager.commissions.report', request()->all()) }}" target="_blank" class="px-4 py-2 bg-[#2c3e38] text-white rounded-md hover:bg-[#1f2d28] text-sm font-medium transition-colors">
+                    Report PDF
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Commissions Table -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-50 border-b border-gray-100">
+                        <th class="p-4 font-semibold text-sm text-gray-900">Reference</th>
+                        <th class="p-4 font-semibold text-sm text-gray-900">Date Earned</th>
+                        <th class="p-4 font-semibold text-sm text-gray-900">Therapist</th>
+                        <th class="p-4 font-semibold text-sm text-gray-900">Gross</th>
+                        <th class="p-4 font-semibold text-sm text-gray-900">Comm ({{ config('app.commission_rate', '22') }}%)</th>
+                        <th class="p-4 font-semibold text-sm text-gray-900">Status</th>
+                        <th class="p-4 font-semibold text-sm text-gray-900 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    @forelse($commissions as $commission)
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="p-4">
+                                <div class="font-medium text-sm text-gray-900">{{ $commission->commission_reference }}</div>
+                                <div class="text-xs text-gray-500">TX: {{ $commission->transaction->transaction_reference ?? 'N/A' }}</div>
+                            </td>
+                            <td class="p-4 text-sm text-gray-600">
+                                {{ $commission->earned_at ? $commission->earned_at->format('M d, Y') : 'N/A' }}
+                            </td>
+                            <td class="p-4 text-sm text-gray-600">
+                                {{ $commission->therapist->user->name }}
+                                <div class="text-xs text-gray-500">{{ $commission->service->name }}</div>
+                            </td>
+                            <td class="p-4 text-sm text-gray-600">
+                                ₱{{ number_format($commission->gross_amount, 2) }}
+                            </td>
+                            <td class="p-4 text-sm font-bold text-[#2c3e38]">
+                                ₱{{ number_format($commission->commission_amount, 2) }}
+                            </td>
+                            <td class="p-4">
+                                @if($commission->status === 'unpaid')
+                                    <span class="px-2.5 py-1 text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-200 rounded-full">Unpaid</span>
+                                @elseif($commission->status === 'paid')
+                                    <span class="px-2.5 py-1 text-xs font-medium bg-green-50 text-green-700 border border-green-200 rounded-full">Paid</span>
+                                @else
+                                    <span class="px-2.5 py-1 text-xs font-medium bg-red-50 text-red-700 border border-red-200 rounded-full">Voided</span>
+                                @endif
+                            </td>
+                            <td class="p-4 text-right space-x-3">
+                                <a href="{{ route('manager.commissions.show', $commission) }}" class="text-sm font-medium text-[#7a6b5d] hover:text-[#5c4f43]">View</a>
+                                
+                                @if($commission->status === 'unpaid')
+                                    <form action="{{ route('manager.commissions.markPaid', $commission) }}" method="POST" class="inline" onsubmit="return confirm('Mark this commission as paid?');">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="text-sm font-medium text-green-600 hover:text-green-800">Pay</button>
+                                    </form>
+                                @endif
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" class="p-8 text-center text-gray-500">
+                                No commissions found matching your criteria.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        
+        @if($commissions->hasPages())
+            <div class="p-4 border-t border-gray-100 bg-gray-50">
+                {{ $commissions->links() }}
+            </div>
+        @endif
+    </div>
+</x-manager-layout>

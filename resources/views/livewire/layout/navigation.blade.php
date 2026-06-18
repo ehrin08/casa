@@ -59,11 +59,17 @@ new class extends Component
                     @endif
 
                     @if(auth()->user()->role === 'therapist')
-                        <x-nav-link :href="route('therapist.bookings.index')" :active="request()->routeIs('therapist.bookings.*')" wire:navigate>
-                            {{ __('My Bookings') }}
+                        <x-nav-link :href="route('therapist.dashboard')" :active="request()->routeIs('therapist.dashboard')" wire:navigate>
+                            {{ __('Therapist Dashboard') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('therapist.availability.index')" :active="request()->routeIs('therapist.availability.*')" wire:navigate>
+                        <x-nav-link :href="route('availability.index')" :active="request()->routeIs('availability.*')" wire:navigate>
                             {{ __('My Availability') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('therapist.bookings.index')" :active="request()->routeIs('therapist.bookings.*')" wire:navigate>
+                            {{ __('My Appointments') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('therapist.commissions.index')" :active="request()->routeIs('therapist.commissions.*')" wire:navigate>
+                            {{ __('My Commissions') }}
                         </x-nav-link>
                     @endif
                 </div>
@@ -132,8 +138,6 @@ new class extends Component
             @endif
 
             @if(auth()->user()->role === 'therapist')
-                <x-responsive-nav-link :href="route('therapist.bookings.index')" :active="request()->routeIs('therapist.bookings.*')" wire:navigate>
-                    {{ __('My Bookings') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('therapist.availability.index')" :active="request()->routeIs('therapist.availability.*')" wire:navigate>
                     {{ __('My Availability') }}

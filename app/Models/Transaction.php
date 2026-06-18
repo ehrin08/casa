@@ -56,4 +56,9 @@ class Transaction extends Model
     {
         return $this->belongsTo(Therapist::class);
     }
+
+    public function commission(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Commission::class);
+    }
 }

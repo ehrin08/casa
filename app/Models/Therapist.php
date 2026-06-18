@@ -37,4 +37,9 @@ class Therapist extends Model
     {
         return $this->hasMany(Transaction::class);
     }
+
+    public function commissions()
+    {
+        return $this->hasMany(Commission::class);
+    }
 }
