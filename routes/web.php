@@ -47,9 +47,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Customer Routes
     Route::middleware('role:customer')->prefix('customer')->name('customer.')->group(function () {
-        Route::get('/dashboard', function () {
-            return view('customer.dashboard');
-        })->name('dashboard');
+        Route::get('/dashboard', [\App\Http\Controllers\Customer\DashboardController::class, 'index'])->name('dashboard');
         
         Route::get('services', [CustomerServiceController::class, 'index'])->name('services.index');
         
