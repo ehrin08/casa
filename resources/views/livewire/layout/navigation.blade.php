@@ -138,8 +138,7 @@ new class extends Component
             @endif
 
             @if(auth()->user()->role === 'therapist')
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('therapist.availability.index')" :active="request()->routeIs('therapist.availability.*')" wire:navigate>
+                <x-responsive-nav-link :href="route('availability.index')" :active="request()->routeIs('availability.*')" wire:navigate>
                     {{ __('My Availability') }}
                 </x-responsive-nav-link>
             @endif
