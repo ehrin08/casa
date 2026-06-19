@@ -1,6 +1,6 @@
 <x-therapist-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-spa-charcoal leading-tight">
             {{ __('Commission Details') }}
         </h2>
     </x-slot>
@@ -17,25 +17,25 @@
                 <x-ui.status-badge :status="$commission->status" />
             </div>
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-8">
-                <div class="border-b border-gray-100 p-8 text-center bg-[#f9f8f6]">
-                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-1">Commission Reference</p>
-                    <h1 class="text-2xl font-bold text-gray-900">{{ $commission->commission_reference }}</h1>
-                    <p class="text-sm text-gray-500 mt-2">Earned on {{ $commission->earned_at ? $commission->earned_at->format('M d, Y') : 'N/A' }}</p>
+            <div class="bg-spa-white overflow-hidden shadow-sm sm:rounded-lg mb-8">
+                <div class="border-b border-spa-beige p-8 text-center bg-[#f9f8f6]">
+                    <p class="text-xs text-spa-gray opacity-80 uppercase tracking-widest mb-1">Commission Reference</p>
+                    <h1 class="text-2xl font-bold text-spa-charcoal">{{ $commission->commission_reference }}</h1>
+                    <p class="text-sm text-spa-gray opacity-80 mt-2">Earned on {{ $commission->earned_at ? $commission->earned_at->format('M d, Y') : 'N/A' }}</p>
                 </div>
 
                 <div class="p-8">
-                    <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4 border-b pb-2">Computation Summary</h3>
+                    <h3 class="text-lg font-medium leading-6 text-spa-charcoal mb-4 border-b pb-2">Computation Summary</h3>
                     
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center mb-8">
-                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-100">
-                            <p class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Gross Service Amount</p>
-                            <p class="text-xl font-bold text-gray-900">₱{{ number_format($commission->gross_amount, 2) }}</p>
+                        <div class="bg-spa-cream rounded-lg p-4 border border-spa-beige">
+                            <p class="text-xs font-medium text-spa-gray opacity-80 uppercase tracking-wider mb-1">Gross Service Amount</p>
+                            <p class="text-xl font-bold text-spa-charcoal">₱{{ number_format($commission->gross_amount, 2) }}</p>
                         </div>
-                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-100 flex items-center justify-center">
+                        <div class="bg-spa-cream rounded-lg p-4 border border-spa-beige flex items-center justify-center">
                             <div>
-                                <p class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">Commission Rate</p>
-                                <p class="text-xl font-bold text-gray-900">{{ number_format($commission->commission_rate, 0) }}%</p>
+                                <p class="text-xs font-medium text-spa-gray opacity-80 uppercase tracking-wider mb-1">Commission Rate</p>
+                                <p class="text-xl font-bold text-spa-charcoal">{{ number_format($commission->commission_rate, 0) }}%</p>
                             </div>
                         </div>
                         <div class="bg-[#e8dbce]/30 rounded-lg p-4 border border-[#e8dbce]">
@@ -44,19 +44,19 @@
                         </div>
                     </div>
 
-                    <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4 border-b pb-2">Service Details</h3>
+                    <h3 class="text-lg font-medium leading-6 text-spa-charcoal mb-4 border-b pb-2">Service Details</h3>
                     <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2 mb-8">
                         <div class="sm:col-span-1">
-                            <dt class="text-sm font-medium text-gray-500">Service Performed</dt>
-                            <dd class="mt-1 text-sm text-gray-900">{{ $commission->service->name }} ({{ $commission->service->duration_minutes }} mins)</dd>
+                            <dt class="text-sm font-medium text-spa-gray opacity-80">Service Performed</dt>
+                            <dd class="mt-1 text-sm text-spa-charcoal">{{ $commission->service->name }} ({{ $commission->service->duration_minutes }} mins)</dd>
                         </div>
                         <div class="sm:col-span-1">
-                            <dt class="text-sm font-medium text-gray-500">Related Transaction</dt>
-                            <dd class="mt-1 text-sm text-gray-900">{{ $commission->transaction->transaction_reference ?? 'N/A' }}</dd>
+                            <dt class="text-sm font-medium text-spa-gray opacity-80">Related Transaction</dt>
+                            <dd class="mt-1 text-sm text-spa-charcoal">{{ $commission->transaction->transaction_reference ?? 'N/A' }}</dd>
                         </div>
                         <div class="sm:col-span-1">
-                            <dt class="text-sm font-medium text-gray-500">Paid Date</dt>
-                            <dd class="mt-1 text-sm text-gray-900">{{ $commission->paid_at ? $commission->paid_at->format('M d, Y h:i A') : 'Pending' }}</dd>
+                            <dt class="text-sm font-medium text-spa-gray opacity-80">Paid Date</dt>
+                            <dd class="mt-1 text-sm text-spa-charcoal">{{ $commission->paid_at ? $commission->paid_at->format('M d, Y h:i A') : 'Pending' }}</dd>
                         </div>
                     </dl>
                     

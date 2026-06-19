@@ -12,11 +12,11 @@
 @php
     $buttonClass = $type === 'danger' 
         ? 'bg-red-600 hover:bg-red-700 focus:ring-red-500 text-white' 
-        : 'bg-[#2c3e38] hover:bg-[#1f2d28] focus:ring-[#2c3e38] text-white';
+        : 'bg-spa-brown hover:bg-spa-espresso focus:ring-spa-gold text-spa-white';
         
     $iconClass = $type === 'danger'
         ? 'text-red-600 bg-red-100'
-        : 'text-[#2c3e38] bg-green-100';
+        : 'text-spa-leaf bg-spa-leaf bg-opacity-20';
 @endphp
 
 <x-modal :name="$name" :show="false" maxWidth="sm">
@@ -34,18 +34,18 @@
                 @endif
             </div>
             <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                <h3 class="text-lg leading-6 font-serif font-bold text-spa-charcoal" id="modal-title">
                     {{ $title }}
                 </h3>
                 <div class="mt-2">
-                    <p class="text-sm text-gray-500">
+                    <p class="text-sm text-spa-gray opacity-80">
                         {{ $message }}
                     </p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+    <div class="bg-spa-cream border-t border-spa-beige px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
         <form method="POST" action="{{ $action }}" class="w-full sm:w-auto">
             @csrf
             @if($method !== 'POST')
@@ -55,7 +55,7 @@
                 {{ $confirmText }}
             </button>
         </form>
-        <button type="button" x-on:click="$dispatch('close-modal', '{{ $name }}')" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm transition-colors">
+        <button type="button" x-on:click="$dispatch('close-modal', '{{ $name }}')" class="mt-3 w-full inline-flex justify-center rounded-md border border-spa-wood shadow-sm px-4 py-2 bg-spa-white text-base font-bold text-spa-charcoal hover:bg-spa-beige focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-spa-gold sm:mt-0 sm:w-auto sm:text-sm transition-colors">
             {{ $cancelText }}
         </button>
     </div>

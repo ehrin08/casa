@@ -5,15 +5,15 @@
 
     <div class="mb-6 flex justify-between items-center">
         <div>
-            <h2 class="text-2xl font-bold text-gray-800">Add Therapist Availability</h2>
-            <p class="text-sm text-gray-500 mt-1">Schedule date-specific availability, time off, or leave.</p>
+            <h2 class="text-2xl font-bold text-spa-charcoal">Add Therapist Availability</h2>
+            <p class="text-sm text-spa-gray opacity-80 mt-1">Schedule date-specific availability, time off, or leave.</p>
         </div>
         <a href="{{ route('manager.therapist-availabilities.index') }}" class="text-[#2c3e38] hover:text-[#1f2d28] font-medium text-sm">
             &larr; Back to Availabilities
         </a>
     </div>
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="bg-spa-white rounded-xl shadow-sm border border-spa-beige overflow-hidden">
         <form action="{{ route('manager.therapist-availabilities.store') }}" method="POST" class="p-6 md:p-8">
             @csrf
 
@@ -21,7 +21,7 @@
                 <!-- Therapist Dropdown -->
                 <div class="md:col-span-2">
                     <x-input-label for="therapist_id" value="Therapist *" />
-                    <select id="therapist_id" name="therapist_id" class="mt-1 block w-full border-gray-300 focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm" required autofocus>
+                    <select id="therapist_id" name="therapist_id" class="mt-1 block w-full border-spa-wood focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm" required autofocus>
                         <option value="">Select Therapist</option>
                         @foreach($therapists as $t)
                             <option value="{{ $t->id }}" {{ old('therapist_id') == $t->id ? 'selected' : '' }}>{{ $t->user->name }} ({{ $t->specialization }})</option>
@@ -40,17 +40,17 @@
                 <!-- Status -->
                 <div>
                     <x-input-label for="status" value="Status *" />
-                    <select id="status" name="status" class="mt-1 block w-full border-gray-300 focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm" required>
+                    <select id="status" name="status" class="mt-1 block w-full border-spa-wood focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm" required>
                         <option value="available" {{ old('status', 'available') == 'available' ? 'selected' : '' }}>Available</option>
                         <option value="unavailable" {{ old('status') == 'unavailable' ? 'selected' : '' }}>Unavailable</option>
                         <option value="on_leave" {{ old('status') == 'on_leave' ? 'selected' : '' }}>On Leave</option>
                     </select>
                     <x-input-error class="mt-2" :messages="$errors->get('status')" />
-                    <p class="text-xs text-gray-500 mt-1">Use "Available" for working days. "Unavailable" for days off.</p>
+                    <p class="text-xs text-spa-gray opacity-80 mt-1">Use "Available" for working days. "Unavailable" for days off.</p>
                 </div>
 
-                <div class="md:col-span-2 mt-4 pt-4 border-t border-gray-100">
-                    <h4 class="text-sm font-medium text-gray-900 mb-4">Working Hours (Required if Available)</h4>
+                <div class="md:col-span-2 mt-4 pt-4 border-t border-spa-beige">
+                    <h4 class="text-sm font-medium text-spa-charcoal mb-4">Working Hours (Required if Available)</h4>
                 </div>
 
                 <!-- Start Time -->
@@ -67,8 +67,8 @@
                     <x-input-error class="mt-2" :messages="$errors->get('end_time')" />
                 </div>
 
-                <div class="md:col-span-2 mt-4 pt-4 border-t border-gray-100">
-                    <h4 class="text-sm font-medium text-gray-900 mb-4">Break Hours (Optional)</h4>
+                <div class="md:col-span-2 mt-4 pt-4 border-t border-spa-beige">
+                    <h4 class="text-sm font-medium text-spa-charcoal mb-4">Break Hours (Optional)</h4>
                 </div>
 
                 <!-- Break Start -->
@@ -86,15 +86,15 @@
                 </div>
 
                 <!-- Notes -->
-                <div class="md:col-span-2 mt-4 pt-4 border-t border-gray-100">
+                <div class="md:col-span-2 mt-4 pt-4 border-t border-spa-beige">
                     <x-input-label for="notes" value="Notes" />
-                    <textarea id="notes" name="notes" rows="3" class="mt-1 block w-full border-gray-300 focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm">{{ old('notes') }}</textarea>
+                    <textarea id="notes" name="notes" rows="3" class="mt-1 block w-full border-spa-wood focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm">{{ old('notes') }}</textarea>
                     <x-input-error class="mt-2" :messages="$errors->get('notes')" />
                 </div>
             </div>
 
             <div class="mt-8 flex justify-end">
-                <a href="{{ route('manager.therapist-availabilities.index') }}" class="px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#2c3e38] focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 mr-3">
+                <a href="{{ route('manager.therapist-availabilities.index') }}" class="px-4 py-2 bg-spa-white border border-spa-wood rounded-md font-semibold text-xs text-spa-charcoal opacity-90 uppercase tracking-widest shadow-sm hover:bg-spa-beige focus:outline-none focus:ring-2 focus:ring-[#2c3e38] focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 mr-3">
                     Cancel
                 </a>
                 <x-ui.submit-button label="Save Availability" />

@@ -8,18 +8,20 @@
         <title>{{ config('app.name', 'Casa Paraiso') }} - Manager Dashboard</title>
 
         <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-[#f9f8f6] text-gray-800" x-data="{ sidebarOpen: false }">
+    <body class="font-sans antialiased bg-spa-cream text-spa-charcoal selection:bg-spa-leaf selection:text-white" x-data="{ sidebarOpen: false }">
         <div class="flex h-screen overflow-hidden">
             <!-- Sidebar -->
-            <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-50 w-64 bg-[#2c3e38] text-white transition-transform duration-300 ease-in-out md:static md:translate-x-0 shadow-lg flex flex-col">
-                <div class="flex items-center justify-center h-20 border-b border-gray-600/50 px-4">
-                    <span class="text-xl font-bold tracking-wider uppercase text-[#e8dbce]">Casa Paraiso</span>
+            <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-50 w-64 bg-spa-charcoal text-spa-white transition-transform duration-300 ease-in-out md:static md:translate-x-0 shadow-lg flex flex-col border-r border-spa-gray">
+                <div class="flex items-center justify-center h-20 border-b border-spa-gray px-4">
+                    <svg class="w-6 h-6 text-spa-leaf mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .782-2 2v10c0 4 0 6 1 6z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2h-4c-1.25 0-2 .782-2 2v10c0 4 0 6 1 6z"></path></svg>
+                    <span class="text-xl font-serif font-bold tracking-wider uppercase text-spa-white">Casa Paraiso</span>
                 </div>
                 <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
                     @php
@@ -37,7 +39,7 @@
                         ];
                     @endphp
                     @foreach ($links as $link)
-                        <a href="{{ $link['route'] === '#' ? '#' : route($link['route']) }}" class="flex items-center px-4 py-3 rounded-lg transition-colors {{ Str::startsWith(request()->route()->getName(), Str::before($link['route'], '.index')) ? 'bg-[#40544c] text-[#e8dbce]' : 'hover:bg-[#344840] text-gray-300 hover:text-white' }}">
+                        <a href="{{ $link['route'] === '#' ? '#' : route($link['route']) }}" class="flex items-center px-4 py-3 rounded-lg transition-colors {{ Str::startsWith(request()->route()->getName(), Str::before($link['route'], '.index')) ? 'bg-spa-gray text-spa-white border-l-4 border-spa-gold' : 'hover:bg-spa-gray text-spa-beige opacity-80 hover:opacity-100 hover:text-spa-white' }}">
                             <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $link['icon'] }}"></path>
                             </svg>
@@ -53,9 +55,9 @@
             <!-- Main Content -->
             <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
                 <!-- Top Navbar -->
-                <header class="bg-white shadow-sm border-b border-gray-100 flex items-center justify-between h-20 px-6 lg:px-8">
+                <header class="bg-spa-white shadow-sm border-b border-spa-beige flex items-center justify-between h-20 px-6 lg:px-8">
                     <!-- Mobile menu button -->
-                    <button @click="sidebarOpen = true" class="md:hidden text-gray-500 hover:text-gray-700 focus:outline-none">
+                    <button @click="sidebarOpen = true" class="md:hidden text-spa-gray hover:text-spa-charcoal focus:outline-none">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
@@ -63,23 +65,23 @@
 
                     <div class="flex-1">
                         @if (isset($header))
-                            <h1 class="text-2xl font-semibold text-gray-800">{{ $header }}</h1>
+                            <h1 class="text-2xl font-serif font-bold text-spa-charcoal">{{ $header }}</h1>
                         @endif
                     </div>
 
                     <!-- User Menu -->
                     <div class="flex items-center space-x-4">
                         <div class="hidden sm:block text-right">
-                            <div class="text-sm font-semibold text-gray-800">{{ auth()->user()->name }}</div>
-                            <div class="text-xs text-gray-500 uppercase tracking-wide">{{ auth()->user()->role }}</div>
+                            <div class="text-sm font-bold text-spa-charcoal">{{ auth()->user()->name }}</div>
+                            <div class="text-xs text-spa-gray opacity-70 uppercase tracking-wide">{{ auth()->user()->role }}</div>
                         </div>
-                        <div class="h-10 w-10 rounded-full bg-[#d5c3b5] flex items-center justify-center text-[#4a3f35] font-bold shadow-sm">
+                        <div class="h-10 w-10 rounded-full bg-spa-gold flex items-center justify-center text-spa-charcoal font-bold shadow-sm">
                             {{ substr(auth()->user()->name, 0, 1) }}
                         </div>
                         
                         <form method="POST" action="{{ route('logout') }}" class="ml-4">
                             @csrf
-                            <button type="submit" class="text-sm font-medium text-gray-500 hover:text-red-600 transition-colors flex items-center">
+                            <button type="submit" class="text-sm font-medium text-spa-gray hover:text-spa-brown transition-colors flex items-center">
                                 <svg class="w-5 h-5 sm:mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                                 </svg>
@@ -90,7 +92,7 @@
                 </header>
 
                 <!-- Page Content -->
-                <main class="flex-1 overflow-y-auto bg-[#f9f8f6] p-6 lg:p-8">
+                <main class="flex-1 overflow-y-auto bg-spa-cream p-6 lg:p-8">
                     @if (session('success'))
                         <x-ui.alert type="success" :message="session('success')" />
                     @endif

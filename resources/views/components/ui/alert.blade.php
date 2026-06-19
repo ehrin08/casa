@@ -2,18 +2,18 @@
 
 @php
     $classes = [
-        'success' => 'bg-green-50 border-green-200 text-green-800',
-        'error' => 'bg-red-50 border-red-200 text-red-800',
-        'warning' => 'bg-yellow-50 border-yellow-200 text-yellow-800',
-        'info' => 'bg-blue-50 border-blue-200 text-blue-800',
-    ][$type] ?? 'bg-gray-50 border-gray-200 text-gray-800';
+        'success' => 'bg-spa-leaf bg-opacity-10 border-spa-leaf border-opacity-30 text-spa-charcoal',
+        'error' => 'bg-red-50 border-red-200 text-red-900',
+        'warning' => 'bg-spa-gold bg-opacity-10 border-spa-gold border-opacity-30 text-spa-charcoal',
+        'info' => 'bg-blue-50 border-blue-200 text-blue-900',
+    ][$type] ?? 'bg-spa-gray bg-opacity-10 border-spa-gray border-opacity-30 text-spa-charcoal';
 
     $iconColor = [
-        'success' => 'text-green-400',
-        'error' => 'text-red-400',
-        'warning' => 'text-yellow-400',
-        'info' => 'text-blue-400',
-    ][$type] ?? 'text-gray-400';
+        'success' => 'text-spa-leaf',
+        'error' => 'text-red-500',
+        'warning' => 'text-spa-brown',
+        'info' => 'text-blue-500',
+    ][$type] ?? 'text-spa-gray';
 @endphp
 
 <div {{ $attributes->merge(['class' => "mb-6 border p-4 rounded-md shadow-sm flex items-start $classes"]) }} role="alert" x-data="{ show: true }" x-show="show" x-transition.opacity>

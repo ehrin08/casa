@@ -3,12 +3,12 @@
 @php
     $statusLower = strtolower($status);
     $classes = match($statusLower) {
-        'available', 'paid', 'completed', 'active' => 'bg-green-100 text-green-800',
-        'unavailable', 'cancelled', 'voided', 'inactive' => 'bg-red-100 text-red-800',
-        'pending' => 'bg-yellow-100 text-yellow-800',
-        'refunded' => 'bg-orange-100 text-orange-800',
-        'draft', 'hidden' => 'bg-gray-100 text-gray-800',
-        default => 'bg-blue-100 text-blue-800'
+        'available', 'paid', 'completed', 'active' => 'bg-spa-leaf bg-opacity-10 text-spa-leaf font-bold tracking-wider',
+        'unavailable', 'cancelled', 'voided', 'inactive' => 'bg-red-100 text-red-800 font-bold tracking-wider',
+        'pending' => 'bg-spa-gold bg-opacity-20 text-spa-brown font-bold tracking-wider',
+        'refunded' => 'bg-orange-100 text-orange-800 font-bold tracking-wider',
+        'draft', 'hidden' => 'bg-spa-gray bg-opacity-10 text-spa-charcoal font-bold tracking-wider',
+        default => 'bg-spa-beige text-spa-charcoal font-bold tracking-wider'
     };
 @endphp
 

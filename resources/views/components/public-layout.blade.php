@@ -6,32 +6,33 @@
     <title>{{ config('app.name', 'Casa Paraiso') }} - Body and Wellness Spa</title>
     
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased bg-[#fdfcfb] text-gray-900 selection:bg-[#2c3e38] selection:text-white">
+<body class="font-sans antialiased bg-spa-cream text-spa-charcoal selection:bg-spa-leaf selection:text-white">
     <!-- Header / Navigation -->
-    <header x-data="{ mobileMenuOpen: false }" class="bg-white border-b border-gray-100 sticky top-0 z-50">
+    <header x-data="{ mobileMenuOpen: false }" class="bg-spa-white border-b border-spa-beige sticky top-0 z-50">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Top">
             <div class="flex items-center justify-between h-16">
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="{{ url('/') }}" class="flex items-center gap-2">
-                        <svg class="w-8 h-8 text-[#2c3e38]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                        <span class="text-xl font-bold text-[#2c3e38] tracking-tight">Casa Paraiso</span>
+                        <svg class="w-8 h-8 text-spa-leaf" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .782-2 2v10c0 4 0 6 1 6z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2h-4c-1.25 0-2 .782-2 2v10c0 4 0 6 1 6z"></path></svg>
+                        <span class="text-xl font-serif font-bold text-spa-espresso tracking-tight">Casa Paraiso</span>
                     </a>
                 </div>
 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#services" class="text-sm font-medium text-gray-500 hover:text-[#2c3e38] transition-colors">Services</a>
-                    <a href="#how-it-works" class="text-sm font-medium text-gray-500 hover:text-[#2c3e38] transition-colors">How It Works</a>
-                    <a href="#promotions" class="text-sm font-medium text-gray-500 hover:text-[#2c3e38] transition-colors">Promotions</a>
-                    <a href="#reviews" class="text-sm font-medium text-gray-500 hover:text-[#2c3e38] transition-colors">Reviews</a>
-                    <a href="#contact" class="text-sm font-medium text-gray-500 hover:text-[#2c3e38] transition-colors">Contact</a>
+                    <a href="{{ url('/#services') }}" class="text-sm font-medium text-spa-gray hover:text-spa-brown transition-colors">Services</a>
+                    <a href="{{ url('/#how-it-works') }}" class="text-sm font-medium text-spa-gray hover:text-spa-brown transition-colors">How It Works</a>
+                    <a href="{{ url('/#promotions') }}" class="text-sm font-medium text-spa-gray hover:text-spa-brown transition-colors">Promotions</a>
+                    <a href="{{ url('/#reviews') }}" class="text-sm font-medium text-spa-gray hover:text-spa-brown transition-colors">Reviews</a>
+                    <a href="{{ url('/#contact') }}" class="text-sm font-medium text-spa-gray hover:text-spa-brown transition-colors">Contact</a>
                 </div>
 
                 <!-- Auth Links -->
@@ -42,11 +43,11 @@
                             if (auth()->user()->role === 'manager') $dashboardUrl = url('/manager/dashboard');
                             if (auth()->user()->role === 'therapist') $dashboardUrl = url('/therapist/dashboard');
                         @endphp
-                        <a href="{{ $dashboardUrl }}" class="text-sm font-semibold text-[#2c3e38] hover:text-[#1f2d28] transition-colors">Dashboard</a>
+                        <a href="{{ $dashboardUrl }}" class="text-sm font-semibold text-spa-brown hover:text-spa-espresso transition-colors">Dashboard</a>
                     @else
-                        <a href="{{ route('login') }}" class="text-sm font-medium text-gray-500 hover:text-[#2c3e38] transition-colors">Log in</a>
+                        <a href="{{ route('login') }}" class="text-sm font-medium text-spa-gray hover:text-spa-brown transition-colors">Log in</a>
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#2c3e38] hover:bg-[#1f2d28] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2c3e38] transition-colors">
+                            <a href="{{ route('register') }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-spa-white bg-spa-brown hover:bg-spa-espresso focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-spa-brown transition-colors">
                                 Register
                             </a>
                         @endif
@@ -55,7 +56,7 @@
 
                 <!-- Mobile menu button -->
                 <div class="md:hidden flex items-center">
-                    <button type="button" @click="mobileMenuOpen = !mobileMenuOpen" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#2c3e38]" aria-expanded="false">
+                    <button type="button" @click="mobileMenuOpen = !mobileMenuOpen" class="bg-spa-white rounded-md p-2 inline-flex items-center justify-center text-spa-gray hover:text-spa-brown hover:bg-spa-cream focus:outline-none focus:ring-2 focus:ring-inset focus:ring-spa-brown" aria-expanded="false">
                         <span class="sr-only">Open main menu</span>
                         <svg class="h-6 w-6" x-show="!mobileMenuOpen" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -69,15 +70,15 @@
         </nav>
 
         <!-- Mobile Menu -->
-        <div x-show="mobileMenuOpen" style="display:none;" class="md:hidden bg-white border-t border-gray-100" id="mobile-menu">
+        <div x-show="mobileMenuOpen" style="display:none;" class="md:hidden bg-spa-white border-t border-spa-beige" id="mobile-menu">
             <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="#services" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#2c3e38] hover:bg-gray-50">Services</a>
-                <a href="#how-it-works" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#2c3e38] hover:bg-gray-50">How It Works</a>
-                <a href="#promotions" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#2c3e38] hover:bg-gray-50">Promotions</a>
-                <a href="#reviews" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#2c3e38] hover:bg-gray-50">Reviews</a>
-                <a href="#contact" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-[#2c3e38] hover:bg-gray-50">Contact</a>
+                <a href="{{ url('/#services') }}" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md text-base font-medium text-spa-gray hover:text-spa-brown hover:bg-spa-cream">Services</a>
+                <a href="{{ url('/#how-it-works') }}" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md text-base font-medium text-spa-gray hover:text-spa-brown hover:bg-spa-cream">How It Works</a>
+                <a href="{{ url('/#promotions') }}" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md text-base font-medium text-spa-gray hover:text-spa-brown hover:bg-spa-cream">Promotions</a>
+                <a href="{{ url('/#reviews') }}" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md text-base font-medium text-spa-gray hover:text-spa-brown hover:bg-spa-cream">Reviews</a>
+                <a href="{{ url('/#contact') }}" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md text-base font-medium text-spa-gray hover:text-spa-brown hover:bg-spa-cream">Contact</a>
             </div>
-            <div class="pt-4 pb-4 border-t border-gray-100">
+            <div class="pt-4 pb-4 border-t border-spa-beige">
                 <div class="flex items-center px-5 space-x-4">
                     @auth
                         @php
@@ -85,11 +86,11 @@
                             if (auth()->user()->role === 'manager') $dashboardUrl = url('/manager/dashboard');
                             if (auth()->user()->role === 'therapist') $dashboardUrl = url('/therapist/dashboard');
                         @endphp
-                        <a href="{{ $dashboardUrl }}" class="block w-full text-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-[#2c3e38] hover:bg-[#1f2d28]">Dashboard</a>
+                        <a href="{{ $dashboardUrl }}" class="block w-full text-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-spa-white bg-spa-brown hover:bg-spa-espresso">Dashboard</a>
                     @else
-                        <a href="{{ route('login') }}" class="block w-1/2 text-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-base font-medium text-gray-700 bg-white hover:bg-gray-50">Log in</a>
+                        <a href="{{ route('login') }}" class="block w-1/2 text-center px-4 py-2 border border-spa-beige rounded-md shadow-sm text-base font-medium text-spa-gray bg-spa-white hover:bg-spa-cream">Log in</a>
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="block w-1/2 text-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-[#2c3e38] hover:bg-[#1f2d28]">Register</a>
+                            <a href="{{ route('register') }}" class="block w-1/2 text-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-spa-white bg-spa-brown hover:bg-spa-espresso">Register</a>
                         @endif
                     @endauth
                 </div>
@@ -103,16 +104,16 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-[#1f2d28] text-gray-300 py-12">
+    <footer class="bg-spa-charcoal text-spa-beige py-12 border-t-4 border-spa-wood">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <!-- Brand -->
                 <div class="col-span-1 md:col-span-2">
                     <div class="flex items-center gap-2 mb-4">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                        <span class="text-xl font-bold text-white tracking-tight">Casa Paraiso</span>
+                        <svg class="w-8 h-8 text-spa-leaf" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .782-2 2v10c0 4 0 6 1 6z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2h-4c-1.25 0-2 .782-2 2v10c0 4 0 6 1 6z"></path></svg>
+                        <span class="text-xl font-serif font-bold text-spa-white tracking-tight">Casa Paraiso</span>
                     </div>
-                    <p class="text-sm text-gray-400 mb-4 max-w-sm">
+                    <p class="text-sm text-spa-beige opacity-80 mb-4 max-w-sm">
                         Body and Wellness Spa. A web-based spa appointment and service management system designed for smoother bookings, organized schedules, and better customer experience.
                     </p>
                     <p class="text-xs text-gray-500">
@@ -161,7 +162,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-8 pt-8 border-t border-gray-700 text-sm text-gray-400 text-center flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="mt-8 pt-8 border-t border-spa-gray text-sm text-spa-beige opacity-70 text-center flex flex-col md:flex-row justify-between items-center gap-4">
                 <p>&copy; {{ date('Y') }} Casa Paraiso. All rights reserved.</p>
                 <p>Designed for smoother bookings and better customer experience.</p>
             </div>

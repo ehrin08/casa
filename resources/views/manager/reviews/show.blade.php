@@ -1,6 +1,6 @@
 <x-manager-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-spa-charcoal leading-tight">
             {{ __('Review Details') }}
         </h2>
     </x-slot>
@@ -13,11 +13,11 @@
 
 
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden max-w-4xl">
-        <div class="p-6 border-b border-gray-100 flex justify-between items-start">
+    <div class="bg-spa-white rounded-xl shadow-sm border border-spa-beige overflow-hidden max-w-4xl">
+        <div class="p-6 border-b border-spa-beige flex justify-between items-start">
             <div>
-                <h3 class="text-xl font-bold text-gray-900">{{ $review->service->name }}</h3>
-                <p class="text-sm text-gray-500 mt-1">Booking Ref: <a href="{{ route('manager.bookings.show', $review->booking_id) }}" class="text-[#2c3e38] hover:underline hover:text-[#1f2d28]">#CPB-{{ $review->booking_id }}</a></p>
+                <h3 class="text-xl font-bold text-spa-charcoal">{{ $review->service->name }}</h3>
+                <p class="text-sm text-spa-gray opacity-80 mt-1">Booking Ref: <a href="{{ route('manager.bookings.show', $review->booking_id) }}" class="text-[#2c3e38] hover:underline hover:text-[#1f2d28]">#CPB-{{ $review->booking_id }}</a></p>
             </div>
             <div class="text-right">
                 <div class="flex items-center space-x-1 text-yellow-400 mb-2 justify-end">
@@ -36,19 +36,19 @@
         <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="md:col-span-2 space-y-6">
                 <div>
-                    <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Customer Comment</h4>
-                    <div class="bg-gray-50 rounded-lg p-4 border border-gray-100 text-gray-800 text-sm whitespace-pre-line">
+                    <h4 class="text-xs font-semibold text-spa-gray opacity-80 uppercase tracking-wider mb-2">Customer Comment</h4>
+                    <div class="bg-spa-cream rounded-lg p-4 border border-spa-beige text-spa-charcoal text-sm whitespace-pre-line">
                         {{ $review->comment }}
                     </div>
                 </div>
 
                 <div>
-                    <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Key Snippet (Extracted)</h4>
-                    <p class="text-sm italic text-gray-600 border-l-4 border-gray-200 pl-3 py-1">{{ $review->key_snippet ?: 'N/A' }}</p>
+                    <h4 class="text-xs font-semibold text-spa-gray opacity-80 uppercase tracking-wider mb-2">Key Snippet (Extracted)</h4>
+                    <p class="text-sm italic text-spa-gray border-l-4 border-spa-beige pl-3 py-1">{{ $review->key_snippet ?: 'N/A' }}</p>
                 </div>
 
                 <div>
-                    <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Selected Tags</h4>
+                    <h4 class="text-xs font-semibold text-spa-gray opacity-80 uppercase tracking-wider mb-2">Selected Tags</h4>
                     @if(!empty($review->tags) && count($review->tags) > 0)
                         <div class="flex flex-wrap gap-2">
                             @foreach($review->tags as $tag)
@@ -58,7 +58,7 @@
                             @endforeach
                         </div>
                     @else
-                        <p class="text-sm text-gray-500">No tags selected.</p>
+                        <p class="text-sm text-spa-gray opacity-80">No tags selected.</p>
                     @endif
                 </div>
             </div>
@@ -69,36 +69,36 @@
                     
                     <div class="space-y-3 text-sm">
                         <div>
-                            <span class="block text-gray-500">Date Submitted:</span>
-                            <span class="font-medium text-gray-900">{{ $review->reviewed_at->format('M d, Y h:i A') }}</span>
+                            <span class="block text-spa-gray opacity-80">Date Submitted:</span>
+                            <span class="font-medium text-spa-charcoal">{{ $review->reviewed_at->format('M d, Y h:i A') }}</span>
                         </div>
                         <div>
-                            <span class="block text-gray-500">Customer:</span>
-                            <span class="font-medium text-gray-900">{{ $review->customer->name }}</span>
+                            <span class="block text-spa-gray opacity-80">Customer:</span>
+                            <span class="font-medium text-spa-charcoal">{{ $review->customer->name }}</span>
                         </div>
                         <div>
-                            <span class="block text-gray-500">Therapist:</span>
-                            <span class="font-medium text-gray-900">{{ $review->therapist->user->name ?? 'Unknown' }}</span>
+                            <span class="block text-spa-gray opacity-80">Therapist:</span>
+                            <span class="font-medium text-spa-charcoal">{{ $review->therapist->user->name ?? 'Unknown' }}</span>
                         </div>
                         <div>
-                            <span class="block text-gray-500">Algorithm Score:</span>
+                            <span class="block text-spa-gray opacity-80">Algorithm Score:</span>
                             <span class="font-medium {{ $review->sentiment_score >= 0 ? 'text-green-600' : 'text-red-600' }}">{{ $review->sentiment_score }}</span>
                         </div>
                         <div>
-                            <span class="block text-gray-500">Visibility Status:</span>
+                            <span class="block text-spa-gray opacity-80">Visibility Status:</span>
                             @if($review->status === 'visible')
                                 <span class="inline-flex items-center text-blue-600"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg> Visible</span>
                             @else
-                                <span class="inline-flex items-center text-gray-500"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path></svg> Hidden</span>
+                                <span class="inline-flex items-center text-spa-gray opacity-80"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path></svg> Hidden</span>
                             @endif
                         </div>
                     </div>
                 </div>
 
-                <div class="border-t border-gray-100 pt-4">
-                    <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Moderation Actions</h4>
+                <div class="border-t border-spa-beige pt-4">
+                    <h4 class="text-xs font-semibold text-spa-gray opacity-80 uppercase tracking-wider mb-3">Moderation Actions</h4>
                     @if($review->status === 'visible')
-                        <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-hide')" class="w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2c3e38]">
+                        <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-hide')" class="w-full inline-flex justify-center items-center px-4 py-2 border border-spa-wood shadow-sm text-sm font-medium rounded-md text-spa-charcoal opacity-90 bg-spa-white hover:bg-spa-beige focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2c3e38]">
                             Hide Review
                         </button>
                         
@@ -127,7 +127,7 @@
                             type="info"
                         />
                     @endif
-                    <p class="text-xs text-gray-400 mt-2 text-center">Reviews cannot be modified to preserve authenticity.</p>
+                    <p class="text-xs text-spa-gray opacity-60 mt-2 text-center">Reviews cannot be modified to preserve authenticity.</p>
                 </div>
             </div>
         </div>

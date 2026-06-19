@@ -8,19 +8,20 @@
         <title>{{ config('app.name', 'Casa Paraiso') }} - Therapist</title>
 
         <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-[#fdfcfaf8]">
+    <body class="font-sans antialiased bg-spa-cream text-spa-charcoal selection:bg-spa-leaf selection:text-white">
         <div class="min-h-screen flex flex-col md:flex-row">
             
             <!-- Mobile Navigation Bar -->
-            <div class="md:hidden bg-[#1f2d28] text-[#e8dbce] p-4 flex justify-between items-center z-50 sticky top-0">
-                <div class="font-semibold text-lg flex items-center gap-2">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+            <div class="md:hidden bg-spa-charcoal text-spa-beige border-b border-spa-gray p-4 flex justify-between items-center z-50 sticky top-0">
+                <div class="font-serif font-bold text-lg flex items-center gap-2 uppercase tracking-wider text-spa-white">
+                    <svg class="w-6 h-6 text-spa-leaf" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .782-2 2v10c0 4 0 6 1 6z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2h-4c-1.25 0-2 .782-2 2v10c0 4 0 6 1 6z"></path></svg>
                     Casa Paraiso
                 </div>
                 <button id="mobile-menu-btn" class="p-1 hover:bg-[#2c3e38] rounded">
@@ -29,20 +30,20 @@
             </div>
 
             <!-- Sidebar Navigation -->
-            <div id="sidebar" class="w-full md:w-64 bg-[#1f2d28] text-[#e8dbce] hidden md:flex flex-col shadow-lg transition-all duration-300 z-40 fixed md:sticky top-0 h-screen overflow-y-auto">
-                <div class="p-6 border-b border-[#2c3e38] hidden md:block">
-                    <h2 class="text-2xl font-bold tracking-wider text-white">Casa Paraiso</h2>
-                    <p class="text-xs text-[#a0afaa] uppercase tracking-widest mt-1">Staff Portal</p>
+            <div id="sidebar" class="w-full md:w-64 bg-spa-charcoal text-spa-beige hidden md:flex flex-col shadow-lg transition-all duration-300 z-40 fixed md:sticky top-0 h-screen overflow-y-auto border-r border-spa-gray">
+                <div class="p-6 border-b border-spa-gray hidden md:block">
+                    <h2 class="text-2xl font-serif font-bold tracking-wider text-spa-white uppercase">Casa Paraiso</h2>
+                    <p class="text-xs text-spa-gold uppercase tracking-widest mt-1 font-semibold">Staff Portal</p>
                 </div>
 
-                <div class="p-4 border-b border-[#2c3e38]">
+                <div class="p-4 border-b border-spa-gray">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-[#2c3e38] flex items-center justify-center text-white font-bold text-sm border border-[#3d524a]">
+                        <div class="w-10 h-10 rounded-full bg-spa-gold flex items-center justify-center text-spa-charcoal font-bold text-sm border border-spa-wood shadow-sm">
                             {{ substr(auth()->user()->name, 0, 1) }}
                         </div>
                         <div>
-                            <p class="text-sm font-medium text-white truncate max-w-[130px]">{{ auth()->user()->name }}</p>
-                            <p class="text-xs text-[#a0afaa] capitalize">{{ auth()->user()->role }}</p>
+                            <p class="text-sm font-bold text-spa-white truncate max-w-[130px]">{{ auth()->user()->name }}</p>
+                            <p class="text-xs text-spa-beige opacity-70 capitalize">{{ auth()->user()->role }}</p>
                         </div>
                     </div>
                 </div>
@@ -60,8 +61,8 @@
                     @foreach($links as $link)
                         @php $isActive = request()->routeIs($link['route'] === 'therapist.bookings.index' ? 'therapist.bookings.*' : ($link['route'] === 'availability.index' ? 'availability.*' : ($link['route'] === 'therapist.commissions.index' ? 'therapist.commissions.*' : $link['route']))); @endphp
 
-                        <a href="{{ route($link['route']) }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-colors group {{ $isActive ? 'bg-[#2c3e38] text-white border-l-4 border-[#e8dbce]' : 'text-[#c2cfca] hover:bg-[#2c3e38] hover:text-white border-l-4 border-transparent' }}">
-                            <svg class="w-5 h-5 mr-3 flex-shrink-0 {{ $isActive ? 'text-[#e8dbce]' : 'text-[#a0afaa] group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <a href="{{ route($link['route']) }}" class="flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-colors group {{ $isActive ? 'bg-spa-gray text-spa-white border-l-4 border-spa-gold' : 'text-spa-beige opacity-80 hover:bg-spa-gray hover:text-spa-white hover:opacity-100 border-l-4 border-transparent' }}">
+                            <svg class="w-5 h-5 mr-3 flex-shrink-0 {{ $isActive ? 'text-spa-gold' : 'text-spa-beige group-hover:text-spa-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $link['icon'] }}"></path>
                             </svg>
                             {{ $link['name'] }}
@@ -69,11 +70,11 @@
                     @endforeach
                 </nav>
 
-                <div class="p-4 border-t border-[#2c3e38]">
+                <div class="p-4 border-t border-spa-gray">
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="flex items-center w-full px-3 py-2.5 text-sm font-medium text-[#c2cfca] rounded-md hover:bg-[#2c3e38] hover:text-white transition-colors group">
-                            <svg class="w-5 h-5 mr-3 flex-shrink-0 text-[#a0afaa] group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button type="submit" class="flex items-center w-full px-3 py-2.5 text-sm font-medium text-spa-beige opacity-80 rounded-md hover:bg-spa-gray hover:text-spa-white hover:opacity-100 transition-colors group">
+                            <svg class="w-5 h-5 mr-3 flex-shrink-0 text-spa-beige group-hover:text-spa-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                             </svg>
                             Logout
@@ -83,15 +84,15 @@
             </div>
 
             <!-- Main Content Area -->
-            <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#fdfcfaf8]">
+            <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-spa-cream">
                 <!-- Header -->
                 @if (isset($header))
-                    <header class="bg-white shadow-sm border-b border-gray-100 z-10 hidden md:block">
+                    <header class="bg-spa-white shadow-sm border-b border-spa-beige z-10 hidden md:block">
                         <div class="px-6 py-4 flex justify-between items-center">
-                            <h1 class="text-xl font-semibold text-gray-800 tracking-tight">
+                            <h1 class="text-xl font-serif font-bold text-spa-charcoal tracking-tight">
                                 {{ $header }}
                             </h1>
-                            <div class="text-sm text-gray-500">
+                            <div class="text-sm font-medium text-spa-gray opacity-70">
                                 {{ now()->format('l, F j, Y') }}
                             </div>
                         </div>

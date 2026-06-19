@@ -1,49 +1,35 @@
-# HCI Polish Notes
+# HCI & Visual System Polish Notes
 
 ## Overview
-This document details the Human-Computer Interaction (HCI) improvements applied to the Customer and Therapist modules. The goal was to enhance usability, provide consistent feedback, and ensure error prevention across the portal.
+This document details the Human-Computer Interaction (HCI) and Visual System improvements applied across the entire Casa Paraiso portal. The goal was to enhance usability, provide consistent feedback, and ensure error prevention, while simultaneously completely revamping the aesthetics to match the brand identity of an elegant, premium, and natural body and wellness spa.
 
 ## Improvements Made
 
-### 1. Standardized Feedback Messages
-Replaced all raw Bootstrap/Tailwind-styled `session('success')` and `session('error')` alerts with the global `<x-ui.alert>` component in the main layouts:
-- `customer-layout.blade.php`
-- `therapist-layout.blade.php`
+### 1. Visual Redesign (Brand Identity)
+We applied the Casa Paraiso brand palette to all layouts and components across the Public, Manager, Customer, and Therapist portals.
+- **Color Palette:** Shifted away from generic Indigo/Gray to a tailored palette featuring Charcoal, Espresso, Warm Brown, Wood, Gold, Leaf Green, Cream, and Beige.
+- **Typography:** Implemented **Playfair Display** (Serif) for headings and logos to convey elegance, and **Lato** (Sans-Serif) for clean, readable body text.
+- **Global CSS:** Created `app.css` utility classes (`.btn-primary`, `.btn-secondary`, `.card`, `.input-field`) to standardize common styles.
+- **Layout Consistency:** Re-styled the sidebars, top navigations, and background content areas to use the `spa-charcoal` and `spa-cream` combinations.
 
-### 2. Status Badges
-Standardized all status indicators using the `<x-ui.status-badge>` component. This ensures consistent color-coding across the application:
-- **Green:** Active, Available, Paid, Completed
+### 2. Standardized Feedback Messages
+Replaced all raw Bootstrap/Tailwind-styled `session('success')` and `session('error')` alerts with the global `<x-ui.alert>` component in the main layouts. The colors were updated to use elegant opacities of the brand colors (e.g., `spa-leaf` for success).
+
+### 3. Status Badges
+Standardized all status indicators using the `<x-ui.status-badge>` component. We updated the colors to use the new `spa` palette to ensure badges feel cohesive with the rest of the app:
+- **Green:** Active, Available, Paid, Completed (uses `spa-leaf`)
 - **Red:** Inactive, Unavailable, Cancelled, Voided
-- **Yellow:** Pending, Unpaid, On Leave
-- **Blue/Gray:** Draft, Hidden, Booked, Assigned
+- **Yellow:** Pending, Unpaid, On Leave (uses `spa-gold`)
+- **Gray:** Draft, Hidden (uses `spa-gray`)
 
-Files updated:
-- Customer Bookings Index & Show
-- Customer Transactions Index
-- Customer Promotions Index
-- Therapist Dashboard
-- Therapist Availability Index
-- Therapist Bookings Index & Show
-- Therapist Commissions Index & Show
+### 4. Empty States
+Replaced raw table rows and generic `div` blocks with the `<x-ui.empty-state>` component. The component was visually refreshed to use the `spa-beige` border, `spa-wood` icons, and `spa-charcoal` typography, ensuring empty states look deliberate and premium.
 
-### 3. Empty States
-Replaced raw table rows and generic `div` blocks with the `<x-ui.empty-state>` component to provide a clear, actionable, and visually appealing fallback when data is missing:
-- Customer Bookings Index
-- Customer Transactions Index
-- Customer Promotions Index
-- Customer Services Index
-- Customer Reviews Index
-- Therapist Availability Index
-- Therapist Bookings Index
-- Therapist Commissions Index
+### 5. Confirmation Modals
+Implemented `<x-ui.confirm-modal>` for destructive actions to prevent accidental clicks. The modal was styled to use the new `spa-brown` and `spa-charcoal` colors, maintaining brand consistency even during alert and confirmation flows.
 
-### 4. Confirmation Modals
-Implemented `<x-ui.confirm-modal>` for destructive actions to prevent accidental clicks:
-- **Cancel Booking:** Used in Customer Dashboard and Customer Booking Show. Dispatches a custom Alpine event (`open-modal-confirm-cancel-booking-{id}`) instead of using standard JS `confirm()`.
-
-### 5. Form Usability
-- Implemented `<x-ui.submit-button>` in the Review Creation form to show a loading spinner and disable the button upon submission, preventing double-clicks.
-- Retained the Wizard flow for booking creation as it provides an excellent step-by-step experience, while retaining native validation lists.
+### 6. Authentication Pages
+Completely restyled the Login, Register, Forgot Password, and Confirm Password screens to use the `layouts.guest` structure, incorporating a `spa-cream` background, an elegant background radial gradient, and the new typography and input-field styles.
 
 ## Conclusion
-By standardizing components across the Customer and Therapist portals, we reduced cognitive load, improved visual consistency, and enhanced error prevention mechanisms.
+By standardizing components and applying a unified, premium visual system across all portals, we have dramatically elevated the application from a generic administrative tool to an elegant and immersive digital extension of the Casa Paraiso brand.

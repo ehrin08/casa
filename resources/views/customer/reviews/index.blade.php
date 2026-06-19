@@ -5,19 +5,19 @@
 
     <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
         <div class="mb-6 flex justify-between items-center">
-            <h2 class="text-2xl font-bold text-gray-900">My Reviews</h2>
-            <p class="text-sm text-gray-500">History of your service feedback</p>
+            <h2 class="text-2xl font-bold text-spa-charcoal">My Reviews</h2>
+            <p class="text-sm text-spa-gray opacity-80">History of your service feedback</p>
         </div>
 
 
 
         <div class="space-y-6">
             @forelse($reviews as $review)
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                    <div class="border-b border-gray-100 bg-gray-50/50 px-6 py-4 flex justify-between items-center">
+                <div class="bg-spa-white rounded-xl shadow-sm border border-spa-beige overflow-hidden">
+                    <div class="border-b border-spa-beige bg-gray-50/50 px-6 py-4 flex justify-between items-center">
                         <div>
-                            <h3 class="text-lg font-bold text-gray-900">{{ $review->service->name }}</h3>
-                            <p class="text-xs text-gray-500 mt-1">with {{ $review->therapist->user->name ?? 'Therapist' }} • {{ $review->reviewed_at->format('M d, Y') }}</p>
+                            <h3 class="text-lg font-bold text-spa-charcoal">{{ $review->service->name }}</h3>
+                            <p class="text-xs text-spa-gray opacity-80 mt-1">with {{ $review->therapist->user->name ?? 'Therapist' }} • {{ $review->reviewed_at->format('M d, Y') }}</p>
                         </div>
                         <div class="flex items-center space-x-1 text-yellow-400">
                             @for($i = 1; $i <= 5; $i++)
@@ -30,13 +30,13 @@
                     
                     <div class="p-6">
                         @if($review->key_snippet)
-                            <h4 class="text-md font-medium text-gray-900 mb-2">"{{ $review->key_snippet }}"</h4>
+                            <h4 class="text-md font-medium text-spa-charcoal mb-2">"{{ $review->key_snippet }}"</h4>
                         @endif
                         
-                        <p class="text-sm text-gray-600 mb-4">{{ $review->comment }}</p>
+                        <p class="text-sm text-spa-gray mb-4">{{ $review->comment }}</p>
                         
                         @if(!empty($review->tags) && count($review->tags) > 0)
-                            <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-gray-100">
+                            <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-spa-beige">
                                 @foreach($review->tags as $tag)
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#f0f4f2] text-[#2c3e38]">
                                         {{ $tag }}
@@ -45,7 +45,7 @@
                             </div>
                         @endif
                         
-                        <div class="mt-4 text-xs text-gray-400 flex justify-between items-center">
+                        <div class="mt-4 text-xs text-spa-gray opacity-60 flex justify-between items-center">
                             <span>Booking Ref: <a href="{{ route('customer.bookings.show', $review->booking_id) }}" class="text-[#2c3e38] hover:underline hover:text-[#1f2d28]">#CPB-{{ $review->booking_id }}</a></span>
                             @if($review->sentiment === 'positive')
                                 <span class="inline-flex items-center text-green-600">

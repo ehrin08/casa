@@ -5,15 +5,15 @@
 
     <div class="mb-6 flex justify-between items-center">
         <div>
-            <h2 class="text-2xl font-bold text-gray-800">Add New Service</h2>
-            <p class="text-sm text-gray-500 mt-1">Create a new spa service with pricing and duration details.</p>
+            <h2 class="text-2xl font-bold text-spa-charcoal">Add New Service</h2>
+            <p class="text-sm text-spa-gray opacity-80 mt-1">Create a new spa service with pricing and duration details.</p>
         </div>
         <a href="{{ route('manager.services.index') }}" class="text-[#2c3e38] hover:text-[#1f2d28] font-medium text-sm">
             &larr; Back to Services
         </a>
     </div>
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="bg-spa-white rounded-xl shadow-sm border border-spa-beige overflow-hidden">
         <form action="{{ route('manager.services.store') }}" method="POST" class="p-6 md:p-8">
             @csrf
 
@@ -28,7 +28,7 @@
                 <!-- Category -->
                 <div>
                     <x-input-label for="category" value="Category *" />
-                    <select id="category" name="category" class="mt-1 block w-full border-gray-300 focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm" required>
+                    <select id="category" name="category" class="mt-1 block w-full border-spa-wood focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm" required>
                         <option value="">Select Category</option>
                         <option value="Massage" {{ old('category') == 'Massage' ? 'selected' : '' }}>Massage</option>
                         <option value="Nails" {{ old('category') == 'Nails' ? 'selected' : '' }}>Nails</option>
@@ -42,7 +42,7 @@
                 <!-- Status -->
                 <div>
                     <x-input-label for="status" value="Status *" />
-                    <select id="status" name="status" class="mt-1 block w-full border-gray-300 focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm" required>
+                    <select id="status" name="status" class="mt-1 block w-full border-spa-wood focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm" required>
                         <option value="available" {{ old('status', 'available') == 'available' ? 'selected' : '' }}>Available</option>
                         <option value="unavailable" {{ old('status') == 'unavailable' ? 'selected' : '' }}>Unavailable</option>
                     </select>
@@ -54,9 +54,9 @@
                     <x-input-label for="price" value="Price *" />
                     <div class="mt-1 relative rounded-md shadow-sm">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <span class="text-gray-500 sm:text-sm">$</span>
+                            <span class="text-spa-gray opacity-80 sm:text-sm">$</span>
                         </div>
-                        <input type="number" step="0.01" min="0" name="price" id="price" class="block w-full pl-7 border-gray-300 focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm" value="{{ old('price') }}" required>
+                        <input type="number" step="0.01" min="0" name="price" id="price" class="block w-full pl-7 border-spa-wood focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm" value="{{ old('price') }}" required>
                     </div>
                     <x-input-error class="mt-2" :messages="$errors->get('price')" />
                 </div>
@@ -72,13 +72,13 @@
                 <div>
                     <x-input-label for="commission_rate" value="Commission Rate (%) *" />
                     <div class="mt-1 relative rounded-md shadow-sm">
-                        <input type="number" step="0.01" min="0" max="100" name="commission_rate" id="commission_rate" class="block w-full pr-8 border-gray-300 focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm" value="{{ old('commission_rate', '22.00') }}" required>
+                        <input type="number" step="0.01" min="0" max="100" name="commission_rate" id="commission_rate" class="block w-full pr-8 border-spa-wood focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm" value="{{ old('commission_rate', '22.00') }}" required>
                         <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                            <span class="text-gray-500 sm:text-sm">%</span>
+                            <span class="text-spa-gray opacity-80 sm:text-sm">%</span>
                         </div>
                     </div>
                     <x-input-error class="mt-2" :messages="$errors->get('commission_rate')" />
-                    <p class="text-xs text-gray-500 mt-1">Default is 22.00%.</p>
+                    <p class="text-xs text-spa-gray opacity-80 mt-1">Default is 22.00%.</p>
                 </div>
 
                 <!-- Empty space for grid alignment -->
@@ -87,13 +87,13 @@
                 <!-- Description -->
                 <div class="md:col-span-2">
                     <x-input-label for="description" value="Description" />
-                    <textarea id="description" name="description" rows="4" class="mt-1 block w-full border-gray-300 focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm">{{ old('description') }}</textarea>
+                    <textarea id="description" name="description" rows="4" class="mt-1 block w-full border-spa-wood focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm">{{ old('description') }}</textarea>
                     <x-input-error class="mt-2" :messages="$errors->get('description')" />
                 </div>
             </div>
 
             <div class="mt-8 flex justify-end">
-                <a href="{{ route('manager.services.index') }}" class="px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#2c3e38] focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 mr-3">
+                <a href="{{ route('manager.services.index') }}" class="px-4 py-2 bg-spa-white border border-spa-wood rounded-md font-semibold text-xs text-spa-charcoal opacity-90 uppercase tracking-widest shadow-sm hover:bg-spa-beige focus:outline-none focus:ring-2 focus:ring-[#2c3e38] focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 mr-3">
                     Cancel
                 </a>
                 <x-ui.submit-button label="Create Service" />

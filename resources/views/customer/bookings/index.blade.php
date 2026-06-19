@@ -1,7 +1,7 @@
 <x-customer-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-spa-charcoal leading-tight">
                 {{ __('My Appointments') }}
             </h2>
             <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center px-4 py-2 bg-[#2c3e38] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-[#1f2d28] focus:bg-[#1f2d28] active:bg-[#1f2d28] focus:outline-none focus:ring-2 focus:ring-[#2c3e38] focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm">
@@ -14,32 +14,32 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+            <div class="bg-spa-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-spa-charcoal">
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
+                            <thead class="bg-spa-cream">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date & Time</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Therapist</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-spa-gray opacity-80 uppercase tracking-wider">Date & Time</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-spa-gray opacity-80 uppercase tracking-wider">Service</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-spa-gray opacity-80 uppercase tracking-wider">Therapist</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-spa-gray opacity-80 uppercase tracking-wider">Status</th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-spa-gray opacity-80 uppercase tracking-wider">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
+                            <tbody class="bg-spa-white divide-y divide-gray-200">
                                 @forelse ($bookings as $booking)
-                                    <tr class="hover:bg-gray-50 transition-colors">
+                                    <tr class="hover:bg-spa-beige transition-colors">
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium text-gray-900">{{ $booking->appointment_date->format('M d, Y') }}</div>
-                                            <div class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($booking->start_time)->format('g:i A') }}</div>
+                                            <div class="text-sm font-medium text-spa-charcoal">{{ $booking->appointment_date->format('M d, Y') }}</div>
+                                            <div class="text-xs text-spa-gray opacity-80">{{ \Carbon\Carbon::parse($booking->start_time)->format('g:i A') }}</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">{{ $booking->service->name }}</div>
-                                            <div class="text-xs text-gray-500">{{ $booking->service->duration_minutes }} mins</div>
+                                            <div class="text-sm text-spa-charcoal">{{ $booking->service->name }}</div>
+                                            <div class="text-xs text-spa-gray opacity-80">{{ $booking->service->duration_minutes }} mins</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">{{ $booking->therapist->user->name }}</div>
+                                            <div class="text-sm text-spa-charcoal">{{ $booking->therapist->user->name }}</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <x-ui.status-badge :status="$booking->status" />

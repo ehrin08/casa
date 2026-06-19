@@ -1,9 +1,9 @@
 <x-manager-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-spa-charcoal leading-tight">
             {{ __('Customer Reviews & Sentiment') }}
         </h2>
-        <p class="text-sm text-gray-500 mt-1">Monitor customer feedback, service satisfaction, and therapist performance.</p>
+        <p class="text-sm text-spa-gray opacity-80 mt-1">Monitor customer feedback, service satisfaction, and therapist performance.</p>
     </x-slot>
 
     <div class="mb-8 grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -38,31 +38,31 @@
             bg="bg-red-100" />
     </div>
 
-    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-8 flex justify-between items-end">
+    <div class="bg-spa-white p-6 rounded-xl shadow-sm border border-spa-beige mb-8 flex justify-between items-end">
         <form method="GET" action="{{ route('manager.reviews.index') }}" class="flex-1 grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-                <label class="block text-xs font-medium text-gray-500 mb-1">Search</label>
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Customer, Service..." class="w-full text-sm border-gray-300 rounded-md shadow-sm focus:border-[#2c3e38] focus:ring-[#2c3e38]">
+                <label class="block text-xs font-medium text-spa-gray opacity-80 mb-1">Search</label>
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Customer, Service..." class="w-full text-sm border-spa-wood rounded-md shadow-sm focus:border-[#2c3e38] focus:ring-[#2c3e38]">
             </div>
             <div>
-                <label class="block text-xs font-medium text-gray-500 mb-1">Sentiment</label>
-                <select name="sentiment" class="w-full text-sm border-gray-300 rounded-md shadow-sm focus:border-[#2c3e38] focus:ring-[#2c3e38]">
+                <label class="block text-xs font-medium text-spa-gray opacity-80 mb-1">Sentiment</label>
+                <select name="sentiment" class="w-full text-sm border-spa-wood rounded-md shadow-sm focus:border-[#2c3e38] focus:ring-[#2c3e38]">
                     <option value="">All</option>
                     <option value="positive" {{ request('sentiment') === 'positive' ? 'selected' : '' }}>Positive</option>
                     <option value="negative" {{ request('sentiment') === 'negative' ? 'selected' : '' }}>Negative</option>
                 </select>
             </div>
             <div>
-                <label class="block text-xs font-medium text-gray-500 mb-1">Status</label>
-                <select name="status" class="w-full text-sm border-gray-300 rounded-md shadow-sm focus:border-[#2c3e38] focus:ring-[#2c3e38]">
+                <label class="block text-xs font-medium text-spa-gray opacity-80 mb-1">Status</label>
+                <select name="status" class="w-full text-sm border-spa-wood rounded-md shadow-sm focus:border-[#2c3e38] focus:ring-[#2c3e38]">
                     <option value="">All</option>
                     <option value="visible" {{ request('status') === 'visible' ? 'selected' : '' }}>Visible</option>
                     <option value="hidden" {{ request('status') === 'hidden' ? 'selected' : '' }}>Hidden</option>
                 </select>
             </div>
             <div class="flex items-end space-x-2">
-                <button type="submit" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-md text-sm font-medium transition-colors">Filter</button>
-                <a href="{{ route('manager.reviews.index') }}" class="text-sm text-gray-500 hover:text-gray-700 px-2 py-2">Clear</a>
+                <button type="submit" class="bg-spa-beige hover:bg-gray-200 text-spa-charcoal px-4 py-2 rounded-md text-sm font-medium transition-colors">Filter</button>
+                <a href="{{ route('manager.reviews.index') }}" class="text-sm text-spa-gray opacity-80 hover:text-gray-700 px-2 py-2">Clear</a>
             </div>
         </form>
         <div class="ml-4">
@@ -75,33 +75,33 @@
 
 
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="bg-spa-white rounded-xl shadow-sm border border-spa-beige overflow-hidden">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+                <thead class="bg-spa-cream">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service / Therapist</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating & Sentiment</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Snippet</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-spa-gray opacity-80 uppercase tracking-wider">Date</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-spa-gray opacity-80 uppercase tracking-wider">Customer</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-spa-gray opacity-80 uppercase tracking-wider">Service / Therapist</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-spa-gray opacity-80 uppercase tracking-wider">Rating & Sentiment</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-spa-gray opacity-80 uppercase tracking-wider">Snippet</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-spa-gray opacity-80 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-spa-gray opacity-80 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-spa-white divide-y divide-gray-200">
                     @forelse($reviews as $review)
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-spa-charcoal">
                                 {{ $review->reviewed_at->format('M d, Y') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">{{ $review->customer->name }}</div>
-                                <div class="text-xs text-gray-500">{{ $review->customer->email }}</div>
+                                <div class="text-sm font-medium text-spa-charcoal">{{ $review->customer->name }}</div>
+                                <div class="text-xs text-spa-gray opacity-80">{{ $review->customer->email }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{ $review->service->name }}</div>
-                                <div class="text-xs text-gray-500">{{ $review->therapist->user->name ?? 'Unknown' }}</div>
+                                <div class="text-sm text-spa-charcoal">{{ $review->service->name }}</div>
+                                <div class="text-xs text-spa-gray opacity-80">{{ $review->therapist->user->name ?? 'Unknown' }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center space-x-1 text-yellow-400 mb-1">
@@ -113,7 +113,7 @@
                                     <x-ui.status-badge :status="$review->sentiment === 'positive' ? 'positive' : 'negative'" />
                                 </div>
                             </td>
-                            <td class="px-6 py-4 text-sm text-gray-500">
+                            <td class="px-6 py-4 text-sm text-spa-gray opacity-80">
                                 <div class="max-w-xs truncate italic">"{{ $review->key_snippet }}"</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -138,7 +138,7 @@
             </table>
         </div>
         @if($reviews->hasPages())
-            <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
+            <div class="bg-spa-white px-4 py-3 border-t border-spa-beige sm:px-6">
                 {{ $reviews->links() }}
             </div>
         @endif

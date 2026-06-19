@@ -1,6 +1,6 @@
 <x-customer-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-spa-charcoal leading-tight">
             {{ __('Receipt Details') }}
         </h2>
     </x-slot>
@@ -19,15 +19,15 @@
                 </a>
             </div>
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-spa-white overflow-hidden shadow-sm sm:rounded-lg">
                 <!-- Receipt Header -->
-                <div class="border-b border-gray-100 p-8 text-center bg-[#f9f8f6]">
+                <div class="border-b border-spa-beige p-8 text-center bg-[#f9f8f6]">
                     <h1 class="text-2xl font-bold text-[#2c3e38] uppercase tracking-wider mb-1">Casa Paraiso</h1>
-                    <p class="text-sm text-gray-500 uppercase tracking-widest mb-6">Body and Wellness Spa</p>
+                    <p class="text-sm text-spa-gray opacity-80 uppercase tracking-widest mb-6">Body and Wellness Spa</p>
                     
-                    <div class="inline-block bg-white px-6 py-3 rounded-lg shadow-sm border border-gray-100">
-                        <p class="text-xs text-gray-500 uppercase font-medium mb-1">Receipt Number</p>
-                        <p class="text-lg font-bold text-gray-900">{{ $transaction->transaction_reference }}</p>
+                    <div class="inline-block bg-spa-white px-6 py-3 rounded-lg shadow-sm border border-spa-beige">
+                        <p class="text-xs text-spa-gray opacity-80 uppercase font-medium mb-1">Receipt Number</p>
+                        <p class="text-lg font-bold text-spa-charcoal">{{ $transaction->transaction_reference }}</p>
                     </div>
                 </div>
 
@@ -35,16 +35,16 @@
                 <div class="p-8">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                         <div>
-                            <p class="text-xs text-gray-500 uppercase font-medium mb-1">Date & Time</p>
-                            <p class="text-sm text-gray-900 font-medium">{{ $transaction->created_at->format('F d, Y h:i A') }}</p>
+                            <p class="text-xs text-spa-gray opacity-80 uppercase font-medium mb-1">Date & Time</p>
+                            <p class="text-sm text-spa-charcoal font-medium">{{ $transaction->created_at->format('F d, Y h:i A') }}</p>
                             
                             @if($transaction->booking)
-                                <p class="text-xs text-gray-500 uppercase font-medium mt-4 mb-1">Booking Reference</p>
-                                <p class="text-sm text-gray-900 font-medium">{{ $transaction->booking->booking_reference }}</p>
+                                <p class="text-xs text-spa-gray opacity-80 uppercase font-medium mt-4 mb-1">Booking Reference</p>
+                                <p class="text-sm text-spa-charcoal font-medium">{{ $transaction->booking->booking_reference }}</p>
                             @endif
                         </div>
                         <div class="md:text-right">
-                            <p class="text-xs text-gray-500 uppercase font-medium mb-1">Payment Status</p>
+                            <p class="text-xs text-spa-gray opacity-80 uppercase font-medium mb-1">Payment Status</p>
                             <p class="text-sm font-medium">
                                 @if($transaction->payment_status === 'paid')
                                     <span class="text-green-600">Paid</span>
@@ -57,26 +57,26 @@
                                 @endif
                             </p>
 
-                            <p class="text-xs text-gray-500 uppercase font-medium mt-4 mb-1">Payment Method</p>
-                            <p class="text-sm text-gray-900 font-medium">{{ ucfirst($transaction->payment_method) }}</p>
+                            <p class="text-xs text-spa-gray opacity-80 uppercase font-medium mt-4 mb-1">Payment Method</p>
+                            <p class="text-sm text-spa-charcoal font-medium">{{ ucfirst($transaction->payment_method) }}</p>
                         </div>
                     </div>
 
-                    <div class="border-t border-b border-gray-100 py-4 mb-6">
+                    <div class="border-t border-b border-spa-beige py-4 mb-6">
                         <table class="min-w-full">
                             <thead>
                                 <tr>
-                                    <th class="text-left text-xs font-medium text-gray-500 uppercase pb-2">Description</th>
-                                    <th class="text-right text-xs font-medium text-gray-500 uppercase pb-2">Amount</th>
+                                    <th class="text-left text-xs font-medium text-spa-gray opacity-80 uppercase pb-2">Description</th>
+                                    <th class="text-right text-xs font-medium text-spa-gray opacity-80 uppercase pb-2">Amount</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td class="py-3">
-                                        <div class="text-sm font-medium text-gray-900">{{ $transaction->service->name }}</div>
-                                        <div class="text-xs text-gray-500">{{ $transaction->service->duration_minutes }} min session with {{ $transaction->therapist->user->name }}</div>
+                                        <div class="text-sm font-medium text-spa-charcoal">{{ $transaction->service->name }}</div>
+                                        <div class="text-xs text-spa-gray opacity-80">{{ $transaction->service->duration_minutes }} min session with {{ $transaction->therapist->user->name }}</div>
                                     </td>
-                                    <td class="py-3 text-right text-sm font-medium text-gray-900">
+                                    <td class="py-3 text-right text-sm font-medium text-spa-charcoal">
                                         ₱{{ number_format($transaction->service->price, 2) }}
                                     </td>
                                 </tr>
@@ -87,8 +87,8 @@
                     <div class="flex justify-end">
                         <div class="w-full md:w-1/2 space-y-3">
                             <div class="flex justify-between text-sm">
-                                <span class="text-gray-600">Subtotal</span>
-                                <span class="font-medium text-gray-900">₱{{ number_format($transaction->subtotal, 2) }}</span>
+                                <span class="text-spa-gray">Subtotal</span>
+                                <span class="font-medium text-spa-charcoal">₱{{ number_format($transaction->subtotal, 2) }}</span>
                             </div>
                             @if($transaction->discount_amount > 0)
                                 <div class="flex justify-between text-sm text-red-600">
@@ -96,17 +96,17 @@
                                     <span>- ₱{{ number_format($transaction->discount_amount, 2) }}</span>
                                 </div>
                             @endif
-                            <div class="flex justify-between text-base font-bold pt-3 border-t border-gray-200">
-                                <span class="text-gray-900">Total Amount</span>
+                            <div class="flex justify-between text-base font-bold pt-3 border-t border-spa-beige">
+                                <span class="text-spa-charcoal">Total Amount</span>
                                 <span class="text-[#2c3e38]">₱{{ number_format($transaction->total_amount, 2) }}</span>
                             </div>
                             <div class="flex justify-between text-sm pt-2">
-                                <span class="text-gray-600">Amount Paid</span>
-                                <span class="font-medium text-gray-900">₱{{ number_format($transaction->amount_paid, 2) }}</span>
+                                <span class="text-spa-gray">Amount Paid</span>
+                                <span class="font-medium text-spa-charcoal">₱{{ number_format($transaction->amount_paid, 2) }}</span>
                             </div>
                             <div class="flex justify-between text-sm">
-                                <span class="text-gray-500">Change</span>
-                                <span class="text-gray-500">₱{{ number_format($transaction->change_amount, 2) }}</span>
+                                <span class="text-spa-gray opacity-80">Change</span>
+                                <span class="text-spa-gray opacity-80">₱{{ number_format($transaction->change_amount, 2) }}</span>
                             </div>
                         </div>
                     </div>

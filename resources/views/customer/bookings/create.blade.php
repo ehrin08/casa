@@ -1,13 +1,13 @@
 <x-customer-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-spa-charcoal leading-tight">
             {{ __('Book an Appointment') }}
         </h2>
     </x-slot>
 
     <div class="py-12" x-data="bookingWizard()">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-spa-white overflow-hidden shadow-sm sm:rounded-lg">
                 <form action="{{ route('customer.bookings.store') }}" method="POST" class="p-6 md:p-8" @submit="submitForm">
                     @csrf
 
@@ -20,10 +20,10 @@
                             <template x-for="i in 4" :key="i">
                                 <div class="relative z-10 flex flex-col items-center">
                                     <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-colors duration-300"
-                                         :class="step >= i ? 'bg-[#2c3e38] text-white' : 'bg-gray-200 text-gray-500'">
+                                         :class="step >= i ? 'bg-[#2c3e38] text-white' : 'bg-gray-200 text-spa-gray opacity-80'">
                                         <span x-text="i"></span>
                                     </div>
-                                    <div class="mt-2 text-xs font-medium text-gray-500 hidden sm:block" x-text="stepLabels[i-1]"></div>
+                                    <div class="mt-2 text-xs font-medium text-spa-gray opacity-80 hidden sm:block" x-text="stepLabels[i-1]"></div>
                                 </div>
                             </template>
                         </div>
@@ -41,16 +41,16 @@
 
                     <!-- Step 1: Service -->
                     <div x-show="step === 1" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100">
-                        <h3 class="text-lg font-medium text-gray-900 mb-4">Step 1: Choose a Service</h3>
+                        <h3 class="text-lg font-medium text-spa-charcoal mb-4">Step 1: Choose a Service</h3>
                         <div class="space-y-4">
                             @foreach($services as $s)
-                                <label class="relative block bg-white border rounded-lg shadow-sm px-6 py-4 cursor-pointer hover:border-[#2c3e38] sm:flex sm:justify-between focus-within:ring-1 focus-within:ring-[#2c3e38]"
-                                       :class="selectedService == {{ $s->id }} ? 'border-[#2c3e38] ring-1 ring-[#2c3e38]' : 'border-gray-300'">
+                                <label class="relative block bg-spa-white border rounded-lg shadow-sm px-6 py-4 cursor-pointer hover:border-[#2c3e38] sm:flex sm:justify-between focus-within:ring-1 focus-within:ring-[#2c3e38]"
+                                       :class="selectedService == {{ $s->id }} ? 'border-[#2c3e38] ring-1 ring-[#2c3e38]' : 'border-spa-wood'">
                                     <input type="radio" name="service_id" value="{{ $s->id }}" class="sr-only" x-model="selectedService" @change="updateServiceInfo({{ $s->id }}, '{{ addslashes($s->name) }}', {{ $s->duration_minutes }}, {{ $s->price }})">
                                     <div class="flex items-center">
                                         <div class="text-sm">
-                                            <p class="font-medium text-gray-900">{{ $s->name }}</p>
-                                            <div class="text-gray-500">
+                                            <p class="font-medium text-spa-charcoal">{{ $s->name }}</p>
+                                            <div class="text-spa-gray opacity-80">
                                                 <span class="sm:inline">{{ $s->category }}</span>
                                                 <span class="hidden sm:inline sm:mx-1">&middot;</span>
                                                 <span class="sm:inline">{{ $s->duration_minutes }} minutes</span>
@@ -58,7 +58,7 @@
                                         </div>
                                     </div>
                                     <div class="mt-2 text-sm sm:mt-0 sm:block sm:ml-4 sm:text-right">
-                                        <div class="font-medium text-gray-900">₱{{ number_format($s->price, 2) }}</div>
+                                        <div class="font-medium text-spa-charcoal">₱{{ number_format($s->price, 2) }}</div>
                                     </div>
                                     <div class="absolute -inset-px rounded-lg border-2 pointer-events-none" aria-hidden="true" :class="selectedService == {{ $s->id }} ? 'border-[#2c3e38]' : 'border-transparent'"></div>
                                 </label>
@@ -68,11 +68,11 @@
 
                     <!-- Step 2: Date, Time & Therapist -->
                     <div x-show="step === 2" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" style="display: none;">
-                        <h3 class="text-lg font-medium text-gray-900 mb-4">Step 2: Choose Date, Time & Therapist</h3>
+                        <h3 class="text-lg font-medium text-spa-charcoal mb-4">Step 2: Choose Date, Time & Therapist</h3>
                         
                         <div class="space-y-6">
-                            <div class="bg-gray-50 p-4 rounded-md mb-4 border border-gray-100">
-                                <p class="text-sm text-gray-700"><strong>Selected Service:</strong> <span x-text="serviceName"></span> (<span x-text="serviceDuration"></span> mins)</p>
+                            <div class="bg-spa-cream p-4 rounded-md mb-4 border border-spa-beige">
+                                <p class="text-sm text-spa-charcoal opacity-90"><strong>Selected Service:</strong> <span x-text="serviceName"></span> (<span x-text="serviceDuration"></span> mins)</p>
                             </div>
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -88,30 +88,30 @@
 
                             <div>
                                 <x-input-label for="therapist_id" value="Therapist *" />
-                                <select id="therapist_id" name="therapist_id" class="mt-1 block w-full border-gray-300 focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm" x-model="therapistId" required>
+                                <select id="therapist_id" name="therapist_id" class="mt-1 block w-full border-spa-wood focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm" x-model="therapistId" required>
                                     <option value="any">Any Available Therapist (Auto-assign)</option>
                                     @foreach($therapists as $t)
                                         <option value="{{ $t->id }}">{{ $t->user->name }} ({{ $t->specialization }})</option>
                                     @endforeach
                                 </select>
-                                <p class="text-xs text-gray-500 mt-2">If you select a specific therapist, we will check their schedule and breaks before confirming.</p>
+                                <p class="text-xs text-spa-gray opacity-80 mt-2">If you select a specific therapist, we will check their schedule and breaks before confirming.</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Step 3: Customer Details -->
                     <div x-show="step === 3" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" style="display: none;">
-                        <h3 class="text-lg font-medium text-gray-900 mb-4">Step 3: Your Details</h3>
+                        <h3 class="text-lg font-medium text-spa-charcoal mb-4">Step 3: Your Details</h3>
                         
                         <div class="space-y-5">
                             <div>
                                 <x-input-label value="Name" />
-                                <x-text-input type="text" class="mt-1 block w-full bg-gray-50 text-gray-500 cursor-not-allowed" value="{{ auth()->user()->name }}" disabled />
+                                <x-text-input type="text" class="mt-1 block w-full bg-spa-cream text-spa-gray opacity-80 cursor-not-allowed" value="{{ auth()->user()->name }}" disabled />
                             </div>
 
                             <div>
                                 <x-input-label value="Email" />
-                                <x-text-input type="text" class="mt-1 block w-full bg-gray-50 text-gray-500 cursor-not-allowed" value="{{ auth()->user()->email }}" disabled />
+                                <x-text-input type="text" class="mt-1 block w-full bg-spa-cream text-spa-gray opacity-80 cursor-not-allowed" value="{{ auth()->user()->email }}" disabled />
                             </div>
 
                             <div>
@@ -121,30 +121,30 @@
 
                             <div>
                                 <x-input-label for="notes" value="Special Requests / Notes" />
-                                <textarea id="notes" name="notes" rows="3" class="mt-1 block w-full border-gray-300 focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm" placeholder="Any specific areas to focus on?"></textarea>
+                                <textarea id="notes" name="notes" rows="3" class="mt-1 block w-full border-spa-wood focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm" placeholder="Any specific areas to focus on?"></textarea>
                             </div>
                         </div>
                     </div>
 
                     <!-- Step 4: Payment Confirmation -->
                     <div x-show="step === 4" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" style="display: none;">
-                        <h3 class="text-lg font-medium text-gray-900 mb-4">Step 4: Summary & Payment</h3>
+                        <h3 class="text-lg font-medium text-spa-charcoal mb-4">Step 4: Summary & Payment</h3>
                         
-                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 space-y-4">
-                            <div class="flex justify-between border-b border-gray-200 pb-3">
-                                <span class="text-gray-600">Service</span>
-                                <span class="font-medium text-gray-900" x-text="serviceName"></span>
+                        <div class="bg-spa-cream p-6 rounded-lg border border-spa-beige space-y-4">
+                            <div class="flex justify-between border-b border-spa-beige pb-3">
+                                <span class="text-spa-gray">Service</span>
+                                <span class="font-medium text-spa-charcoal" x-text="serviceName"></span>
                             </div>
-                            <div class="flex justify-between border-b border-gray-200 pb-3">
-                                <span class="text-gray-600">Date & Time</span>
-                                <span class="font-medium text-gray-900"><span x-text="appointmentDate"></span> at <span x-text="startTime"></span></span>
+                            <div class="flex justify-between border-b border-spa-beige pb-3">
+                                <span class="text-spa-gray">Date & Time</span>
+                                <span class="font-medium text-spa-charcoal"><span x-text="appointmentDate"></span> at <span x-text="startTime"></span></span>
                             </div>
-                            <div class="flex justify-between border-b border-gray-200 pb-3">
-                                <span class="text-gray-600">Total Price</span>
-                                <span class="font-bold text-[#2c3e38]" :class="selectedPromoId ? 'line-through text-gray-400 font-normal text-sm' : ''">₱<span x-text="servicePrice.toFixed(2)"></span></span>
+                            <div class="flex justify-between border-b border-spa-beige pb-3">
+                                <span class="text-spa-gray">Total Price</span>
+                                <span class="font-bold text-[#2c3e38]" :class="selectedPromoId ? 'line-through text-spa-gray opacity-60 font-normal text-sm' : ''">₱<span x-text="servicePrice.toFixed(2)"></span></span>
                             </div>
                             
-                            <div class="flex justify-between border-b border-gray-200 pb-3" x-show="selectedPromoId">
+                            <div class="flex justify-between border-b border-spa-beige pb-3" x-show="selectedPromoId">
                                 <span class="text-green-600 font-medium flex items-center">
                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
                                     Promo Applied
@@ -152,8 +152,8 @@
                                 <span class="font-bold text-green-600">-₱<span x-text="discountAmount.toFixed(2)"></span></span>
                             </div>
 
-                            <div class="flex justify-between border-b border-gray-200 pb-3" x-show="selectedPromoId">
-                                <span class="text-gray-900 font-bold">Final Amount</span>
+                            <div class="flex justify-between border-b border-spa-beige pb-3" x-show="selectedPromoId">
+                                <span class="text-spa-charcoal font-bold">Final Amount</span>
                                 <span class="font-bold text-[#2c3e38] text-lg">₱<span x-text="finalAmount.toFixed(2)"></span></span>
                             </div>
 
@@ -161,7 +161,7 @@
                             <div class="pt-2 pb-4">
                                 <x-input-label for="customer_promotion_id" value="Apply Promotion Code (Optional)" />
                                 @if(count($availablePromotions) > 0)
-                                    <select id="customer_promotion_id" name="customer_promotion_id" class="mt-1 block w-full border-gray-300 focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm" x-model="selectedPromoId" @change="calculateDiscount">
+                                    <select id="customer_promotion_id" name="customer_promotion_id" class="mt-1 block w-full border-spa-wood focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm" x-model="selectedPromoId" @change="calculateDiscount">
                                         <option value="">-- Do not use a promotion --</option>
                                         @foreach($availablePromotions as $promo)
                                             <option value="{{ $promo->id }}" 
@@ -175,10 +175,10 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                    <p class="text-xs text-gray-500 mt-2" x-show="promoError" x-text="promoError" style="color: red;"></p>
+                                    <p class="text-xs text-spa-gray opacity-80 mt-2" x-show="promoError" x-text="promoError" style="color: red;"></p>
                                 @else
-                                    <div class="mt-1 text-sm text-gray-500 bg-gray-100 p-3 rounded-md">
-                                        You don't have any available promotions. <a href="{{ route('customer.promotions.index') }}" class="text-indigo-600 hover:underline" target="_blank">View your wallet</a>.
+                                    <div class="mt-1 text-sm text-spa-gray opacity-80 bg-spa-beige p-3 rounded-md">
+                                        You don't have any available promotions. <a href="{{ route('customer.promotions.index') }}" class="text-spa-gold hover:underline" target="_blank">View your wallet</a>.
                                     </div>
                                 @endif
                             </div>
@@ -193,8 +193,8 @@
                     </div>
 
                     <!-- Navigation Buttons -->
-                    <div class="mt-8 pt-6 border-t border-gray-200 flex justify-between">
-                        <button type="button" x-show="step > 1" @click="step--" class="px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 transition ease-in-out duration-150">
+                    <div class="mt-8 pt-6 border-t border-spa-beige flex justify-between">
+                        <button type="button" x-show="step > 1" @click="step--" class="px-4 py-2 bg-spa-white border border-spa-wood rounded-md font-semibold text-xs text-spa-charcoal opacity-90 uppercase tracking-widest shadow-sm hover:bg-spa-beige transition ease-in-out duration-150">
                             Back
                         </button>
                         <div x-show="step === 1" class="w-full"></div> <!-- Spacer -->

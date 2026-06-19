@@ -18,21 +18,21 @@
         </div>
     @else
         <!-- Welcome Section -->
-        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden">
+        <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-spa-white p-6 rounded-2xl shadow-sm border border-spa-beige relative overflow-hidden">
             <div class="absolute top-0 right-0 w-32 h-32 bg-[#e8dbce] opacity-20 rounded-bl-full -mr-4 -mt-4 pointer-events-none"></div>
             <div class="absolute bottom-0 right-16 w-16 h-16 bg-[#1f2d28] opacity-5 rounded-t-full pointer-events-none"></div>
             
             <div class="relative z-10">
-                <h2 class="text-2xl font-bold text-gray-800">Welcome back, {{ $therapist->user->name }}!</h2>
+                <h2 class="text-2xl font-bold text-spa-charcoal">Welcome back, {{ $therapist->user->name }}!</h2>
                 <div class="flex items-center gap-2 mt-1">
-                    <p class="text-gray-500">{{ $therapist->specialization ?? 'General Therapist' }}</p>
+                    <p class="text-spa-gray opacity-80">{{ $therapist->specialization ?? 'General Therapist' }}</p>
                     <span class="mx-2 text-gray-300">•</span>
                     <x-ui.status-badge :status="$therapist->status" />
                 </div>
             </div>
             
             <div class="relative z-10 flex gap-2">
-                <a href="{{ route('availability.index') }}" class="inline-flex items-center px-4 py-2 bg-white text-[#1f2d28] border border-[#1f2d28] font-medium rounded-full hover:bg-gray-50 transition-colors shadow-sm text-sm">
+                <a href="{{ route('availability.index') }}" class="inline-flex items-center px-4 py-2 bg-spa-white text-[#1f2d28] border border-[#1f2d28] font-medium rounded-full hover:bg-spa-beige transition-colors shadow-sm text-sm">
                     <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     Manage Availability
                 </a>
@@ -62,15 +62,15 @@
             </div>
 
             <!-- Upcoming Bookings -->
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col justify-between hover:shadow-md transition-shadow group">
+            <div class="bg-spa-white rounded-2xl shadow-sm border border-spa-beige p-6 flex flex-col justify-between hover:shadow-md transition-shadow group">
                 <div>
                     <div class="flex justify-between items-start mb-4">
                         <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </div>
                     </div>
-                    <div class="text-gray-500 text-xs font-semibold uppercase tracking-wider">Upcoming Bookings</div>
-                    <div class="mt-1 text-3xl font-bold text-gray-900">{{ $upcomingBookingsCount }}</div>
+                    <div class="text-spa-gray opacity-80 text-xs font-semibold uppercase tracking-wider">Upcoming Bookings</div>
+                    <div class="mt-1 text-3xl font-bold text-spa-charcoal">{{ $upcomingBookingsCount }}</div>
                 </div>
                 <div class="mt-4 flex gap-4">
                     <a href="{{ route('therapist.bookings.index') }}" class="text-sm text-blue-600 font-medium hover:underline">View All</a>
@@ -78,15 +78,15 @@
             </div>
 
             <!-- Unpaid Commission -->
-            <div class="bg-white rounded-2xl shadow-sm border-l-4 border-yellow-400 p-6 flex flex-col justify-between hover:shadow-md transition-shadow group">
+            <div class="bg-spa-white rounded-2xl shadow-sm border-l-4 border-yellow-400 p-6 flex flex-col justify-between hover:shadow-md transition-shadow group">
                 <div>
                     <div class="flex justify-between items-start mb-4">
                         <div class="w-10 h-10 rounded-full bg-yellow-50 text-yellow-600 flex items-center justify-center">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </div>
                     </div>
-                    <div class="text-gray-500 text-xs font-semibold uppercase tracking-wider">Unpaid Commission</div>
-                    <div class="mt-1 text-3xl font-bold text-gray-900">₱{{ number_format($unpaidCommissionTotal, 2) }}</div>
+                    <div class="text-spa-gray opacity-80 text-xs font-semibold uppercase tracking-wider">Unpaid Commission</div>
+                    <div class="mt-1 text-3xl font-bold text-spa-charcoal">₱{{ number_format($unpaidCommissionTotal, 2) }}</div>
                 </div>
                 <div class="mt-4 flex gap-4">
                     <a href="{{ route('therapist.commissions.index') }}" class="text-sm text-yellow-600 font-medium hover:underline">View Ledger</a>
@@ -94,33 +94,33 @@
             </div>
 
             <!-- Paid Commission -->
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col justify-between hover:shadow-md transition-shadow group hidden lg:flex">
+            <div class="bg-spa-white rounded-2xl shadow-sm border border-spa-beige p-6 flex flex-col justify-between hover:shadow-md transition-shadow group hidden lg:flex">
                 <div>
                     <div class="flex justify-between items-start mb-4">
                         <div class="w-10 h-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </div>
                     </div>
-                    <div class="text-gray-500 text-xs font-semibold uppercase tracking-wider">Paid Commission</div>
-                    <div class="mt-1 text-3xl font-bold text-gray-900">₱{{ number_format($paidCommissionTotal, 2) }}</div>
+                    <div class="text-spa-gray opacity-80 text-xs font-semibold uppercase tracking-wider">Paid Commission</div>
+                    <div class="mt-1 text-3xl font-bold text-spa-charcoal">₱{{ number_format($paidCommissionTotal, 2) }}</div>
                 </div>
             </div>
 
             <!-- Completed Bookings -->
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col justify-between hover:shadow-md transition-shadow group hidden lg:flex">
+            <div class="bg-spa-white rounded-2xl shadow-sm border border-spa-beige p-6 flex flex-col justify-between hover:shadow-md transition-shadow group hidden lg:flex">
                 <div>
                     <div class="flex justify-between items-start mb-4">
-                        <div class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                        <div class="w-10 h-10 rounded-full bg-indigo-50 text-spa-gold flex items-center justify-center">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                         </div>
                     </div>
-                    <div class="text-gray-500 text-xs font-semibold uppercase tracking-wider">Completed Sessions</div>
-                    <div class="mt-1 text-3xl font-bold text-gray-900">{{ $completedBookingsCount }}</div>
+                    <div class="text-spa-gray opacity-80 text-xs font-semibold uppercase tracking-wider">Completed Sessions</div>
+                    <div class="mt-1 text-3xl font-bold text-spa-charcoal">{{ $completedBookingsCount }}</div>
                 </div>
             </div>
 
             <!-- My Availability -->
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col justify-between hover:shadow-md transition-shadow group">
+            <div class="bg-spa-white rounded-2xl shadow-sm border border-spa-beige p-6 flex flex-col justify-between hover:shadow-md transition-shadow group">
                 <div>
                     <div class="flex justify-between items-start mb-4">
                         <div class="w-10 h-10 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center">
@@ -128,8 +128,8 @@
                         </div>
                         <span class="text-xs font-medium bg-purple-100 text-purple-800 px-2 py-1 rounded-full">{{ $upcomingAvailabilityCount }} Upcoming</span>
                     </div>
-                    <div class="text-gray-500 text-xs font-semibold uppercase tracking-wider">My Availability</div>
-                    <div class="mt-1 text-xl font-bold text-gray-900">Schedule</div>
+                    <div class="text-spa-gray opacity-80 text-xs font-semibold uppercase tracking-wider">My Availability</div>
+                    <div class="mt-1 text-xl font-bold text-spa-charcoal">Schedule</div>
                 </div>
                 <div class="mt-4 flex gap-4">
                     <a href="{{ route('availability.index') }}" class="text-sm text-purple-600 font-medium hover:underline">Update Now</a>
@@ -145,23 +145,23 @@
                 <!-- Today's Bookings Preview -->
                 <div>
                     <div class="flex justify-between items-end mb-4">
-                        <h3 class="text-lg font-bold text-gray-900">Today's Sessions</h3>
-                        <span class="text-sm text-gray-500">{{ \Carbon\Carbon::today()->format('M d, Y') }}</span>
+                        <h3 class="text-lg font-bold text-spa-charcoal">Today's Sessions</h3>
+                        <span class="text-sm text-spa-gray opacity-80">{{ \Carbon\Carbon::today()->format('M d, Y') }}</span>
                     </div>
                     
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="bg-spa-white rounded-2xl shadow-sm border border-spa-beige overflow-hidden">
                         <ul class="divide-y divide-gray-100">
                             @forelse($todayBookings as $booking)
-                                <li class="p-4 hover:bg-gray-50 transition-colors">
+                                <li class="p-4 hover:bg-spa-beige transition-colors">
                                     <div class="flex items-center justify-between">
                                         <div class="flex items-center gap-4">
                                             <div class="w-16 text-center">
-                                                <div class="text-sm font-bold text-gray-900">{{ \Carbon\Carbon::parse($booking->start_time)->format('g:i A') }}</div>
+                                                <div class="text-sm font-bold text-spa-charcoal">{{ \Carbon\Carbon::parse($booking->start_time)->format('g:i A') }}</div>
                                             </div>
                                             <div class="w-px h-10 bg-gray-200"></div>
                                             <div>
-                                                <p class="text-sm font-semibold text-gray-900">{{ $booking->service->name }}</p>
-                                                <p class="text-xs text-gray-500 mt-0.5">Client: {{ $booking->customer->name }}</p>
+                                                <p class="text-sm font-semibold text-spa-charcoal">{{ $booking->service->name }}</p>
+                                                <p class="text-xs text-spa-gray opacity-80 mt-0.5">Client: {{ $booking->customer->name }}</p>
                                             </div>
                                         </div>
                                         <div class="text-right">
@@ -170,7 +170,7 @@
                                     </div>
                                 </li>
                             @empty
-                                <li class="p-8 text-center text-gray-500 text-sm">
+                                <li class="p-8 text-center text-spa-gray opacity-80 text-sm">
                                     No sessions assigned for today.
                                 </li>
                             @endforelse
@@ -181,32 +181,32 @@
                 <!-- Upcoming Bookings Preview -->
                 <div>
                     <div class="flex justify-between items-end mb-4">
-                        <h3 class="text-lg font-bold text-gray-900">Upcoming Sessions</h3>
+                        <h3 class="text-lg font-bold text-spa-charcoal">Upcoming Sessions</h3>
                         <a href="{{ route('therapist.bookings.index') }}" class="text-sm font-medium text-[#1f2d28] hover:underline">View All</a>
                     </div>
                     
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="bg-spa-white rounded-2xl shadow-sm border border-spa-beige overflow-hidden">
                         <ul class="divide-y divide-gray-100">
                             @forelse($upcomingBookings as $booking)
-                                <li class="p-4 hover:bg-gray-50 transition-colors">
+                                <li class="p-4 hover:bg-spa-beige transition-colors">
                                     <div class="flex items-center justify-between">
                                         <div class="flex items-center gap-4">
-                                            <div class="hidden sm:flex w-12 h-12 rounded-lg bg-gray-50 text-gray-700 flex-col items-center justify-center border border-gray-100">
+                                            <div class="hidden sm:flex w-12 h-12 rounded-lg bg-spa-cream text-spa-charcoal opacity-90 flex-col items-center justify-center border border-spa-beige">
                                                 <span class="text-xs font-bold uppercase">{{ \Carbon\Carbon::parse($booking->booking_date)->format('M') }}</span>
                                                 <span class="text-lg font-bold leading-none">{{ \Carbon\Carbon::parse($booking->booking_date)->format('d') }}</span>
                                             </div>
                                             <div>
-                                                <p class="text-sm font-semibold text-gray-900">{{ $booking->service->name }}</p>
-                                                <p class="text-xs text-gray-500 mt-0.5">
+                                                <p class="text-sm font-semibold text-spa-charcoal">{{ $booking->service->name }}</p>
+                                                <p class="text-xs text-spa-gray opacity-80 mt-0.5">
                                                     {{ \Carbon\Carbon::parse($booking->booking_date)->format('M d, Y') }} • {{ \Carbon\Carbon::parse($booking->start_time)->format('g:i A') }}
                                                 </p>
-                                                <p class="text-xs text-gray-500 mt-0.5">Client: {{ $booking->customer->name }}</p>
+                                                <p class="text-xs text-spa-gray opacity-80 mt-0.5">Client: {{ $booking->customer->name }}</p>
                                             </div>
                                         </div>
                                     </div>
                                 </li>
                             @empty
-                                <li class="p-8 text-center text-gray-500 text-sm">
+                                <li class="p-8 text-center text-spa-gray opacity-80 text-sm">
                                     No upcoming sessions found.
                                 </li>
                             @endforelse
@@ -220,22 +220,22 @@
                 <!-- Upcoming Availability Preview -->
                 <div>
                     <div class="flex justify-between items-end mb-4">
-                        <h3 class="text-lg font-bold text-gray-900">Upcoming Availability</h3>
+                        <h3 class="text-lg font-bold text-spa-charcoal">Upcoming Availability</h3>
                         <a href="{{ route('availability.index') }}" class="text-sm font-medium text-[#1f2d28] hover:underline">Manage</a>
                     </div>
                     
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="bg-spa-white rounded-2xl shadow-sm border border-spa-beige overflow-hidden">
                         <ul class="divide-y divide-gray-100">
                             @forelse($upcomingAvailability as $avail)
-                                <li class="p-4 hover:bg-gray-50 transition-colors">
+                                <li class="p-4 hover:bg-spa-beige transition-colors">
                                     <div class="flex items-center justify-between">
                                         <div class="flex items-center gap-3">
                                             <div class="w-10 h-10 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                             </div>
                                             <div>
-                                                <p class="text-sm font-semibold text-gray-900">{{ \Carbon\Carbon::parse($avail->availability_date)->format('M d, Y') }}</p>
-                                                <p class="text-xs text-gray-500 mt-0.5">
+                                                <p class="text-sm font-semibold text-spa-charcoal">{{ \Carbon\Carbon::parse($avail->availability_date)->format('M d, Y') }}</p>
+                                                <p class="text-xs text-spa-gray opacity-80 mt-0.5">
                                                     {{ \Carbon\Carbon::parse($avail->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($avail->end_time)->format('g:i A') }}
                                                 </p>
                                             </div>
@@ -246,7 +246,7 @@
                                     </div>
                                 </li>
                             @empty
-                                <li class="p-8 text-center text-gray-500 text-sm">
+                                <li class="p-8 text-center text-spa-gray opacity-80 text-sm">
                                     No upcoming availability records.
                                 </li>
                             @endforelse
@@ -257,21 +257,21 @@
                 <!-- Recent Commission Preview -->
                 <div>
                     <div class="flex justify-between items-end mb-4">
-                        <h3 class="text-lg font-bold text-gray-900">Recent Commission</h3>
+                        <h3 class="text-lg font-bold text-spa-charcoal">Recent Commission</h3>
                         <a href="{{ route('therapist.commissions.index') }}" class="text-sm font-medium text-[#1f2d28] hover:underline">View All</a>
                     </div>
                     
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="bg-spa-white rounded-2xl shadow-sm border border-spa-beige overflow-hidden">
                         <ul class="divide-y divide-gray-100">
                             @forelse($recentCommissions as $commission)
-                                <li class="p-4 hover:bg-gray-50 transition-colors">
+                                <li class="p-4 hover:bg-spa-beige transition-colors">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <p class="text-sm font-semibold text-gray-900">{{ $commission->service->name }}</p>
-                                            <p class="text-xs text-gray-500 mt-0.5">{{ $commission->commission_reference }} • {{ $commission->created_at->format('M d, Y') }}</p>
+                                            <p class="text-sm font-semibold text-spa-charcoal">{{ $commission->service->name }}</p>
+                                            <p class="text-xs text-spa-gray opacity-80 mt-0.5">{{ $commission->commission_reference }} • {{ $commission->created_at->format('M d, Y') }}</p>
                                         </div>
                                         <div class="text-right">
-                                            <p class="text-sm font-bold text-gray-900">₱{{ number_format($commission->commission_amount, 2) }}</p>
+                                            <p class="text-sm font-bold text-spa-charcoal">₱{{ number_format($commission->commission_amount, 2) }}</p>
                                             <div class="mt-0.5">
                                                 <x-ui.status-badge :status="$commission->status" />
                                             </div>
@@ -279,7 +279,7 @@
                                     </div>
                                 </li>
                             @empty
-                                <li class="p-8 text-center text-gray-500 text-sm">
+                                <li class="p-8 text-center text-spa-gray opacity-80 text-sm">
                                     No commission records found.
                                 </li>
                             @endforelse

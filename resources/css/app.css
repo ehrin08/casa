@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .btn-primary {
+        @apply inline-flex justify-center items-center px-4 py-2 bg-spa-brown border border-transparent rounded-md font-semibold text-xs text-spa-white uppercase tracking-widest hover:bg-spa-espresso focus:bg-spa-espresso active:bg-spa-espresso focus:outline-none focus:ring-2 focus:ring-spa-brown focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm disabled:opacity-50;
+    }
+    .btn-secondary {
+        @apply inline-flex justify-center items-center px-4 py-2 bg-white border border-spa-beige rounded-md font-semibold text-xs text-spa-gray uppercase tracking-widest hover:bg-spa-cream focus:outline-none focus:ring-2 focus:ring-spa-gold focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm disabled:opacity-50;
+    }
+    .btn-danger {
+        @apply inline-flex justify-center items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm disabled:opacity-50;
+    }
+    .card {
+        @apply bg-spa-white rounded-2xl shadow-sm border border-spa-beige overflow-hidden;
+    }
+    .card-header {
+        @apply px-6 py-5 border-b border-spa-beige bg-spa-cream;
+    }
+    .card-body {
+        @apply p-6;
+    }
+    .input-field {
+        @apply mt-1 block w-full border-spa-beige focus:border-spa-wood focus:ring-spa-wood rounded-md shadow-sm text-sm;
+    }
+}

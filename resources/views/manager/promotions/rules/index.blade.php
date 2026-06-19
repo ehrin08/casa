@@ -11,25 +11,25 @@
     </div>
 
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="bg-spa-white rounded-xl shadow-sm border border-spa-beige overflow-hidden">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+                <thead class="bg-spa-cream">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rule Details</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Target Segment</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Discount</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Limits</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-spa-gray opacity-80 uppercase tracking-wider">Rule Details</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-spa-gray opacity-80 uppercase tracking-wider">Target Segment</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-spa-gray opacity-80 uppercase tracking-wider">Discount</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-spa-gray opacity-80 uppercase tracking-wider">Limits</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-spa-gray opacity-80 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-spa-gray opacity-80 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-spa-white divide-y divide-gray-200">
                     @forelse($rules as $rule)
                         <tr>
                             <td class="px-6 py-4">
-                                <div class="text-sm font-bold text-gray-900">{{ $rule->name }}</div>
-                                <div class="text-xs text-gray-500 mt-1 max-w-xs truncate">{{ $rule->description }}</div>
+                                <div class="text-sm font-bold text-spa-charcoal">{{ $rule->name }}</div>
+                                <div class="text-xs text-spa-gray opacity-80 mt-1 max-w-xs truncate">{{ $rule->description }}</div>
                                 @if($rule->is_off_peak_only)
                                     <span class="inline-flex items-center px-2 py-0.5 mt-1 rounded text-[10px] font-medium bg-purple-100 text-purple-800">
                                         Off-Peak ({{ \Carbon\Carbon::parse($rule->off_peak_start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($rule->off_peak_end_time)->format('H:i') }})
@@ -43,13 +43,13 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($rule->segment)
-                                    <span class="text-sm font-medium capitalize text-gray-700">{{ str_replace('_', ' ', $rule->segment) }}</span>
+                                    <span class="text-sm font-medium capitalize text-spa-charcoal opacity-90">{{ str_replace('_', ' ', $rule->segment) }}</span>
                                 @else
-                                    <span class="text-sm text-gray-500">All Customers</span>
+                                    <span class="text-sm text-spa-gray opacity-80">All Customers</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-bold text-gray-900">
+                                <div class="text-sm font-bold text-spa-charcoal">
                                     @if($rule->discount_type === 'percentage')
                                         {{ $rule->discount_value }}%
                                     @elseif($rule->discount_type === 'fixed')
@@ -60,14 +60,14 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-xs text-gray-500">Global: {{ $rule->usage_limit ?? '∞' }}</div>
-                                <div class="text-xs text-gray-500">Per Cust: {{ $rule->per_customer_limit ?? '∞' }}</div>
+                                <div class="text-xs text-spa-gray opacity-80">Global: {{ $rule->usage_limit ?? '∞' }}</div>
+                                <div class="text-xs text-spa-gray opacity-80">Per Cust: {{ $rule->per_customer_limit ?? '∞' }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <x-ui.status-badge :status="$rule->status" />
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="{{ route('manager.promotions.rules.edit', $rule) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
+                                <a href="{{ route('manager.promotions.rules.edit', $rule) }}" class="text-spa-gold hover:text-indigo-900 mr-3">Edit</a>
                                 <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-delete-{{ $rule->id }}')" class="text-red-600 hover:text-red-900">Delete</button>
                                 
                                 <x-ui.confirm-modal 
@@ -96,7 +96,7 @@
             </table>
         </div>
         @if($rules->hasPages())
-            <div class="px-6 py-4 border-t border-gray-100">
+            <div class="px-6 py-4 border-t border-spa-beige">
                 {{ $rules->links() }}
             </div>
         @endif
