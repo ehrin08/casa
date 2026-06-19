@@ -45,17 +45,7 @@
         </form>
     </div>
 
-    @if (session('success'))
-        <div class="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded relative" role="alert">
-            <span class="block sm:inline">{{ session('success') }}</span>
-        </div>
-    @endif
 
-    @if (session('error'))
-        <div class="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative" role="alert">
-            <span class="block sm:inline">{{ session('error') }}</span>
-        </div>
-    @endif
 
     <!-- Transactions Table -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -91,15 +81,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm font-bold text-gray-900 mb-1">₱{{ number_format($transaction->amount_paid, 2) }}</div>
-                                @if($transaction->payment_status === 'paid')
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Paid</span>
-                                @elseif($transaction->payment_status === 'refunded')
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">Refunded</span>
-                                @elseif($transaction->payment_status === 'cancelled')
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Cancelled</span>
-                                @else
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Unpaid</span>
-                                @endif
+                                <x-ui.status-badge :status="$transaction->payment_status" />
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="{{ route('manager.transactions.show', $transaction) }}" class="text-[#2c3e38] hover:text-[#1f2d28] mr-3">View</a>
@@ -108,8 +90,12 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-10 whitespace-nowrap text-sm text-gray-500 text-center">
-                                No transactions found matching your criteria.
+                            <td colspan="5" class="px-6 py-10 whitespace-nowrap">
+                                <x-ui.empty-state 
+                                    icon="clipboard-document-list" 
+                                    title="No transactions found" 
+                                    description="No transaction records match your criteria." 
+                                />
                             </td>
                         </tr>
                     @endforelse

@@ -10,16 +10,6 @@
         </a>
     </div>
 
-    @if(session('success'))
-        <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-6 rounded-r-lg">
-            <div class="flex items-center">
-                <svg class="h-5 w-5 text-green-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                <p class="text-sm font-medium text-green-800">{{ session('success') }}</p>
-            </div>
-        </div>
-    @endif
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <div class="overflow-x-auto">
@@ -74,25 +64,31 @@
                                 <div class="text-xs text-gray-500">Per Cust: {{ $rule->per_customer_limit ?? '∞' }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                @if($rule->status === 'active')
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
-                                @else
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Inactive</span>
-                                @endif
+                                <x-ui.status-badge :status="$rule->status" />
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="{{ route('manager.promotions.rules.edit', $rule) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
-                                <form action="{{ route('manager.promotions.rules.destroy', $rule) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this rule? It will be soft deleted.')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
-                                </form>
+                                <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-delete-{{ $rule->id }}')" class="text-red-600 hover:text-red-900">Delete</button>
+                                
+                                <x-ui.confirm-modal 
+                                    id="confirm-delete-{{ $rule->id }}"
+                                    name="confirm-delete-{{ $rule->id }}"
+                                    title="Delete Rule"
+                                    message="Are you sure you want to delete this rule? It will be soft deleted."
+                                    action="{{ route('manager.promotions.rules.destroy', $rule) }}"
+                                    method="DELETE"
+                                    confirmText="Delete Rule"
+                                />
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-8 text-center text-gray-500 text-sm">
-                                No promotion rules found.
+                            <td colspan="6" class="px-6 py-8">
+                                <x-ui.empty-state 
+                                    icon="tag" 
+                                    title="No promotion rules found" 
+                                    description="Get started by creating a new promotion rule." 
+                                />
                             </td>
                         </tr>
                     @endforelse

@@ -109,24 +109,19 @@
                                         ₱{{ number_format($commission->commission_amount, 2) }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        @if($commission->status === 'unpaid')
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Unpaid</span>
-                                        @elseif($commission->status === 'paid')
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Paid</span>
-                                        @else
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">Voided</span>
-                                        @endif
+                                        <x-ui.status-badge :status="$commission->status" />
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <a href="{{ route('therapist.commissions.show', $commission) }}" class="text-[#2c3e38] hover:text-[#1f2d28]">Details</a>
                                     </td>
                                 </tr>
                             @empty
-                                <tr>
-                                    <td colspan="6" class="px-6 py-10 whitespace-nowrap text-sm text-gray-500 text-center">
-                                        No commissions found matching your criteria.
-                                    </td>
-                                </tr>
+                                <x-ui.empty-state 
+                                    colspan="6"
+                                    icon="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                    title="No commissions found"
+                                    description="No commissions found matching your criteria."
+                                />
                             @endforelse
                         </tbody>
                     </table>

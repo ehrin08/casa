@@ -91,6 +91,19 @@
 
                 <!-- Page Content -->
                 <main class="flex-1 overflow-y-auto bg-[#f9f8f6] p-6 lg:p-8">
+                    @if (session('success'))
+                        <x-ui.alert type="success" :message="session('success')" />
+                    @endif
+                    @if (session('error'))
+                        <x-ui.alert type="error" :message="session('error')" />
+                    @endif
+                    @if (session('warning'))
+                        <x-ui.alert type="warning" :message="session('warning')" />
+                    @endif
+                    @if (session('info'))
+                        <x-ui.alert type="info" :message="session('info')" />
+                    @endif
+                    
                     {{ $slot }}
                 </main>
             </div>

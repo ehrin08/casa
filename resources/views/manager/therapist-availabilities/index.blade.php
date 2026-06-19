@@ -14,11 +14,7 @@
         </a>
     </div>
 
-    @if (session('success'))
-        <div class="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded relative" role="alert">
-            <span class="block sm:inline">{{ session('success') }}</span>
-        </div>
-    @endif
+
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
         <div class="p-6 border-b border-gray-100 bg-gray-50/50">
@@ -104,30 +100,34 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                @if($avail->status === 'available')
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Available</span>
-                                @elseif($avail->status === 'inactive' || $avail->status === 'unavailable')
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">Unavailable</span>
-                                @else
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">On Leave</span>
-                                @endif
+                                <x-ui.status-badge :status="$avail->status" />
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-500 truncate max-w-[150px]">{{ $avail->notes ?? '-' }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="{{ route('manager.therapist-availabilities.edit', $avail) }}" class="text-[#2c3e38] hover:text-[#1f2d28] mr-3">Edit</a>
-                                <form action="{{ route('manager.therapist-availabilities.destroy', $avail) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this availability record?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
-                                </form>
+                                <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-delete-{{ $avail->id }}')" class="text-red-600 hover:text-red-900">Delete</button>
+                                
+                                <x-ui.confirm-modal 
+                                    id="confirm-delete-{{ $avail->id }}"
+                                    name="confirm-delete-{{ $avail->id }}"
+                                    title="Delete Availability"
+                                    message="Are you sure you want to delete this availability record for {{ $avail->therapist->user->name }}?"
+                                    action="{{ route('manager.therapist-availabilities.destroy', $avail) }}"
+                                    method="DELETE"
+                                    confirmText="Delete"
+                                />
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-10 whitespace-nowrap text-sm text-gray-500 text-center">
-                                No availability records found.
+                            <td colspan="6" class="px-6 py-10 whitespace-nowrap">
+                                <x-ui.empty-state 
+                                    icon="calendar" 
+                                    title="No availability records found" 
+                                    description="No schedules have been defined yet." 
+                                />
                             </td>
                         </tr>
                     @endforelse

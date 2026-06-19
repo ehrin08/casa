@@ -46,13 +46,7 @@
                         <div class="sm:col-span-2">
                             <dt class="text-sm font-medium text-gray-500">Status</dt>
                             <dd class="mt-2">
-                                @if($booking->status === 'booked')
-                                    <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Booked</span>
-                                @elseif($booking->status === 'completed')
-                                    <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-green-100 text-green-800">Completed</span>
-                                @else
-                                    <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-red-100 text-red-800">Cancelled</span>
-                                @endif
+                                <x-ui.status-badge :status="$booking->status" />
                             </dd>
                         </div>
                     </dl>
@@ -121,13 +115,7 @@
                         <div>
                             <dt class="text-sm font-medium text-gray-500 mb-2">Payment Status</dt>
                             <dd>
-                                @if($booking->payment_status === 'paid')
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">Paid</span>
-                                @elseif($booking->payment_status === 'cancelled')
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-50 text-gray-600 border border-gray-200">Cancelled</span>
-                                @else
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-50 text-yellow-700 border border-yellow-200">Unpaid</span>
-                                @endif
+                                <x-ui.status-badge :status="$booking->payment_status" />
                             </dd>
                         </div>
                         
@@ -137,12 +125,20 @@
                                     View Linked Transaction
                                 </a>
                             @else
-                                <form action="{{ route('manager.transactions.createFromBooking', $booking) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="w-full inline-flex justify-center items-center px-4 py-2 bg-white border border-[#2c3e38] rounded-md font-semibold text-xs text-[#2c3e38] uppercase tracking-widest hover:bg-gray-50 transition ease-in-out duration-150 shadow-sm">
-                                        Create Transaction
-                                    </button>
-                                </form>
+                                <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-create-tx-{{ $booking->id }}')" class="w-full inline-flex justify-center items-center px-4 py-2 bg-white border border-[#2c3e38] rounded-md font-semibold text-xs text-[#2c3e38] uppercase tracking-widest hover:bg-gray-50 transition ease-in-out duration-150 shadow-sm">
+                                    Create Transaction
+                                </button>
+                                
+                                <x-ui.confirm-modal 
+                                    id="confirm-create-tx-{{ $booking->id }}"
+                                    name="confirm-create-tx-{{ $booking->id }}"
+                                    title="Create Transaction"
+                                    message="Are you sure you want to generate a transaction record for this booking? This will prepare it for payment collection."
+                                    action="{{ route('manager.transactions.createFromBooking', $booking) }}"
+                                    method="POST"
+                                    confirmText="Create Transaction"
+                                    type="info"
+                                />
                             @endif
                         </div>
                     </dl>

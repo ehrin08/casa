@@ -14,11 +14,7 @@
         </a>
     </div>
 
-    @if (session('success'))
-        <div class="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded relative" role="alert">
-            <span class="block sm:inline">{{ session('success') }}</span>
-        </div>
-    @endif
+
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
         <div class="p-6 border-b border-gray-100 bg-gray-50/50">
@@ -98,25 +94,31 @@
                                 {{ number_format($service->commission_rate, 2) }}%
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                @if($service->status === 'available')
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Available</span>
-                                @else
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">Unavailable</span>
-                                @endif
+                                <x-ui.status-badge :status="$service->status" />
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="{{ route('manager.services.edit', $service) }}" class="text-[#2c3e38] hover:text-[#1f2d28] mr-3">Edit</a>
-                                <form action="{{ route('manager.services.destroy', $service) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this service?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
-                                </form>
+                                <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-delete-{{ $service->id }}')" class="text-red-600 hover:text-red-900">Delete</button>
+                                
+                                <x-ui.confirm-modal 
+                                    id="confirm-delete-{{ $service->id }}"
+                                    name="confirm-delete-{{ $service->id }}"
+                                    title="Delete Service"
+                                    message="Are you sure you want to delete '{{ $service->name }}'? This action cannot be undone."
+                                    action="{{ route('manager.services.destroy', $service) }}"
+                                    method="DELETE"
+                                    confirmText="Delete"
+                                />
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-10 whitespace-nowrap text-sm text-gray-500 text-center">
-                                No services found.
+                            <td colspan="6" class="px-6 py-10 whitespace-nowrap">
+                                <x-ui.empty-state 
+                                    icon="folder" 
+                                    title="No services found" 
+                                    description="Try adjusting your search or filters." 
+                                />
                             </td>
                         </tr>
                     @endforelse

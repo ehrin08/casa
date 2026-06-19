@@ -14,13 +14,7 @@
                     Back to History
                 </a>
                 
-                @if($commission->status === 'unpaid')
-                    <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Status: Unpaid</span>
-                @elseif($commission->status === 'paid')
-                    <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-green-100 text-green-800">Status: Paid</span>
-                @else
-                    <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-red-100 text-red-800">Status: Voided</span>
-                @endif
+                <x-ui.status-badge :status="$commission->status" />
             </div>
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-8">

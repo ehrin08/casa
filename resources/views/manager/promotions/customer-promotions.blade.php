@@ -78,19 +78,17 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                @if($promo->status === 'available')
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Available</span>
-                                @elseif($promo->status === 'used')
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Used</span>
-                                @else
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800 capitalize">{{ $promo->status }}</span>
-                                @endif
+                                <x-ui.status-badge :status="$promo->status" />
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-8 text-center text-gray-500 text-sm">
-                                No customer promotions found matching criteria.
+                            <td colspan="6" class="px-6 py-8">
+                                <x-ui.empty-state 
+                                    icon="tag" 
+                                    title="No customer promotions found" 
+                                    description="No promotions matching your criteria were found." 
+                                />
                             </td>
                         </tr>
                     @endforelse

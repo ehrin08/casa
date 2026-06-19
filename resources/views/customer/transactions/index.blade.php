@@ -40,15 +40,7 @@
                                             <div class="text-sm font-bold text-[#2c3e38]">₱{{ number_format($transaction->total_amount, 2) }}</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            @if($transaction->payment_status === 'paid')
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Paid</span>
-                                            @elseif($transaction->payment_status === 'refunded')
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">Refunded</span>
-                                            @elseif($transaction->payment_status === 'cancelled')
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Cancelled</span>
-                                            @else
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Unpaid</span>
-                                            @endif
+                                            <x-ui.status-badge :status="$transaction->payment_status" />
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <a href="{{ route('customer.transactions.show', $transaction) }}" class="text-[#2c3e38] hover:text-[#1f2d28] mr-3">Details</a>
@@ -56,11 +48,12 @@
                                         </td>
                                     </tr>
                                 @empty
-                                    <tr>
-                                        <td colspan="5" class="px-6 py-10 whitespace-nowrap text-sm text-gray-500 text-center">
-                                            You don't have any payment history yet.
-                                        </td>
-                                    </tr>
+                                    <x-ui.empty-state 
+                                        colspan="5"
+                                        icon="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                        title="No payment history"
+                                        description="You don't have any payment history yet."
+                                    />
                                 @endforelse
                             </tbody>
                         </table>

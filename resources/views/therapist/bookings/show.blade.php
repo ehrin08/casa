@@ -22,13 +22,7 @@
                             <p class="text-sm text-gray-500 mt-1">Ref: {{ $booking->booking_reference }}</p>
                         </div>
                         <div>
-                            @if($booking->status === 'booked')
-                                <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Booked</span>
-                            @elseif($booking->status === 'completed')
-                                <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-green-100 text-green-800">Completed</span>
-                            @else
-                                <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">Cancelled</span>
-                            @endif
+                            <x-ui.status-badge :status="$booking->status" />
                         </div>
                     </div>
 

@@ -15,13 +15,7 @@
                 <div class="p-6 flex-1 relative">
                     <!-- Status Badge -->
                     <div class="absolute top-4 right-4">
-                        @if($promo->status === 'available')
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Available</span>
-                        @elseif($promo->status === 'used')
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">Used</span>
-                        @elseif($promo->status === 'expired')
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Expired</span>
-                        @endif
+                        <x-ui.status-badge :status="$promo->status" />
                     </div>
 
                     <div class="w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center mb-4">
@@ -65,18 +59,15 @@
                 @endif
             </div>
         @empty
-            <div class="col-span-1 md:col-span-2 lg:col-span-3 bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center">
-                <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
-                </svg>
-                <h3 class="text-lg font-medium text-gray-900">No Promotions Yet</h3>
-                <p class="mt-2 text-sm text-gray-500">Keep booking appointments and our system will automatically reward you with special promotions and discounts based on your loyalty.</p>
-                <div class="mt-6">
-                    <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none">
-                        Book an Appointment
-                    </a>
-                </div>
-            </div>
+            <x-ui.empty-state 
+                colspan="1"
+                class="col-span-1 md:col-span-2 lg:col-span-3"
+                icon="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"
+                title="No Promotions Yet"
+                description="Keep booking appointments and our system will automatically reward you with special promotions and discounts based on your loyalty."
+                actionUrl="{{ route('customer.bookings.create') }}"
+                actionText="Book an Appointment"
+            />
         @endforelse
     </div>
 

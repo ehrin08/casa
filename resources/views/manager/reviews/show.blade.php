@@ -11,11 +11,7 @@
         </a>
     </div>
 
-    @if(session('success'))
-        <div class="mb-4 bg-green-50 border-l-4 border-green-400 p-4">
-            <p class="text-sm text-green-700">{{ session('success') }}</p>
-        </div>
-    @endif
+
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden max-w-4xl">
         <div class="p-6 border-b border-gray-100 flex justify-between items-start">
@@ -102,21 +98,34 @@
                 <div class="border-t border-gray-100 pt-4">
                     <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Moderation Actions</h4>
                     @if($review->status === 'visible')
-                        <form action="{{ route('manager.reviews.hide', $review) }}" method="POST" onsubmit="return confirm('Hide this review from public view?');">
-                            @csrf
-                            @method('PATCH')
-                            <button type="submit" class="w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2c3e38]">
-                                Hide Review
-                            </button>
-                        </form>
+                        <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-hide')" class="w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2c3e38]">
+                            Hide Review
+                        </button>
+                        
+                        <x-ui.confirm-modal 
+                            id="confirm-hide"
+                            name="confirm-hide"
+                            title="Hide Review"
+                            message="Are you sure you want to hide this review from public view?"
+                            action="{{ route('manager.reviews.hide', $review) }}"
+                            method="PATCH"
+                            confirmText="Hide Review"
+                        />
                     @else
-                        <form action="{{ route('manager.reviews.showReview', $review) }}" method="POST" onsubmit="return confirm('Make this review visible?');">
-                            @csrf
-                            @method('PATCH')
-                            <button type="submit" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#2c3e38] hover:bg-[#1f2d28] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2c3e38]">
-                                Make Visible
-                            </button>
-                        </form>
+                        <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-show')" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#2c3e38] hover:bg-[#1f2d28] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2c3e38]">
+                            Make Visible
+                        </button>
+                        
+                        <x-ui.confirm-modal 
+                            id="confirm-show"
+                            name="confirm-show"
+                            title="Make Review Visible"
+                            message="Are you sure you want to make this review visible to the public?"
+                            action="{{ route('manager.reviews.showReview', $review) }}"
+                            method="PATCH"
+                            confirmText="Make Visible"
+                            type="info"
+                        />
                     @endif
                     <p class="text-xs text-gray-400 mt-2 text-center">Reviews cannot be modified to preserve authenticity.</p>
                 </div>

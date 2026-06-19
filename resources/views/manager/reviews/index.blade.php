@@ -73,11 +73,7 @@
         </div>
     </div>
 
-    @if(session('success'))
-        <div class="mb-4 bg-green-50 border-l-4 border-green-400 p-4">
-            <p class="text-sm text-green-700">{{ session('success') }}</p>
-        </div>
-    @endif
+
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <div class="overflow-x-auto">
@@ -113,21 +109,15 @@
                                         <svg class="w-4 h-4 {{ $i <= $review->rating ? 'text-yellow-400' : 'text-gray-200' }}" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                                     @endfor
                                 </div>
-                                @if($review->sentiment === 'positive')
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">Positive</span>
-                                @else
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">Negative</span>
-                                @endif
+                                <div class="mt-2">
+                                    <x-ui.status-badge :status="$review->sentiment === 'positive' ? 'positive' : 'negative'" />
+                                </div>
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-500">
                                 <div class="max-w-xs truncate italic">"{{ $review->key_snippet }}"</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                @if($review->status === 'visible')
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Visible</span>
-                                @else
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">Hidden</span>
-                                @endif
+                                <x-ui.status-badge :status="$review->status" />
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="{{ route('manager.reviews.show', $review) }}" class="text-[#2c3e38] hover:text-[#1f2d28] mr-3">View</a>
@@ -135,7 +125,13 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="px-6 py-4 text-center text-gray-500">No reviews found matching your criteria.</td>
+                            <td colspan="7" class="px-6 py-8">
+                                <x-ui.empty-state 
+                                    icon="chat-bubble-bottom-center-text" 
+                                    title="No reviews found" 
+                                    description="No customer reviews match your criteria." 
+                                />
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>

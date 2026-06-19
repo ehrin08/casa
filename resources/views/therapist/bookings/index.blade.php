@@ -13,11 +13,6 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            @if (session('success'))
-                <div class="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded relative" role="alert">
-                    <span class="block sm:inline">{{ session('success') }}</span>
-                </div>
-            @endif
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
@@ -47,24 +42,19 @@
                                             <div class="text-xs text-gray-500">{{ $booking->service->duration_minutes }} mins</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            @if($booking->status === 'booked')
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Booked</span>
-                                            @elseif($booking->status === 'completed')
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Completed</span>
-                                            @else
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Cancelled</span>
-                                            @endif
+                                            <x-ui.status-badge :status="$booking->status" />
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <a href="{{ route('therapist.bookings.show', $booking) }}" class="text-[#2c3e38] hover:text-[#1f2d28]">View Details</a>
                                         </td>
                                     </tr>
                                 @empty
-                                    <tr>
-                                        <td colspan="5" class="px-6 py-10 whitespace-nowrap text-sm text-gray-500 text-center">
-                                            No assigned bookings found.
-                                        </td>
-                                    </tr>
+                                    <x-ui.empty-state 
+                                        colspan="5"
+                                        icon="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                        title="No assigned bookings"
+                                        description="You don't have any bookings assigned to you yet."
+                                    />
                                 @endforelse
                             </tbody>
                         </table>

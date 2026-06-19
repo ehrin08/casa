@@ -45,24 +45,19 @@
                                             @endif
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            @if($avail->status === 'available')
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Available</span>
-                                            @elseif($avail->status === 'inactive' || $avail->status === 'unavailable')
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">Unavailable</span>
-                                            @else
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">On Leave</span>
-                                            @endif
+                                                <x-ui.status-badge :status="$avail->status" />
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-500 truncate max-w-[200px]">{{ $avail->notes ?? '-' }}</div>
                                         </td>
                                     </tr>
                                 @empty
-                                    <tr>
-                                        <td colspan="4" class="px-6 py-10 whitespace-nowrap text-sm text-gray-500 text-center">
-                                            No upcoming availability scheduled.
-                                        </td>
-                                    </tr>
+                                    <x-ui.empty-state 
+                                        colspan="4"
+                                        icon="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                        title="No upcoming availability"
+                                        description="You don't have any availability scheduled."
+                                    />
                                 @endforelse
                             </tbody>
                         </table>

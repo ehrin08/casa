@@ -128,30 +128,35 @@
                                 ₱{{ number_format($commission->commission_amount, 2) }}
                             </td>
                             <td class="p-4">
-                                @if($commission->status === 'unpaid')
-                                    <span class="px-2.5 py-1 text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-200 rounded-full">Unpaid</span>
-                                @elseif($commission->status === 'paid')
-                                    <span class="px-2.5 py-1 text-xs font-medium bg-green-50 text-green-700 border border-green-200 rounded-full">Paid</span>
-                                @else
-                                    <span class="px-2.5 py-1 text-xs font-medium bg-red-50 text-red-700 border border-red-200 rounded-full">Voided</span>
-                                @endif
+                                <x-ui.status-badge :status="$commission->status" />
                             </td>
                             <td class="p-4 text-right space-x-3">
                                 <a href="{{ route('manager.commissions.show', $commission) }}" class="text-sm font-medium text-[#7a6b5d] hover:text-[#5c4f43]">View</a>
                                 
                                 @if($commission->status === 'unpaid')
-                                    <form action="{{ route('manager.commissions.markPaid', $commission) }}" method="POST" class="inline" onsubmit="return confirm('Mark this commission as paid?');">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="submit" class="text-sm font-medium text-green-600 hover:text-green-800">Pay</button>
-                                    </form>
+                                    <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-pay-{{ $commission->id }}')" class="text-sm font-medium text-green-600 hover:text-green-800">Pay</button>
+                                    
+                                    <x-ui.confirm-modal 
+                                        id="confirm-pay-{{ $commission->id }}"
+                                        name="confirm-pay-{{ $commission->id }}"
+                                        title="Pay Commission"
+                                        message="Are you sure you want to mark this commission as paid?"
+                                        action="{{ route('manager.commissions.markPaid', $commission) }}"
+                                        method="PATCH"
+                                        confirmText="Mark as Paid"
+                                        type="info"
+                                    />
                                 @endif
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="p-8 text-center text-gray-500">
-                                No commissions found matching your criteria.
+                            <td colspan="7" class="p-8">
+                                <x-ui.empty-state 
+                                    icon="currency-dollar" 
+                                    title="No commissions found" 
+                                    description="No commission records match your criteria." 
+                                />
                             </td>
                         </tr>
                     @endforelse

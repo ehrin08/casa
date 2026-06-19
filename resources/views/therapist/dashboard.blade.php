@@ -27,11 +27,7 @@
                 <div class="flex items-center gap-2 mt-1">
                     <p class="text-gray-500">{{ $therapist->specialization ?? 'General Therapist' }}</p>
                     <span class="mx-2 text-gray-300">•</span>
-                    @if($therapist->status === 'active')
-                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Active</span>
-                    @else
-                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Inactive</span>
-                    @endif
+                    <x-ui.status-badge :status="$therapist->status" />
                 </div>
             </div>
             
@@ -169,13 +165,7 @@
                                             </div>
                                         </div>
                                         <div class="text-right">
-                                            @if($booking->status === 'booked')
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">Assigned</span>
-                                            @elseif($booking->status === 'completed')
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Completed</span>
-                                            @elseif($booking->status === 'cancelled')
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Cancelled</span>
-                                            @endif
+                                            <x-ui.status-badge :status="$booking->status" />
                                         </div>
                                     </div>
                                 </li>
@@ -251,11 +241,7 @@
                                             </div>
                                         </div>
                                         <div class="text-right">
-                                            @if($avail->status === 'available')
-                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">Available</span>
-                                            @else
-                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">Off</span>
-                                            @endif
+                                            <x-ui.status-badge :status="$avail->status" />
                                         </div>
                                     </div>
                                 </li>
@@ -287,13 +273,7 @@
                                         <div class="text-right">
                                             <p class="text-sm font-bold text-gray-900">₱{{ number_format($commission->commission_amount, 2) }}</p>
                                             <div class="mt-0.5">
-                                                @if($commission->status === 'unpaid')
-                                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">Unpaid</span>
-                                                @elseif($commission->status === 'paid')
-                                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">Paid</span>
-                                                @elseif($commission->status === 'void')
-                                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">Void</span>
-                                                @endif
+                                                <x-ui.status-badge :status="$commission->status" />
                                             </div>
                                         </div>
                                     </div>

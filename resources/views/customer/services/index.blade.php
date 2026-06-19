@@ -44,13 +44,11 @@
                     </div>
                 </div>
             @empty
-                <div class="text-center py-12 bg-white rounded-2xl shadow-sm border border-gray-100">
-                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
-                    </svg>
-                    <h3 class="mt-2 text-sm font-medium text-gray-900">No services available</h3>
-                    <p class="mt-1 text-sm text-gray-500">Please check back later for our spa menu.</p>
-                </div>
+                <x-ui.empty-state 
+                    icon="M20 12H4"
+                    title="No services available"
+                    description="Please check back later for our spa menu."
+                />
             @endforelse
 
         </div>

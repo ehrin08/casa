@@ -19,19 +19,7 @@
         </div>
     </div>
 
-    <!-- Session Messages -->
-    @if(session('success'))
-        <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center">
-            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-            <span class="text-sm font-medium text-green-800">{{ session('success') }}</span>
-        </div>
-    @endif
-    @if(session('error'))
-        <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center">
-            <svg class="w-5 h-5 text-red-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            <span class="text-sm font-medium text-red-800">{{ session('error') }}</span>
-        </div>
-    @endif
+
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Main Details -->
@@ -39,13 +27,7 @@
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                 <div class="px-6 py-5 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
                     <h3 class="text-lg font-medium leading-6 text-gray-900">Computation Overview</h3>
-                    @if($commission->status === 'unpaid')
-                        <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Unpaid</span>
-                    @elseif($commission->status === 'paid')
-                        <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-green-100 text-green-800">Paid</span>
-                    @else
-                        <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-red-100 text-red-800">Voided</span>
-                    @endif
+                    <x-ui.status-badge :status="$commission->status" />
                 </div>
                 <div class="p-6">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
@@ -94,13 +76,22 @@
                         <h4 class="text-lg font-medium text-gray-900">Mark as Settled</h4>
                         <p class="text-sm text-gray-500 mt-1">Has this commission been disbursed to the therapist?</p>
                     </div>
-                    <form action="{{ route('manager.commissions.markPaid', $commission) }}" method="POST" onsubmit="return confirm('Are you sure you want to mark this commission as paid?');">
-                        @csrf
-                        @method('PATCH')
-                        <button type="submit" class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                    <div>
+                        <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-pay')" class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150">
                             Mark as Paid
                         </button>
-                    </form>
+                        
+                        <x-ui.confirm-modal 
+                            id="confirm-pay"
+                            name="confirm-pay"
+                            title="Mark as Paid"
+                            message="Are you sure you want to mark this commission as paid?"
+                            action="{{ route('manager.commissions.markPaid', $commission) }}"
+                            method="PATCH"
+                            confirmText="Mark as Paid"
+                            type="info"
+                        />
+                    </div>
                 </div>
             @endif
         </div>
@@ -158,16 +149,26 @@
                     </div>
                     <div class="p-6">
                         <p class="text-sm text-gray-500 mb-4">Manually voiding this commission will cancel it from the therapist's earnings.</p>
-                        <form action="{{ route('manager.commissions.void', $commission) }}" method="POST" onsubmit="return confirm('Are you sure you want to manually void this commission?');">
+                        <form action="{{ route('manager.commissions.void', $commission) }}" method="POST">
                             @csrf
                             @method('PATCH')
                             <div class="mb-3">
                                 <label for="reason" class="block text-xs font-medium text-gray-700 mb-1">Reason (Optional)</label>
                                 <input type="text" name="reason" id="reason" class="w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring focus:ring-red-500 focus:ring-opacity-50 text-sm">
                             </div>
-                            <button type="submit" class="w-full inline-flex justify-center items-center px-4 py-2 bg-white border border-red-300 rounded-md font-semibold text-xs text-red-700 uppercase tracking-widest shadow-sm hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                            <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-void')" class="w-full inline-flex justify-center items-center px-4 py-2 bg-white border border-red-300 rounded-md font-semibold text-xs text-red-700 uppercase tracking-widest shadow-sm hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
                                 Void Commission
                             </button>
+                            
+                            <x-ui.confirm-modal 
+                                id="confirm-void"
+                                name="confirm-void"
+                                title="Void Commission"
+                                message="Are you sure you want to manually void this commission? This will cancel it from the therapist's earnings."
+                                confirmText="Void Commission"
+                                action="{{ route('manager.commissions.void', $commission) }}"
+                                method="PATCH"
+                            />
                         </form>
                     </div>
                 </div>

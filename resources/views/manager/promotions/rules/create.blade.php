@@ -130,9 +130,7 @@
             </div>
 
             <div class="mt-8 border-t pt-6 flex justify-end">
-                <button type="submit" class="px-6 py-2 bg-[#2c3e38] text-white rounded-md font-medium hover:bg-[#1f2d28] transition-colors shadow-sm">
-                    Save Promotion Rule
-                </button>
+                <x-ui.submit-button label="Save Promotion Rule" />
             </div>
         </form>
     </div>

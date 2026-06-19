@@ -12,25 +12,22 @@
             <a href="{{ route('manager.promotions.rules.create') }}" class="px-4 py-2 bg-[#2c3e38] text-white rounded-md font-medium text-sm hover:bg-[#1f2d28] transition-colors">
                 + Create Rule
             </a>
-            <form action="{{ route('manager.promotions.generate') }}" method="POST" class="inline">
-                @csrf
-                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md font-medium text-sm hover:bg-blue-700 transition-colors shadow-sm" onclick="return confirm('This will evaluate RFM for all customers and generate promotions based on active rules. Proceed?')">
-                    Generate Promotions
-                </button>
-            </form>
+            <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-generate')" class="px-4 py-2 bg-blue-600 text-white rounded-md font-medium text-sm hover:bg-blue-700 transition-colors shadow-sm">
+                Generate Promotions
+            </button>
+            <x-ui.confirm-modal 
+                id="confirm-generate"
+                name="confirm-generate"
+                title="Generate Promotions"
+                message="This will evaluate RFM for all customers and generate promotions based on active rules. Proceed?"
+                action="{{ route('manager.promotions.generate') }}"
+                method="POST"
+                confirmText="Generate Promotions"
+                type="info"
+            />
         </div>
     </div>
 
-    @if(session('success'))
-        <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-6 rounded-r-lg">
-            <div class="flex items-center">
-                <svg class="h-5 w-5 text-green-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                <p class="text-sm font-medium text-green-800">{{ session('success') }}</p>
-            </div>
-        </div>
-    @endif
 
     <!-- Summary Cards -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -115,19 +112,17 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    @if($promo->status === 'available')
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Available</span>
-                                    @elseif($promo->status === 'used')
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Used</span>
-                                    @else
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800 capitalize">{{ $promo->status }}</span>
-                                    @endif
+                                    <x-ui.status-badge :status="$promo->status" />
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="px-6 py-8 text-center text-gray-500 text-sm">
-                                    No promotions generated yet. Click "Generate Promotions" to start.
+                                <td colspan="4" class="px-6 py-8">
+                                    <x-ui.empty-state 
+                                        icon="tag" 
+                                        title="No promotions generated yet" 
+                                        description="Click 'Generate Promotions' to start." 
+                                    />
                                 </td>
                             </tr>
                         @endforelse

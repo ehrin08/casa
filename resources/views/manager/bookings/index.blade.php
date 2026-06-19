@@ -14,11 +14,7 @@
         </a>
     </div>
 
-    @if (session('success'))
-        <div class="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded relative" role="alert">
-            <span class="block sm:inline">{{ session('success') }}</span>
-        </div>
-    @endif
+
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
         <div class="p-6 border-b border-gray-100 bg-gray-50/50">
@@ -96,22 +92,10 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="mb-1">
-                                    @if($booking->status === 'booked')
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Booked</span>
-                                    @elseif($booking->status === 'completed')
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Completed</span>
-                                    @else
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Cancelled</span>
-                                    @endif
+                                    <x-ui.status-badge :status="$booking->status" />
                                 </div>
                                 <div>
-                                    @if($booking->payment_status === 'paid')
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">Paid (Cash)</span>
-                                    @elseif($booking->payment_status === 'cancelled')
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-50 text-gray-600 border border-gray-200">Cancelled</span>
-                                    @else
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-50 text-yellow-700 border border-yellow-200">Unpaid</span>
-                                    @endif
+                                    <x-ui.status-badge :status="$booking->payment_status" />
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right">
@@ -124,8 +108,12 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-10 whitespace-nowrap text-sm text-gray-500 text-center">
-                                No bookings found.
+                            <td colspan="6" class="px-6 py-10 whitespace-nowrap">
+                                <x-ui.empty-state 
+                                    icon="calendar" 
+                                    title="No bookings found" 
+                                    description="No appointments match your criteria." 
+                                />
                             </td>
                         </tr>
                     @endforelse

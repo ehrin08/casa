@@ -14,11 +14,7 @@
         </a>
     </div>
 
-    @if (session('success'))
-        <div class="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded relative" role="alert">
-            <span class="block sm:inline">{{ session('success') }}</span>
-        </div>
-    @endif
+
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
         <div class="p-6 border-b border-gray-100 bg-gray-50/50">
@@ -96,27 +92,32 @@
                                 <div class="text-sm text-gray-900">{{ $therapist->specialization }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                @if($therapist->status === 'active')
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
-                                @elseif($therapist->status === 'inactive')
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">Inactive</span>
-                                @else
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">On Leave</span>
-                                @endif
+                                <x-ui.status-badge :status="$therapist->status" />
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="{{ route('manager.therapists.edit', $therapist) }}" class="text-[#2c3e38] hover:text-[#1f2d28] mr-3">Edit</a>
-                                <form action="{{ route('manager.therapists.destroy', $therapist) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to remove this therapist profile? The user account will remain but lose therapist access.');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
-                                </form>
+                                <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-delete-{{ $therapist->id }}')" class="text-red-600 hover:text-red-900">Delete</button>
+                                
+                                <x-ui.confirm-modal 
+                                    id="confirm-delete-{{ $therapist->id }}"
+                                    name="confirm-delete-{{ $therapist->id }}"
+                                    title="Delete Therapist Profile"
+                                    message="Are you sure you want to remove {{ $therapist->user->name }}'s profile? The user account will remain but will lose therapist access."
+                                    action="{{ route('manager.therapists.destroy', $therapist) }}"
+                                    method="DELETE"
+                                    confirmText="Delete Profile"
+                                />
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-10 whitespace-nowrap text-sm text-gray-500 text-center">
-                                No therapists found.
+                            <td colspan="5" class="px-6 py-10 whitespace-nowrap">
+                                <x-ui.empty-state 
+                                    icon="users" 
+                                    title="No therapists found" 
+                                    description="Get started by adding a new therapist profile." 
+                                />
                             </td>
                         </tr>
                     @endforelse

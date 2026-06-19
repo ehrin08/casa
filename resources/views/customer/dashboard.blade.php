@@ -46,13 +46,19 @@
             
             @if($canCancel)
                 <div class="mt-6 pt-4 border-t border-[#3d524a] relative z-10 flex justify-end">
-                    <form action="{{ route('customer.bookings.cancel', $nextAppointment) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to cancel this appointment?');">
-                        @csrf
-                        @method('PATCH')
-                        <button type="submit" class="text-xs text-red-300 hover:text-red-100 transition-colors">
-                            Cancel Appointment
-                        </button>
-                    </form>
+                    <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-cancel-booking-{{ $nextAppointment->id }}')" class="text-xs text-red-300 hover:text-red-100 transition-colors">
+                        Cancel Appointment
+                    </button>
+                    <x-ui.confirm-modal 
+                        id="confirm-cancel-booking-{{ $nextAppointment->id }}"
+                        name="confirm-cancel-booking-{{ $nextAppointment->id }}"
+                        title="Cancel Appointment"
+                        message="Are you sure you want to cancel this appointment?"
+                        action="{{ route('customer.bookings.cancel', $nextAppointment) }}"
+                        method="PATCH"
+                        confirmText="Cancel Appointment"
+                        type="danger"
+                    />
                 </div>
             @endif
         </div>

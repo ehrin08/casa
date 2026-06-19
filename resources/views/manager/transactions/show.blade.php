@@ -18,11 +18,6 @@
         </div>
     </div>
 
-    @if (session('success'))
-        <div class="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded relative" role="alert">
-            <span class="block sm:inline">{{ session('success') }}</span>
-        </div>
-    @endif
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Main Details -->
@@ -31,15 +26,7 @@
                 <div class="px-6 py-5 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
                     <h3 class="text-lg font-medium leading-6 text-gray-900">Payment Summary</h3>
                     <div>
-                        @if($transaction->payment_status === 'paid')
-                            <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-green-100 text-green-800">Paid</span>
-                        @elseif($transaction->payment_status === 'refunded')
-                            <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">Refunded</span>
-                        @elseif($transaction->payment_status === 'cancelled')
-                            <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-red-100 text-red-800">Cancelled</span>
-                        @else
-                            <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Unpaid</span>
-                        @endif
+                        <x-ui.status-badge :status="$transaction->payment_status" />
                     </div>
                 </div>
                 <div class="p-6">
@@ -86,9 +73,9 @@
                                 <option value="cancelled" {{ $transaction->payment_status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                             </select>
                         </div>
-                        <button type="submit" class="px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-50 transition ease-in-out duration-150 shadow-sm h-[42px]">
-                            Update
-                        </button>
+                        <div class="h-[42px] flex items-end">
+                            <x-ui.submit-button label="Update" />
+                        </div>
                     </form>
                 </div>
             </div>
