@@ -4,7 +4,22 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Manager\ServiceController as ManagerServiceController;
 use App\Http\Controllers\Customer\ServiceController as CustomerServiceController;
 
-Route::view('/', 'welcome');
+Route::get('/', function () {
+    $services = \App\Models\Service::where('status', 'active')->take(6)->get();
+    
+    $promotions = \App\Models\PromotionRule::where('status', 'active')
+        ->where(function($q) {
+            $q->whereNull('valid_until')->orWhere('valid_until', '>=', now());
+        })
+        ->take(3)->get();
+        
+    $reviews = \App\Models\Review::with(['customer', 'service'])
+        ->where('status', 'visible')
+        ->orderBy('reviewed_at', 'desc')
+        ->take(3)->get();
+        
+    return view('welcome', compact('services', 'promotions', 'reviews'));
+})->name('welcome');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     // Manager Routes
