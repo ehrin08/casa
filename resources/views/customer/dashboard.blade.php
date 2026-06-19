@@ -14,10 +14,10 @@
         </div>
         
         <div class="relative z-10">
-            <a href="{{ route('customer.bookings.create') }}" class="inline-flex items-center px-6 py-3 bg-[#2c3e38] text-white font-medium rounded-full hover:bg-[#1f2d28] transition-colors shadow-md shadow-[#2c3e38]/20">
+            <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'book-appointment')" class="inline-flex items-center px-6 py-3 bg-[#2c3e38] text-white font-medium rounded-full hover:bg-[#1f2d28] transition-colors shadow-md shadow-[#2c3e38]/20">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                 Book Appointment
-            </a>
+            </button>
         </div>
     </div>
 
@@ -40,7 +40,7 @@
                     <div class="text-xs text-[#a0afaa] mt-1">with {{ $nextAppointment->therapist->user->name }}</div>
                 @else
                     <div class="text-xl font-medium text-gray-300 mt-2">No upcoming appointment</div>
-                    <a href="{{ route('customer.bookings.create') }}" class="inline-block mt-4 text-sm text-[#e8dbce] hover:text-white underline">Schedule one now</a>
+                    <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'book-appointment')" class="inline-block mt-4 text-sm text-[#e8dbce] hover:text-white underline">Schedule one now</button>
                 @endif
             </div>
             
@@ -143,7 +143,7 @@
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             </div>
                             <p class="text-spa-gray opacity-80 text-sm">No recent bookings found.</p>
-                            <a href="{{ route('customer.bookings.create') }}" class="text-[#2c3e38] font-medium text-sm hover:underline mt-2 inline-block">Book your first session</a>
+                            <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'book-appointment')" class="text-[#2c3e38] font-medium text-sm hover:underline mt-2 inline-block">Book your first session</button>
                         </li>
                     @endforelse
                 </ul>
@@ -170,9 +170,10 @@
                         </div>
                         <div class="text-right">
                             <div class="text-sm font-bold text-[#2c3e38]">₱{{ number_format($service->price, 2) }}</div>
-                            <a href="{{ route('customer.bookings.create', ['service_id' => $service->id]) }}" class="text-xs font-medium text-spa-gray opacity-60 group-hover:text-[#2c3e38] transition-colors mt-1 block">Book Now</a>
+                            <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'book-appointment-{{ $service->id }}')" class="text-xs font-medium text-spa-gray opacity-60 group-hover:text-[#2c3e38] transition-colors mt-1 block">Book Now</button>
                         </div>
                     </div>
+                    @include('customer.bookings._booking_modal', ['modalId' => 'book-appointment-'.$service->id, 'defaultServiceId' => $service->id])
                 @empty
                     <div class="bg-spa-white rounded-xl shadow-sm border border-spa-beige p-8 text-center text-spa-gray opacity-80 text-sm">
                         No services available right now.
@@ -182,5 +183,8 @@
         </div>
 
     </div>
+
+    
+    @include('customer.bookings._booking_modal', ['modalId' => 'book-appointment'])
 </x-customer-layout>
 

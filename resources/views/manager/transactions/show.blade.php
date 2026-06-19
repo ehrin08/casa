@@ -57,27 +57,41 @@
 
             <!-- Update Status -->
             <div class="bg-spa-white rounded-xl shadow-sm border border-spa-beige overflow-hidden">
-                <div class="px-6 py-5 border-b border-spa-beige bg-gray-50/50">
-                    <h3 class="text-lg font-medium leading-6 text-spa-charcoal">Update Status</h3>
+                <div class="px-6 py-5 border-b border-spa-beige bg-gray-50/50 flex justify-between items-center">
+                    <h3 class="text-lg font-medium leading-6 text-spa-charcoal">Payment Status</h3>
+                    <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'update-status-{{ $transaction->id }}')" class="inline-flex items-center px-3 py-1.5 bg-[#2c3e38] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-[#1f2d28] transition ease-in-out duration-150 shadow-sm">
+                        Update Status
+                    </button>
                 </div>
                 <div class="p-6">
-                    <form action="{{ route('manager.transactions.updateStatus', $transaction) }}" method="POST" class="flex items-end gap-4">
-                        @csrf
-                        @method('PATCH')
-                        <div class="flex-1">
-                            <x-input-label for="payment_status" value="Payment Status" />
-                            <select id="payment_status" name="payment_status" class="mt-1 block w-full border-spa-wood focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-spa-gray opacity-80">Current Status:</span>
+                        <x-ui.status-badge :status="$transaction->payment_status" />
+                    </div>
+                </div>
+
+                <x-modal name="update-status-{{ $transaction->id }}" :show="$errors->any() && old('_modal_id') === 'update-status-'.$transaction->id" maxWidth="sm">
+                    <x-ui.modal-form 
+                        title="Update Status" 
+                        subtitle="Transaction: {{ $transaction->transaction_reference }}" 
+                        action="{{ route('manager.transactions.updateStatus', $transaction) }}" 
+                        method="PATCH"
+                    >
+                        <input type="hidden" name="_modal_id" value="update-status-{{ $transaction->id }}">
+                        <div>
+                            <x-input-label for="payment_status_{{ $transaction->id }}" value="Payment Status" />
+                            <select id="payment_status_{{ $transaction->id }}" name="payment_status" class="mt-1 block w-full border-spa-wood focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm">
                                 <option value="paid" {{ $transaction->payment_status === 'paid' ? 'selected' : '' }}>Paid</option>
                                 <option value="unpaid" {{ $transaction->payment_status === 'unpaid' ? 'selected' : '' }}>Unpaid</option>
                                 <option value="refunded" {{ $transaction->payment_status === 'refunded' ? 'selected' : '' }}>Refunded</option>
                                 <option value="cancelled" {{ $transaction->payment_status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                             </select>
                         </div>
-                        <div class="h-[42px] flex items-end">
-                            <x-ui.submit-button label="Update" />
-                        </div>
-                    </form>
-                </div>
+                        <x-slot name="actions">
+                            <x-ui.submit-button label="Update Status" />
+                        </x-slot>
+                    </x-ui.modal-form>
+                </x-modal>
             </div>
         </div>
 

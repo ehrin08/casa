@@ -189,7 +189,9 @@ class BookingController extends Controller
     public function show(Booking $booking)
     {
         $booking->load(['customer', 'service', 'therapist.user', 'creator']);
-        return view('manager.bookings.show', compact('booking'));
+        $services = Service::where('status', 'available')->get();
+        $therapists = Therapist::with('user')->where('status', 'active')->get();
+        return view('manager.bookings.show', compact('booking', 'services', 'therapists'));
     }
 
     public function edit(Booking $booking)

@@ -149,27 +149,32 @@
                     </div>
                     <div class="p-6">
                         <p class="text-sm text-spa-gray opacity-80 mb-4">Manually voiding this commission will cancel it from the therapist's earnings.</p>
-                        <form action="{{ route('manager.commissions.void', $commission) }}" method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <div class="mb-3">
-                                <label for="reason" class="block text-xs font-medium text-spa-charcoal opacity-90 mb-1">Reason (Optional)</label>
-                                <input type="text" name="reason" id="reason" class="w-full rounded-md border-spa-wood shadow-sm focus:border-red-500 focus:ring focus:ring-red-500 focus:ring-opacity-50 text-sm">
-                            </div>
-                            <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-void')" class="w-full inline-flex justify-center items-center px-4 py-2 bg-spa-white border border-red-300 rounded-md font-semibold text-xs text-red-700 uppercase tracking-widest shadow-sm hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                                Void Commission
-                            </button>
-                            
-                            <x-ui.confirm-modal 
-                                id="confirm-void"
-                                name="confirm-void"
-                                title="Void Commission"
-                                message="Are you sure you want to manually void this commission? This will cancel it from the therapist's earnings."
-                                confirmText="Void Commission"
-                                action="{{ route('manager.commissions.void', $commission) }}"
+                        <div class="mb-3">
+                            <label class="block text-xs font-medium text-spa-charcoal opacity-90 mb-1">Reason (Optional)</label>
+                            <input type="text" readonly value="Provide reason in the next step" class="w-full bg-gray-50 rounded-md border-spa-wood shadow-sm text-sm text-spa-gray cursor-not-allowed">
+                        </div>
+                        <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'void-commission')" class="w-full inline-flex justify-center items-center px-4 py-2 bg-spa-white border border-red-300 rounded-md font-semibold text-xs text-red-700 uppercase tracking-widest shadow-sm hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                            Void Commission
+                        </button>
+                        
+                        <x-modal name="void-commission" maxWidth="md">
+                            <x-ui.modal-form 
+                                title="Void Commission" 
+                                subtitle="Are you sure you want to manually void this commission? This will cancel it from the therapist's earnings." 
+                                action="{{ route('manager.commissions.void', $commission) }}" 
                                 method="PATCH"
-                            />
-                        </form>
+                            >
+                                <div>
+                                    <x-input-label for="reason" value="Reason (Optional)" />
+                                    <x-text-input id="reason" name="reason" type="text" class="mt-1 block w-full border-spa-wood focus:border-red-500 focus:ring-red-500" />
+                                </div>
+                                <x-slot name="actions">
+                                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                        Void Commission
+                                    </button>
+                                </x-slot>
+                            </x-ui.modal-form>
+                        </x-modal>
                     </div>
                 </div>
             @endif

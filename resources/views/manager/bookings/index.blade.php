@@ -8,10 +8,10 @@
             <h2 class="text-2xl font-bold text-spa-charcoal">Appointment Bookings</h2>
             <p class="text-sm text-spa-gray opacity-80 mt-1">Manage customer appointments, therapist assignment, and cash booking records.</p>
         </div>
-        <a href="{{ route('manager.bookings.create') }}" class="inline-flex items-center px-4 py-2 bg-[#2c3e38] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-[#1f2d28] focus:bg-[#1f2d28] active:bg-[#1f2d28] focus:outline-none focus:ring-2 focus:ring-[#2c3e38] focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm">
+        <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'create-booking')" class="inline-flex items-center px-4 py-2 bg-[#2c3e38] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-[#1f2d28] focus:bg-[#1f2d28] active:bg-[#1f2d28] focus:outline-none focus:ring-2 focus:ring-[#2c3e38] focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm">
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
             Add Booking
-        </a>
+        </button>
     </div>
 
 
@@ -102,8 +102,22 @@
                                 <div class="text-sm font-medium text-spa-charcoal">₱{{ number_format($booking->amount_paid, 2) }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="{{ route('manager.bookings.show', $booking) }}" class="text-spa-gold hover:text-indigo-900 mr-3">View</a>
-                                <a href="{{ route('manager.bookings.edit', $booking) }}" class="text-[#2c3e38] hover:text-[#1f2d28] mr-3">Edit</a>
+                                <a href="{{ route('manager.bookings.show', $booking) }}" class="text-spa-gold hover:text-[#9e8360] mr-3">View</a>
+                                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'edit-booking-{{ $booking->id }}')" class="text-[#2c3e38] hover:text-[#1f2d28] mr-3">Edit</button>
+
+                                <x-modal name="edit-booking-{{ $booking->id }}" :show="$errors->any() && old('_modal_id') === 'edit-booking-'.$booking->id" maxWidth="3xl">
+                                    <x-ui.modal-form 
+                                        title="Edit Booking: {{ $booking->booking_reference }}" 
+                                        subtitle="Update appointment details or change booking status." 
+                                        action="{{ route('manager.bookings.update', $booking) }}" 
+                                        method="PUT"
+                                    >
+                                        @include('manager.bookings._form', ['modalId' => 'edit-booking-'.$booking->id, 'booking' => $booking])
+                                        <x-slot name="actions">
+                                            <x-ui.submit-button label="Save Changes" />
+                                        </x-slot>
+                                    </x-ui.modal-form>
+                                </x-modal>
                             </td>
                         </tr>
                     @empty
@@ -127,4 +141,18 @@
             </div>
         @endif
     </div>
+
+    <x-modal name="create-booking" :show="$errors->any() && old('_modal_id') === 'create-booking'" maxWidth="3xl">
+        <x-ui.modal-form 
+            title="Add Walk-in Booking" 
+            subtitle="Create an appointment for a customer. Time and availability are verified upon submission." 
+            action="{{ route('manager.bookings.store') }}" 
+            method="POST"
+        >
+            @include('manager.bookings._form', ['modalId' => 'create-booking', 'booking' => new \App\Models\Booking()])
+            <x-slot name="actions">
+                <x-ui.submit-button label="Confirm Booking" />
+            </x-slot>
+        </x-ui.modal-form>
+    </x-modal>
 </x-manager-layout>

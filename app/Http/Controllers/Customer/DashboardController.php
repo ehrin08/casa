@@ -71,6 +71,15 @@ class DashboardController extends Controller
         // We'll reuse $nextAppointment, since if the closest appointment is cancellable, we can link to it.
         // A booking is cancellable if it's 'booked' and still in the future. We can check if $nextAppointment exists.
         $canCancel = $nextAppointment !== null;
+        // For Booking Modal
+        $services = Service::where('status', 'available')->get();
+        $therapists = \App\Models\Therapist::with('user')->where('status', 'active')->get();
+        $availablePromotions = \App\Models\CustomerPromotion::where('customer_id', $user->id)
+            ->where('status', 'available')
+            ->where(function($query) {
+                $query->whereNull('expires_at')
+                      ->orWhere('expires_at', '>', now());
+            })->with('rule')->get();
 
         return view('customer.dashboard', compact(
             'nextAppointment',
@@ -80,7 +89,10 @@ class DashboardController extends Controller
             'availableServices',
             'receiptsCount',
             'recentTransactions',
-            'canCancel'
+            'canCancel',
+            'services',
+            'therapists',
+            'availablePromotions'
         ));
     }
 }

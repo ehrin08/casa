@@ -5,9 +5,9 @@
 
     <div class="mb-6 flex justify-between items-center">
         <a href="{{ route('manager.promotions.index') }}" class="text-sm font-medium text-[#1f2d28] hover:underline">&larr; Back to Promotions</a>
-        <a href="{{ route('manager.promotions.rules.create') }}" class="px-4 py-2 bg-[#2c3e38] text-white rounded-md font-medium text-sm hover:bg-[#1f2d28] transition-colors">
+        <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'create-rule')" class="px-4 py-2 bg-[#2c3e38] text-white rounded-md font-medium text-sm hover:bg-[#1f2d28] transition-colors">
             + Create Rule
-        </a>
+        </button>
     </div>
 
 
@@ -67,7 +67,7 @@
                                 <x-ui.status-badge :status="$rule->status" />
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="{{ route('manager.promotions.rules.edit', $rule) }}" class="text-spa-gold hover:text-indigo-900 mr-3">Edit</a>
+                                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'edit-rule-{{ $rule->id }}')" class="text-spa-gold hover:text-indigo-900 mr-3">Edit</button>
                                 <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-delete-{{ $rule->id }}')" class="text-red-600 hover:text-red-900">Delete</button>
                                 
                                 <x-ui.confirm-modal 
@@ -79,6 +79,19 @@
                                     method="DELETE"
                                     confirmText="Delete Rule"
                                 />
+
+                                <x-modal name="edit-rule-{{ $rule->id }}" :show="$errors->any() && old('_modal_id') === 'edit-rule-'.$rule->id" maxWidth="3xl">
+                                    <x-ui.modal-form 
+                                        title="Edit Promotion Rule" 
+                                        action="{{ route('manager.promotions.rules.update', $rule) }}" 
+                                        method="PUT"
+                                    >
+                                        @include('manager.promotions.rules._form', ['modalId' => 'edit-rule-'.$rule->id, 'rule' => $rule])
+                                        <x-slot name="actions">
+                                            <x-ui.submit-button label="Save Changes" />
+                                        </x-slot>
+                                    </x-ui.modal-form>
+                                </x-modal>
                             </td>
                         </tr>
                     @empty
@@ -101,4 +114,17 @@
             </div>
         @endif
     </div>
+
+    <x-modal name="create-rule" :show="$errors->any() && old('_modal_id') === 'create-rule'" maxWidth="3xl">
+        <x-ui.modal-form 
+            title="Create Promotion Rule" 
+            action="{{ route('manager.promotions.rules.store') }}" 
+            method="POST"
+        >
+            @include('manager.promotions.rules._form', ['modalId' => 'create-rule', 'rule' => new \App\Models\PromotionRule()])
+            <x-slot name="actions">
+                <x-ui.submit-button label="Create Rule" />
+            </x-slot>
+        </x-ui.modal-form>
+    </x-modal>
 </x-manager-layout>

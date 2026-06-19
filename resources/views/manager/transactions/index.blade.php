@@ -84,8 +84,32 @@
                                 <x-ui.status-badge :status="$transaction->payment_status" />
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'update-status-{{ $transaction->id }}')" class="text-[#2c3e38] hover:text-[#1f2d28] mr-3">Update Status</button>
                                 <a href="{{ route('manager.transactions.show', $transaction) }}" class="text-[#2c3e38] hover:text-[#1f2d28] mr-3">View</a>
                                 <a href="{{ route('manager.transactions.receipt', $transaction) }}" target="_blank" class="text-spa-gray opacity-80 hover:text-spa-charcoal">Receipt</a>
+                                
+                                <x-modal name="update-status-{{ $transaction->id }}" :show="$errors->any() && old('_modal_id') === 'update-status-'.$transaction->id" maxWidth="sm">
+                                    <x-ui.modal-form 
+                                        title="Update Status" 
+                                        subtitle="Transaction: {{ $transaction->transaction_reference }}" 
+                                        action="{{ route('manager.transactions.updateStatus', $transaction) }}" 
+                                        method="PATCH"
+                                    >
+                                        <input type="hidden" name="_modal_id" value="update-status-{{ $transaction->id }}">
+                                        <div>
+                                            <x-input-label for="payment_status_{{ $transaction->id }}" value="Payment Status" />
+                                            <select id="payment_status_{{ $transaction->id }}" name="payment_status" class="mt-1 block w-full border-spa-wood focus:border-[#2c3e38] focus:ring-[#2c3e38] rounded-md shadow-sm">
+                                                <option value="paid" {{ $transaction->payment_status === 'paid' ? 'selected' : '' }}>Paid</option>
+                                                <option value="unpaid" {{ $transaction->payment_status === 'unpaid' ? 'selected' : '' }}>Unpaid</option>
+                                                <option value="refunded" {{ $transaction->payment_status === 'refunded' ? 'selected' : '' }}>Refunded</option>
+                                                <option value="cancelled" {{ $transaction->payment_status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                            </select>
+                                        </div>
+                                        <x-slot name="actions">
+                                            <x-ui.submit-button label="Update Status" />
+                                        </x-slot>
+                                    </x-ui.modal-form>
+                                </x-modal>
                             </td>
                         </tr>
                     @empty

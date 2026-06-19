@@ -35,11 +35,12 @@
                                 </div>
 
                                 <div class="mt-auto">
-                                    <button disabled class="w-full text-center px-4 py-2 bg-spa-beige text-spa-gray opacity-60 cursor-not-allowed rounded-md font-medium text-sm transition-colors uppercase tracking-wide">
-                                        Book Soon
+                                    <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'book-appointment-{{ $service->id }}')" class="w-full text-center px-4 py-2 bg-[#2c3e38] text-white hover:bg-[#1f2d28] rounded-md font-medium text-sm transition-colors uppercase tracking-wide">
+                                        Book Now
                                     </button>
                                 </div>
                             </div>
+                            @include('customer.bookings._booking_modal', ['modalId' => 'book-appointment-'.$service->id, 'defaultServiceId' => $service->id])
                         @endforeach
                     </div>
                 </div>

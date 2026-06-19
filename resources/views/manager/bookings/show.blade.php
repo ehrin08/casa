@@ -9,9 +9,9 @@
             <p class="text-sm text-spa-gray opacity-80 mt-1">Created on {{ $booking->created_at->format('M d, Y g:i A') }}</p>
         </div>
         <div class="flex gap-2">
-            <a href="{{ route('manager.bookings.edit', $booking) }}" class="inline-flex items-center px-4 py-2 bg-spa-white border border-spa-wood rounded-md font-semibold text-xs text-spa-charcoal opacity-90 uppercase tracking-widest shadow-sm hover:bg-spa-beige focus:outline-none focus:ring-2 focus:ring-[#2c3e38] focus:ring-offset-2 transition ease-in-out duration-150">
+            <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'edit-booking-{{ $booking->id }}')" class="inline-flex items-center px-4 py-2 bg-spa-white border border-spa-wood rounded-md font-semibold text-xs text-spa-charcoal opacity-90 uppercase tracking-widest shadow-sm hover:bg-spa-beige focus:outline-none focus:ring-2 focus:ring-[#2c3e38] focus:ring-offset-2 transition ease-in-out duration-150">
                 Edit Booking
-            </a>
+            </button>
             <a href="{{ route('manager.bookings.index') }}" class="inline-flex items-center px-4 py-2 bg-spa-beige border border-transparent rounded-md font-semibold text-xs text-spa-charcoal opacity-90 uppercase tracking-widest hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 transition ease-in-out duration-150">
                 Back to List
             </a>
@@ -172,4 +172,18 @@
             </div>
         </div>
     </div>
+
+    <x-modal name="edit-booking-{{ $booking->id }}" :show="$errors->any() && old('_modal_id') === 'edit-booking-'.$booking->id" maxWidth="3xl">
+        <x-ui.modal-form 
+            title="Edit Booking: {{ $booking->booking_reference }}" 
+            subtitle="Update appointment details or change booking status." 
+            action="{{ route('manager.bookings.update', $booking) }}" 
+            method="PUT"
+        >
+            @include('manager.bookings._form', ['modalId' => 'edit-booking-'.$booking->id, 'booking' => $booking])
+            <x-slot name="actions">
+                <x-ui.submit-button label="Save Changes" />
+            </x-slot>
+        </x-ui.modal-form>
+    </x-modal>
 </x-manager-layout>

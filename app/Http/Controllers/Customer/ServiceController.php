@@ -22,6 +22,15 @@ class ServiceController extends Controller
         // Group by category for nicer display
         $servicesByCategory = $services->groupBy('category');
 
-        return view('customer.services.index', compact('servicesByCategory'));
+        $user = auth()->user();
+        $therapists = \App\Models\Therapist::with('user')->where('status', 'active')->get();
+        $availablePromotions = \App\Models\CustomerPromotion::where('customer_id', $user->id)
+            ->where('status', 'available')
+            ->where(function($query) {
+                $query->whereNull('expires_at')
+                      ->orWhere('expires_at', '>', now());
+            })->with('rule')->get();
+
+        return view('customer.services.index', compact('services', 'servicesByCategory', 'therapists', 'availablePromotions'));
     }
 }

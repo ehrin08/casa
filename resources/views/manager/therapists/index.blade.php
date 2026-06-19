@@ -8,10 +8,10 @@
             <h2 class="text-2xl font-bold text-spa-charcoal">Therapist Management</h2>
             <p class="text-sm text-spa-gray opacity-80 mt-1">Manage therapist accounts, contact details, specializations, and status.</p>
         </div>
-        <a href="{{ route('manager.therapists.create') }}" class="inline-flex items-center px-4 py-2 bg-[#2c3e38] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-[#1f2d28] focus:bg-[#1f2d28] active:bg-[#1f2d28] focus:outline-none focus:ring-2 focus:ring-[#2c3e38] focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm">
+        <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'create-therapist')" class="inline-flex items-center px-4 py-2 bg-[#2c3e38] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-[#1f2d28] focus:bg-[#1f2d28] active:bg-[#1f2d28] focus:outline-none focus:ring-2 focus:ring-[#2c3e38] focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm">
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
             Add Therapist
-        </a>
+        </button>
     </div>
 
 
@@ -95,8 +95,7 @@
                                 <x-ui.status-badge :status="$therapist->status" />
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="{{ route('manager.therapists.edit', $therapist) }}" class="text-[#2c3e38] hover:text-[#1f2d28] mr-3">Edit</a>
+                                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'edit-therapist-{{ $therapist->id }}')" class="text-[#2c3e38] hover:text-[#1f2d28] mr-3">Edit</button>
                                 <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-delete-{{ $therapist->id }}')" class="text-red-600 hover:text-red-900">Delete</button>
                                 
                                 <x-ui.confirm-modal 
@@ -108,6 +107,20 @@
                                     method="DELETE"
                                     confirmText="Delete Profile"
                                 />
+                                
+                                <x-modal name="edit-therapist-{{ $therapist->id }}" :show="$errors->any() && old('_modal_id') === 'edit-therapist-'.$therapist->id">
+                                    <x-ui.modal-form 
+                                        title="Edit Therapist" 
+                                        subtitle="Update profile and contact details for {{ $therapist->user->name }}." 
+                                        action="{{ route('manager.therapists.update', $therapist) }}" 
+                                        method="PUT"
+                                    >
+                                        @include('manager.therapists._form', ['modalId' => 'edit-therapist-'.$therapist->id])
+                                        <x-slot name="actions">
+                                            <x-ui.submit-button label="Save Changes" />
+                                        </x-slot>
+                                    </x-ui.modal-form>
+                                </x-modal>
                             </td>
                         </tr>
                     @empty
@@ -131,4 +144,18 @@
             </div>
         @endif
     </div>
+
+    <x-modal name="create-therapist" :show="$errors->any() && old('_modal_id') === 'create-therapist'">
+        <x-ui.modal-form 
+            title="Add New Therapist" 
+            subtitle="Create a therapist profile. A user account will be automatically created with a default password." 
+            action="{{ route('manager.therapists.store') }}" 
+            method="POST"
+        >
+            @include('manager.therapists._form', ['modalId' => 'create-therapist', 'therapist' => new \App\Models\Therapist()])
+            <x-slot name="actions">
+                <x-ui.submit-button label="Create Therapist" />
+            </x-slot>
+        </x-ui.modal-form>
+    </x-modal>
 </x-manager-layout>

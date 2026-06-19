@@ -79,9 +79,22 @@
                                     View Your Review
                                 </a>
                             @else
-                                <a href="{{ route('customer.reviews.create', $booking) }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#2c3e38] hover:bg-[#1f2d28] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2c3e38]">
+                                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'leave-review-{{ $booking->id }}')" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#2c3e38] hover:bg-[#1f2d28] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2c3e38]">
                                     Leave a Review
-                                </a>
+                                </button>
+                                
+                                <x-modal name="leave-review-{{ $booking->id }}" :show="$errors->any() && old('_modal_id') === 'leave-review-'.$booking->id" maxWidth="3xl">
+                                    <x-ui.modal-form 
+                                        title="Leave a Review" 
+                                        action="{{ route('customer.reviews.store', $booking) }}" 
+                                        method="POST"
+                                    >
+                                        @include('customer.reviews._form', ['booking' => $booking, 'modalId' => 'leave-review-'.$booking->id])
+                                        <x-slot name="actions">
+                                            <x-ui.submit-button label="Submit Review" />
+                                        </x-slot>
+                                    </x-ui.modal-form>
+                                </x-modal>
                             @endif
                         </div>
                     @endif

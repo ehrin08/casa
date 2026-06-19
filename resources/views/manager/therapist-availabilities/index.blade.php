@@ -8,10 +8,10 @@
             <h2 class="text-2xl font-bold text-spa-charcoal">Therapist Availability</h2>
             <p class="text-sm text-spa-gray opacity-80 mt-1">Manage date-specific therapist schedules, breaks, and availability status.</p>
         </div>
-        <a href="{{ route('manager.therapist-availabilities.create') }}" class="inline-flex items-center px-4 py-2 bg-[#2c3e38] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-[#1f2d28] focus:bg-[#1f2d28] active:bg-[#1f2d28] focus:outline-none focus:ring-2 focus:ring-[#2c3e38] focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm">
+        <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'create-availability')" class="inline-flex items-center px-4 py-2 bg-[#2c3e38] border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-[#1f2d28] focus:bg-[#1f2d28] active:bg-[#1f2d28] focus:outline-none focus:ring-2 focus:ring-[#2c3e38] focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm">
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
             Add Availability
-        </a>
+        </button>
     </div>
 
 
@@ -106,7 +106,7 @@
                                 <div class="text-sm text-spa-gray opacity-80 truncate max-w-[150px]">{{ $avail->notes ?? '-' }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="{{ route('manager.therapist-availabilities.edit', $avail) }}" class="text-[#2c3e38] hover:text-[#1f2d28] mr-3">Edit</a>
+                                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'edit-availability-{{ $avail->id }}')" class="text-[#2c3e38] hover:text-[#1f2d28] mr-3">Edit</button>
                                 <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-delete-{{ $avail->id }}')" class="text-red-600 hover:text-red-900">Delete</button>
                                 
                                 <x-ui.confirm-modal 
@@ -118,6 +118,20 @@
                                     method="DELETE"
                                     confirmText="Delete"
                                 />
+                                
+                                <x-modal name="edit-availability-{{ $avail->id }}" :show="$errors->any() && old('_modal_id') === 'edit-availability-'.$avail->id">
+                                    <x-ui.modal-form 
+                                        title="Edit Therapist Availability" 
+                                        subtitle="Update schedule for {{ $avail->therapist->user->name }} on {{ $avail->availability_date->format('M d, Y') }}." 
+                                        action="{{ route('manager.therapist-availabilities.update', $avail) }}" 
+                                        method="PUT"
+                                    >
+                                        @include('manager.therapist-availabilities._form', ['modalId' => 'edit-availability-'.$avail->id, 'availability' => $avail])
+                                        <x-slot name="actions">
+                                            <x-ui.submit-button label="Update Availability" />
+                                        </x-slot>
+                                    </x-ui.modal-form>
+                                </x-modal>
                             </td>
                         </tr>
                     @empty
@@ -141,4 +155,18 @@
             </div>
         @endif
     </div>
+
+    <x-modal name="create-availability" :show="$errors->any() && old('_modal_id') === 'create-availability'">
+        <x-ui.modal-form 
+            title="Add Therapist Availability" 
+            subtitle="Schedule date-specific availability, time off, or leave." 
+            action="{{ route('manager.therapist-availabilities.store') }}" 
+            method="POST"
+        >
+            @include('manager.therapist-availabilities._form', ['modalId' => 'create-availability', 'availability' => new \App\Models\TherapistAvailability()])
+            <x-slot name="actions">
+                <x-ui.submit-button label="Save Availability" />
+            </x-slot>
+        </x-ui.modal-form>
+    </x-modal>
 </x-manager-layout>

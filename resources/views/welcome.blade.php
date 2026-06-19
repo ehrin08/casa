@@ -30,9 +30,9 @@
                                     {{ auth()->user()->role === 'customer' ? 'Book Appointment' : 'Go to Dashboard' }}
                                 </a>
                             @else
-                                <a href="{{ route('login') }}" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-spa-white bg-spa-brown hover:bg-spa-espresso md:py-4 md:text-lg md:px-10 transition-colors shadow-lg">
+                                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'auth-prompt')" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-spa-white bg-spa-brown hover:bg-spa-espresso md:py-4 md:text-lg md:px-10 transition-colors shadow-lg">
                                     Book Appointment
-                                </a>
+                                </button>
                             @endauth
                             <div class="mt-3 sm:mt-0">
                                 <a href="#services" class="w-full flex items-center justify-center px-8 py-3 border border-spa-wood text-base font-medium rounded-md text-spa-beige hover:bg-spa-gray hover:text-spa-white md:py-4 md:text-lg md:px-10 transition-colors">
@@ -95,9 +95,9 @@
                                             <a href="{{ url('/') }}" class="text-sm font-bold text-spa-gray opacity-50 flex items-center uppercase tracking-wider">View Details</a>
                                         @endif
                                     @else
-                                        <a href="{{ route('login') }}" class="text-sm font-bold text-spa-charcoal hover:text-spa-brown flex items-center uppercase tracking-wider">
+                                        <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'auth-prompt')" class="text-sm font-bold text-spa-charcoal hover:text-spa-brown flex items-center uppercase tracking-wider">
                                             Log in to Book <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                                        </a>
+                                        </button>
                                     @endauth
                                 </div>
                             </div>
@@ -201,9 +201,9 @@
                             </a>
                         @endif
                     @else
-                        <a href="{{ route('login') }}" class="text-spa-brown font-bold tracking-wide hover:text-spa-espresso flex items-center uppercase text-sm border-b-2 border-transparent hover:border-spa-wood pb-1 transition-all">
+                        <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'auth-prompt')" class="text-spa-brown font-bold tracking-wide hover:text-spa-espresso flex items-center uppercase text-sm border-b-2 border-transparent hover:border-spa-wood pb-1 transition-all">
                             Log in to see your promos <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                        </a>
+                        </button>
                     @endauth
                 </div>
             </div>
@@ -289,4 +289,6 @@
             @endif
         </div>
     </div>
+
+    <x-ui.auth-prompt-modal />
 </x-public-layout>
