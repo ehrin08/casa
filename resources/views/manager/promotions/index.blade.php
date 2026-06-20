@@ -12,7 +12,7 @@
             <a href="{{ route('manager.promotions.rules.create') }}" class="px-4 py-2 bg-[#2c3e38] text-white rounded-md font-medium text-sm hover:bg-[#1f2d28] transition-colors">
                 + Create Rule
             </a>
-            <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-generate')" class="px-4 py-2 bg-blue-600 text-white rounded-md font-medium text-sm hover:bg-blue-700 transition-colors shadow-sm">
+            <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-generate')" class="px-4 py-2 bg-blue-600 text-white rounded-md font-medium text-sm hover:bg-blue-700 transition-colors shadow-sm">
                 Generate Promotions
             </button>
             <x-ui.confirm-modal 

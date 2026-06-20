@@ -125,7 +125,7 @@
                                     View Linked Transaction
                                 </a>
                             @else
-                                <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-create-tx-{{ $booking->id }}')" class="w-full inline-flex justify-center items-center px-4 py-2 bg-spa-white border border-[#2c3e38] rounded-md font-semibold text-xs text-[#2c3e38] uppercase tracking-widest hover:bg-spa-beige transition ease-in-out duration-150 shadow-sm">
+                                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-create-tx-{{ $booking->id }}')" class="w-full inline-flex justify-center items-center px-4 py-2 bg-spa-white border border-[#2c3e38] rounded-md font-semibold text-xs text-[#2c3e38] uppercase tracking-widest hover:bg-spa-beige transition ease-in-out duration-150 shadow-sm">
                                     Create Transaction
                                 </button>
                                 

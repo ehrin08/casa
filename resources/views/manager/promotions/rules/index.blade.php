@@ -68,7 +68,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'edit-rule-{{ $rule->id }}')" class="text-spa-gold hover:text-indigo-900 mr-3">Edit</button>
-                                <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-delete-{{ $rule->id }}')" class="text-red-600 hover:text-red-900">Delete</button>
+                                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-delete-{{ $rule->id }}')" class="text-red-600 hover:text-red-900">Delete</button>
                                 
                                 <x-ui.confirm-modal 
                                     id="confirm-delete-{{ $rule->id }}"

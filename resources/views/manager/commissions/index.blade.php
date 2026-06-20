@@ -134,7 +134,7 @@
                                 <a href="{{ route('manager.commissions.show', $commission) }}" class="text-sm font-medium text-[#7a6b5d] hover:text-[#5c4f43]">View</a>
                                 
                                 @if($commission->status === 'unpaid')
-                                    <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-pay-{{ $commission->id }}')" class="text-sm font-medium text-green-600 hover:text-green-800">Pay</button>
+                                    <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-pay-{{ $commission->id }}')" class="text-sm font-medium text-green-600 hover:text-green-800">Pay</button>
                                     
                                     <x-ui.confirm-modal 
                                         id="confirm-pay-{{ $commission->id }}"

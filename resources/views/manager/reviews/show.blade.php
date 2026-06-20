@@ -98,7 +98,7 @@
                 <div class="border-t border-spa-beige pt-4">
                     <h4 class="text-xs font-semibold text-spa-gray opacity-80 uppercase tracking-wider mb-3">Moderation Actions</h4>
                     @if($review->status === 'visible')
-                        <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-hide')" class="w-full inline-flex justify-center items-center px-4 py-2 border border-spa-wood shadow-sm text-sm font-medium rounded-md text-spa-charcoal opacity-90 bg-spa-white hover:bg-spa-beige focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2c3e38]">
+                        <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-hide')" class="w-full inline-flex justify-center items-center px-4 py-2 border border-spa-wood shadow-sm text-sm font-medium rounded-md text-spa-charcoal opacity-90 bg-spa-white hover:bg-spa-beige focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2c3e38]">
                             Hide Review
                         </button>
                         
@@ -112,7 +112,7 @@
                             confirmText="Hide Review"
                         />
                     @else
-                        <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-show')" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#2c3e38] hover:bg-[#1f2d28] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2c3e38]">
+                        <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-show')" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#2c3e38] hover:bg-[#1f2d28] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2c3e38]">
                             Make Visible
                         </button>
                         

@@ -168,5 +168,6 @@
             </div>
         </div>
     </footer>
-</body>
+    @livewireScripts
+    </body>
 </html>

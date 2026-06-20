@@ -46,7 +46,7 @@
             
             @if($canCancel)
                 <div class="mt-6 pt-4 border-t border-[#3d524a] relative z-10 flex justify-end">
-                    <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-cancel-booking-{{ $nextAppointment->id }}')" class="text-xs text-red-300 hover:text-red-100 transition-colors">
+                    <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-cancel-booking-{{ $nextAppointment->id }}')" class="text-xs text-red-300 hover:text-red-100 transition-colors">
                         Cancel Appointment
                     </button>
                     <x-ui.confirm-modal 

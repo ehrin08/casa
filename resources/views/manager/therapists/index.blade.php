@@ -96,7 +96,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'edit-therapist-{{ $therapist->id }}')" class="text-[#2c3e38] hover:text-[#1f2d28] mr-3">Edit</button>
-                                <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-delete-{{ $therapist->id }}')" class="text-red-600 hover:text-red-900">Delete</button>
+                                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-delete-{{ $therapist->id }}')" class="text-red-600 hover:text-red-900">Delete</button>
                                 
                                 <x-ui.confirm-modal 
                                     id="confirm-delete-{{ $therapist->id }}"

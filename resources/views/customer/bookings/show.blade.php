@@ -57,7 +57,7 @@
 
                     @if($booking->status === 'booked')
                         <div class="mt-8 pt-6 border-t border-spa-beige">
-                            <button type="button" x-data="" x-on:click="$dispatch('open-modal-confirm-cancel-booking-{{ $booking->id }}')" class="text-red-600 hover:text-red-900 text-sm font-medium">
+                            <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-cancel-booking-{{ $booking->id }}')" class="text-red-600 hover:text-red-900 text-sm font-medium">
                                 Cancel Appointment
                             </button>
                             <x-ui.confirm-modal 
