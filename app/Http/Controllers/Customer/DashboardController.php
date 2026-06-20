@@ -19,13 +19,13 @@ class DashboardController extends Controller
             ->where('customer_id', $user->id)
             ->where('status', 'booked')
             ->where(function ($query) {
-                $query->where('booking_date', '>', now()->toDateString())
+                $query->where('appointment_date', '>', now()->toDateString())
                       ->orWhere(function ($q) {
-                          $q->where('booking_date', now()->toDateString())
+                          $q->where('appointment_date', now()->toDateString())
                             ->where('start_time', '>=', now()->toTimeString());
                       });
             })
-            ->orderBy('booking_date')
+            ->orderBy('appointment_date')
             ->orderBy('start_time')
             ->first();
 
@@ -34,13 +34,13 @@ class DashboardController extends Controller
             ->where('customer_id', $user->id)
             ->where('status', 'booked')
             ->where(function ($query) {
-                $query->where('booking_date', '>', now()->toDateString())
+                $query->where('appointment_date', '>', now()->toDateString())
                       ->orWhere(function ($q) {
-                          $q->where('booking_date', now()->toDateString())
+                          $q->where('appointment_date', now()->toDateString())
                             ->where('start_time', '>=', now()->toTimeString());
                       });
             })
-            ->orderBy('booking_date')
+            ->orderBy('appointment_date')
             ->orderBy('start_time')
             ->take(3)
             ->get();
